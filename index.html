@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🇳🇱 荷兰租房导航站</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: #fafafa; color: #1a1a1a; line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+    .hero { text-align: center; padding: 40px 16px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); color: white; border-radius: 16px; margin-bottom: 24px; }
+    .hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+    .hero p { font-size: 15px; opacity: 0.95; }
+    .search-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .search-bar input, .search-bar select { flex: 1; min-width: 160px; padding: 12px 16px; border: 1px solid #e0e0e0; border-radius: 12px; font-size: 14px; background: white; }
+    .search-bar input:focus, .search-bar select:focus { outline: 2px solid #ff6b35; border-color: #ff6b35; }
+    .city-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; scrollbar-width: none; }
+    .city-tabs::-webkit-scrollbar { display: none; }
+    .city-tab { padding: 8px 18px; border-radius: 20px; border: 1px solid #e0e0e0; background: white; color: #666; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .city-tab:hover { background: #f5f5f5; }
+    .city-tab.active { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+    .tips-box { background: #fff8f0; border: 1px solid #ffe0c0; border-radius: 12px; padding: 16px; margin: 20px 0; font-size: 14px; color: #555; }
+    .tips-box strong { color: #1a1a1a; }
+    .section-title { font-size: 20px; font-weight: 700; margin: 28px 0 14px 0; display: flex; align-items: center; gap: 8px; }
+    .badge { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 12px; background: #f0f0f0; color: #666; }
+    .platform-card { background: white; border: 1px solid #e8e8e8; border-radius: 14px; padding: 20px; margin-bottom: 14px; transition: all 0.2s; cursor: pointer; }
+    .platform-card:hover { border-color: #ccc; box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+    .platform-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .platform-name { font-size: 18px; font-weight: 700; color: #1a1a1a; display: flex; align-items: center; gap: 8px; }
+    .star-btn { background: none; border: none; cursor: pointer; font-size: 20px; color: #ddd; padding: 0; transition: color 0.2s; }
+    .star-btn.active { color: #f5a623; }
+    .platform-type { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+    .type-student { background: #e8f5e9; color: #2e7d32; }
+    .type-commercial { background: #e3f2fd; color: #1565c0; }
+    .type-social { background: #f3e5f5; color: #7b1fa2; }
+    .type-short { background: #fff3e0; color: #e65100; }
+    .platform-desc { font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 12px; }
+    .platform-meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: #888; margin-bottom: 12px; }
+    .platform-meta .price { color: #1a1a1a; font-weight: 700; }
+    .platform-meta .fee { color: #e53935; }
+    .platform-meta .free { color: #43a047; }
+    .platform-actions { display: flex; gap: 10px; }
+    .btn { padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid #e0e0e0; background: white; color: #555; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; }
+    .btn:hover { background: #f5f5f5; }
+    .btn-primary { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+    .btn-primary:hover { background: #333; }
+    .detail-panel { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid #eee; }
+    .detail-panel.open { display: block; animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+    @media (max-width: 600px) { .pros-cons { grid-template-columns: 1fr; } }
+    .pros h4 { color: #2e7d32; font-size: 13px; margin-bottom: 8px; }
+    .cons h4 { color: #c62828; font-size: 13px; margin-bottom: 8px; }
+    .pros ul, .cons ul { list-style: none; padding-left: 0; font-size: 13px; color: #555; }
+    .pros li, .cons li { padding: 3px 0; }
+    .pros li::before { content: "✓ "; color: #43a047; font-weight: 700; }
+    .cons li::before { content: "✗ "; color: #e53935; font-weight: 700; }
+    .no-results { text-align: center; padding: 50px; color: #999; font-size: 15px; }
+    .fav-section { margin-bottom: 20px; }
+    footer { text-align: center; padding: 30px; color: #999; font-size: 12px; border-top: 1px solid #eee; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>🇳🇱 荷兰租房导航站</h1>
+      <p>为刚来荷兰的国人整理的租房平台大全 · 按城市分类 · 持续更新</p>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="搜索平台名称或关键词..." oninput="filterPlatforms()">
+      <select id="typeFilter" onchange="filterPlatforms()">
+        <option value="all">全部类型</option>
+        <option value="student">学生宿舍</option>
+        <option value="commercial">商业平台</option>
+        <option value="social">社交/合租</option>
+        <option value="short">短租过渡</option>
+      </select>
+      <select id="priceFilter" onchange="filterPlatforms()">
+        <option value="all">全部价位</option>
+        <option value="low">€400-600</option>
+        <option value="mid">€600-900</option>
+        <option value="high">€900+</option>
+      </select>
+    </div>
+
+    <div class="city-tabs" id="cityTabs"></div>
+
+    <div class="tips-box">
+      <strong>💡 租房小贴士：</strong>荷兰租房市场竞争激烈，建议提前3-4个月开始找房。学生宿舍通常需要注册排队（注册费约€20-35），抢到后需在1小时内确认。2026年起，21岁以上且月租超€900可申请房补。
+    </div>
+
+    <div id="favoritesSection" class="fav-section" style="display:none;">
+      <div class="section-title">⭐ 我的收藏</div>
+      <div id="favoritesList"></div>
+    </div>
+
+    <div id="platformsList"></div>
+
+    <footer>
+      🇳🇱 荷兰租房导航站 · 持续更新中 · 如有新平台欢迎补充<br>
+      <small>信息仅供参考，租房时请注意安全，谨防诈骗</small>
+    </footer>
+  </div>
+
+  <script>
+    const cities = [
+      { id: 'all', name: '全部城市' },
+      { id: 'amsterdam', name: '阿姆斯特丹' },
+      { id: 'rotterdam', name: '鹿特丹' },
+      { id: 'utrecht', name: '乌特勒支' },
+      { id: 'denhaag', name: '海牙' },
+      { id: 'leiden', name: '莱顿' },
+      { id: 'delft', name: '代尔夫特' },
+      { id: 'eindhoven', name: '埃因霍温' },
+      { id: 'groningen', name: '格罗宁根' },
+      { id: 'maastricht', name: '马斯特里赫特' },
+      { id: 'tilburg', name: '蒂尔堡' },
+      { id: 'wageningen', name: '瓦赫宁根' },
+      { id: 'other', name: '其他城市' }
+    ];
+
+    const platforms = [
+      {
+        id: 'duwo', name: 'DUWO', type: 'student', cities: ['amsterdam','delft','leiden','denhaag','other'],
+        url: 'https://www.duwo.nl', price: '€400-800', fee: '注册费约€25',
+        desc: '荷兰最大学生住房基金会，与多所大学合作。提供独立房间（共享厨卫）和Studio（独立厨卫）。拎包入住，水电网全包，安全性高。',
+        pros: ['与学校合作，房源正规可靠','拎包入住，设施齐全','安全性高，有门禁','水电网全包'],
+        cons: ['房源极其紧张，需提前数月注册','一般只租一年，到期需搬离','注册需要缴费','房型选择有限']
+      },
+      {
+        id: 'ssh', name: 'SSH (SSHXL)', type: 'student', cities: ['rotterdam','utrecht','groningen','tilburg','zwolle','nijmegen','other'],
+        url: 'https://www.sshxl.nl', price: '€450-800', fee: '注册费约€25',
+        desc: '荷兰覆盖最广的学生住宿提供商之一，通过ROOM平台注册。在鹿特丹、乌特勒支、格罗宁根、蒂尔堡等城市有大量房源。',
+        pros: ['覆盖城市广，与多所高校合作','学生宿舍价格相对亲民','有专人负责维修','可提前从16岁开始注册排队'],
+        cons: ['抢房完全拼手速和运气','部分房型厨房较小','浴室可能无干湿分离','室友随机分配']
+      },
+      {
+        id: 'h2s', name: 'Holland2Stay', type: 'student', cities: ['amsterdam','rotterdam','utrecht','denhaag','delft','eindhoven','shertogenbosch','other'],
+        url: 'https://www.holland2stay.com', price: '€700-1500', fee: '注册费€23.5',
+        desc: '全荷最棒的校外学生公寓，在26个城市拥有13,500+房源。提供从 furnished 到 unfurnished、短租到长租的多种选择。可续租。',
+        pros: ['房型选择多，环境好','水电网全包，可续租','地理位置优越，靠近大学或市中心','有门禁和监控，安全性高'],
+        cons: ['房租较贵','同样需要抢房','需交注册费','年满23岁才可申请房补']
+      },
+      {
+        id: 'pararius', name: 'Pararius', type: 'commercial', cities: ['all'],
+        url: 'https://www.pararius.com', price: '€800-2000+', fee: '免费浏览',
+        desc: '荷兰最大独立租房搜索引擎，房源更新快。覆盖公寓、独立房屋、联排别墅等各种类型。可按地点、价格、房型等多维度筛选。',
+        pros: ['房源最多，覆盖面广','搜索功能强大，筛选维度多','信息更新快','完全免费浏览'],
+        cons: ['竞争激烈，好房秒没','部分房源对国际学生不友好','中介费可能高达1个月租金+21%增值税','需警惕诈骗']
+      },
+      {
+        id: 'funda', name: 'Funda', type: 'commercial', cities: ['all'],
+        url: 'https://www.funda.nl', price: '€900-2500+', fee: '免费浏览',
+        desc: '荷兰最全的房屋买卖交易平台，也有大量租房信息。房源信息详细，照片丰富，适合对房屋质量要求较高的租客。',
+        pros: ['房源信息非常详细','照片和视频丰富','平台正规可靠','适合找整租房源'],
+        cons: ['以售房为主，租房选择相对少','租金普遍较高','中介费昂贵','对租客资质审核严格']
+      },
+      {
+        id: 'kamernet', name: 'Kamernet', type: 'commercial', cities: ['all'],
+        url: 'https://www.kamernet.nl', price: '€400-1200', fee: '会员费约€30/月',
+        desc: '荷兰最大在线租房交易网站，被称为荷兰版"58同城"。房源来自私人业主，短租长租都有。有Student House功能可找室友合租。',
+        pros: ['房源极多，更新频繁','可按价格、位置、房型筛选','有Student House找室友功能','可尝试与房东谈价'],
+        cons: ['需交会员费才能联系房东','平台不对交易负责','私人业主多，诈骗风险较高','部分房东不愿租给学生']
+      },
+      {
+        id: 'housinganywhere', name: 'HousingAnywhere', type: 'commercial', cities: ['all'],
+        url: 'https://housinganywhere.com', price: '€600-1800', fee: '免费浏览',
+        desc: '欧洲领先的国际租房平台，支持短租和长租。适合国际学生和外籍人士，提供安全的在线预订和支付系统。',
+        pros: ['专为国际租客设计','支持短租，适合过渡','在线预订安全有保障','覆盖欧洲60+城市'],
+        cons: ['服务费较高','部分房源价格偏贵','热门城市选择有限','预订流程较复杂']
+      },
+      {
+        id: 'huurwoningen', name: 'Huurwoningen.nl', type: 'commercial', cities: ['all'],
+        url: 'https://www.huurwoningen.nl', price: '€700-2000+', fee: '免费浏览',
+        desc: '涵盖公寓和独栋房屋的综合租房平台，信息全面。适合家庭或需要大面积住房的人群。',
+        pros: ['信息全面，房源类型多样','适合家庭租房','可按区域精细筛选','有新房推送功能'],
+        cons: ['房源竞争激烈','中介费可能较高','部分信息更新不及时','需要快速响应']
+      },
+      {
+        id: 'easykamer', name: 'Easykamer', type: 'social', cities: ['all'],
+        url: 'https://www.easykamer.nl', price: '€350-900', fee: '会员费',
+        desc: '全球最大租房网站Easyroommate在荷兰的平台，与本地多家房屋中介合作。提供公寓、民居、别墅等多种房型。',
+        pros: ['房源覆盖荷兰每座城市','房屋信息介绍详细','可查看室友信息','房型选择多，可长期续租'],
+        cons: ['需支付会员费才能联系房主','散房居多，来源复杂','安全性没有绝对保证','中介房源为主']
+      },
+      {
+        id: 'rooming', name: 'Rooming.nl', type: 'social', cities: ['all'],
+        url: 'https://www.rooming.nl', price: '€400-1000', fee: '免费',
+        desc: '专为寻找室友和合租设计的平台。如果你想找人一起分摊房租，这里是很好的选择。可以查看潜在室友的详细信息。',
+        pros: ['专注合租和找室友','可查看室友详细信息','合租分摊房租更便宜','适合喜欢社交的学生'],
+        cons: ['合租隐私较少','室友习惯可能不合','房源不稳定','转租期限不确定']
+      },
+      {
+        id: 'nestpick', name: 'Nestpick', type: 'commercial', cities: ['all'],
+        url: 'https://www.nestpick.com', price: '€800-2000', fee: '免费',
+        desc: '世界知名长租网站，与Rooming.nl合作。大部分为整套出租公寓，适合独居或多人合租。有谷歌地图显示具体位置。',
+        pros: ['房源多，以整套公寓为主','房屋信息清晰，有地图定位','实时更新，显示可租状态','不需要注册费'],
+        cons: ['点击后会跳转到Rooming.nl需单独注册','房源安全性无绝对保证','部分房源价格偏高','跳转流程较繁琐']
+      },
+      {
+        id: 'facebook', name: 'Facebook租房小组', type: 'social', cities: ['all'],
+        url: 'https://www.facebook.com', price: '€350-1000', fee: '免费',
+        desc: '搜索"城市名 + Housing"即可找到当地租房小组。房源多为学生转租，相对靠谱，适合找合租和短租。',
+        pros: ['房源多为学生转租，较靠谱','可直接联系转租人','可同时找室友','完全免费'],
+        cons: ['房源不稳定，不是随时有','租房期限不确定','竞争激烈，好房秒没','部分帖子为荷兰语']
+      },
+      {
+        id: 'eva', name: 'Eva Happy Home', type: 'commercial', cities: ['amsterdam','other'],
+        url: 'https://www.evahappyhome.com', price: '€800-2500+', fee: '咨询服务费',
+        desc: '专为华人提供租房和安家服务的机构。提供荷兰语、英语、普通话服务，帮助不熟悉荷兰租房市场的华人客户。',
+        pros: ['中文服务，无语言障碍','专业团队，熟悉华人需求','提供从找房到入住全程服务','荷兰商会注册，正规可靠'],
+        cons: ['需支付咨询服务费','主要覆盖阿姆斯特丹及周边','房源选择相对有限','价格可能高于市场价']
+      },
+      {
+        id: 'airbnb', name: 'Airbnb月租', type: 'short', cities: ['all'],
+        url: 'https://www.airbnb.com', price: '€1000-3000/月', fee: '服务费',
+        desc: '适合刚到荷兰时的短期过渡住宿。可租1个月或更长时间，家具齐全，无需签长期合同，灵活度高。',
+        pros: ['家具齐全，拎包入住','无需签长期合同，灵活度高','可在线预订，流程简单','有真实住客评价'],
+        cons: ['月租价格较高','不适合长期居住','服务费额外收取','部分房源可能有隐藏费用']
+      }
+    ];
+
+    let currentCity = 'all';
+    let favorites = JSON.parse(localStorage.getItem('nl_rental_favs') || '[]');
+
+    function renderCityTabs() {
+      const container = document.getElementById('cityTabs');
+      container.innerHTML = cities.map(c => 
+        `<button class="city-tab ${c.id === currentCity ? 'active' : ''}" onclick="setCity('${c.id}')">${c.name}</button>`
+      ).join('');
+    }
+
+    function setCity(cityId) {
+      currentCity = cityId;
+      renderCityTabs();
+      filterPlatforms();
+    }
+
+    function toggleFav(id) {
+      const idx = favorites.indexOf(id);
+      if (idx > -1) favorites.splice(idx, 1);
+      else favorites.push(id);
+      localStorage.setItem('nl_rental_favs', JSON.stringify(favorites));
+      filterPlatforms();
+    }
+
+    function renderCard(p) {
+      const isFav = favorites.includes(p.id);
+      const typeLabels = { student: '学生宿舍', commercial: '商业平台', social: '社交/合租', short: '短租过渡' };
+      const typeClass = `type-${p.type}`;
+      const cityNames = p.cities.map(c => cities.find(x => x.id === c)?.name).filter(Boolean).join('、');
+      
+      return `
+        <div class="platform-card" id="card-${p.id}">
+          <div class="platform-header">
+            <div>
+              <div class="platform-name">${p.name} <button class="star-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav('${p.id}')">★</button></div>
+              <div style="font-size:12px;color:#999;margin-top:4px;">${cityNames || '全荷兰'}</div>
+            </div>
+            <span class="platform-type ${typeClass}">${typeLabels[p.type]}</span>
+          </div>
+          <div class="platform-desc">${p.desc}</div>
+          <div class="platform-meta">
+            <span class="price">💰 ${p.price}</span>
+            <span class="${p.fee.includes('免费') ? 'free' : 'fee'}">📝 ${p.fee}</span>
+          </div>
+          <div class="platform-actions">
+            <a class="btn btn-primary" href="${p.url}" target="_blank">🔗 访问官网</a>
+            <button class="btn" onclick="toggleDetail('${p.id}')">📋 查看详情</button>
+          </div>
+          <div class="detail-panel" id="detail-${p.id}">
+            <div class="pros-cons">
+              <div class="pros">
+                <h4>✅ 优点</h4>
+                <ul>${p.pros.map(x => `<li>${x}</li>`).join('')}</ul>
+              </div>
+              <div class="cons">
+                <h4>❌ 缺点</h4>
+                <ul>${p.cons.map(x => `<li>${x}</li>`).join('')}</ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleDetail(id) {
+      const el = document.getElementById(`detail-${id}`);
+      el.classList.toggle('open');
+    }
+
+    function filterPlatforms() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const type = document.getElementById('typeFilter').value;
+      const price = document.getElementById('priceFilter').value;
+      
+      let filtered = platforms.filter(p => {
+        if (currentCity !== 'all' && !p.cities.includes('all') && !p.cities.includes(currentCity)) return false;
+        if (type !== 'all' && p.type !== type) return false;
+        if (search && !p.name.toLowerCase().includes(search) && !p.desc.toLowerCase().includes(search)) return false;
+        if (price !== 'all') {
+          const min = p.price.includes('€') ? parseInt(p.price.match(/€(\d+)/)?.[1] || 0) : 0;
+          if (price === 'low' && min > 600) return false;
+          if (price === 'mid' && (min < 600 || min > 900)) return false;
+          if (price === 'high' && min < 900) return false;
+        }
+        return true;
+      });
+
+      const container = document.getElementById('platformsList');
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="no-results">😕 没有找到匹配的平台，试试其他筛选条件吧～</div>';
+      } else {
+        container.innerHTML = `
+          <div class="section-title">🏠 租房平台 <span class="badge">${filtered.length}个</span></div>
+          ${filtered.map(p => renderCard(p)).join('')}
+        `;
+      }
+
+      const favs = platforms.filter(p => favorites.includes(p.id));
+      const favSection = document.getElementById('favoritesSection');
+      const favList = document.getElementById('favoritesList');
+      if (favs.length > 0) {
+        favSection.style.display = 'block';
+        favList.innerHTML = favs.map(p => renderCard(p)).join('');
+      } else {
+        favSection.style.display = 'none';
+      }
+    }
+
+    renderCityTabs();
+    filterPlatforms();
+  </script>
+</body>
+</html>
