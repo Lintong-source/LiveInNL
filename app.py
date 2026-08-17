@@ -35,7 +35,8 @@ def load_env_file(path: Path):
 
 load_env_file(BASE_DIR / ".env")
 
-DB_PATH = Path(os.getenv("EXPATUS_DB", BASE_DIR / "data" / "expatus.db"))
+# DB_PATH = Path(os.getenv("EXPATUS_DB", BASE_DIR / "data" / "expatus.db"))
+DB_PATH = Path("/tmp/expatus.db")
 BASE_URL = os.getenv("BASE_URL", "https://expatus.nl").rstrip("/")
 EMAIL_RE = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 STATUSES = ["待处理", "已表达意向", "准备申请材料", "已提交申请", "已签约"]
