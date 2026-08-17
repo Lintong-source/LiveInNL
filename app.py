@@ -36,8 +36,17 @@ def load_env_file(path: Path):
 load_env_file(BASE_DIR / ".env")
 
 DB_PATH = Path(os.getenv("EXPATUS_DB", BASE_DIR / "data" / "expatus.db"))
-TURSO_DATABASE_URL = os.getenv("TURSO_DATABASE_URL", "").strip()
-TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN", "").strip()
+TURSO_DATABASE_URL = (
+    os.getenv("TURSO_DATABASE_URL")
+    or os.getenv("expatus_TURSO_DATABASE_URL")
+    or ""
+).strip()
+
+TURSO_AUTH_TOKEN = (
+    os.getenv("TURSO_AUTH_TOKEN")
+    or os.getenv("expatus_TURSO_AUTH_TOKEN")
+    or ""
+).strip()
 BASE_URL = os.getenv("BASE_URL", "https://expatus.nl").rstrip("/")
 EMAIL_RE = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 STATUSES = ["待处理", "已表达意向", "准备申请材料", "已提交申请", "已签约"]
