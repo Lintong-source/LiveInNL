@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% set active_nav = 'progress' %}
+{% block seo %}<title>我的找房进度｜Expatus</title><meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/progress.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='css/progress-final.css') }}">{% endblock %}
+{% block content %}
+<main class="page-shell progress-page">
+  <section class="hero compact-hero">
+    <div><span class="eyebrow">个人工作台</span><h1>我的找房进度</h1><p>仅记录你主动填写的找房信息，不要求上传护照、工资单等敏感材料。</p></div>
+  </section>
+  <div class="workspace-grid">
+    <section class="workspace-main">
+      <div class="section-heading-row"><div><span class="section-kicker">正在跟进</span><h2>房源记录</h2></div><span class="sync-note"><span class="sync-dot"></span> 自动保存</span></div>
+      <form class="add-card" id="add-form">
+        <div class="field field-wide"><label for="property-name">房源名称或地址</label><input id="property-name" name="name" placeholder="例如：Leiden · Rapenburg 28" required></div>
+        <div class="field"><label for="property-source">房源来源 / 平台</label><input id="property-source" name="source" list="source-suggestions" placeholder="可自行输入"><datalist id="source-suggestions">{% for s in sources %}<option value="{{ s }}"></option>{% endfor %}</datalist></div>
+        <div class="field field-rent"><label for="property-rent">月租（可选）</label><div class="money-input"><span>€</span><input id="property-rent" name="rent" inputmode="decimal" placeholder="1250"></div></div>
+        <div class="field field-link"><label for="property-url">房源链接（可选）</label><input id="property-url" name="url" type="url" placeholder="https://…"></div>
+        <button class="primary-btn add-btn" type="submit"><span>＋</span> 添加房源</button>
+      </form>
+      <div id="active-list" class="property-list"></div>
+      <section class="ended-section"><div class="ended-header"><span>已结束的房源 <b id="ended-count">0</b></span><small>被拒绝、已出租、无回复或主动放弃</small></div><div id="ended-list" class="ended-list"></div></section>
+    </section>
+    <aside class="sidebar">
+      <div class="sidebar-card stats-card"><div class="sidebar-title-row"><div><span class="section-kicker">概览</span><h3>进度概览</h3></div><span class="today-tag">实时</span></div><div class="stats-grid"><div class="stat-item"><strong id="stat-following">0</strong><span>正在跟进</span></div><div class="stat-item"><strong id="stat-material">0</strong><span>准备材料</span></div><div class="stat-item"><strong id="stat-submitted">0</strong><span>已提交申请</span></div><div class="stat-item signed-stat"><strong id="stat-signed">0</strong><span>已签约</span></div></div></div>
+      <div class="sidebar-card quick-note"><span class="mini-icon">→</span><div><strong>状态可以直接跳转</strong><p>不同平台流程不同，不需要按顺序逐项完成。</p></div></div>
+    </aside>
+  </div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog class="modal" id="edit-modal"><form method="dialog" id="edit-form" class="modal-card"><div class="modal-head"><div><span class="section-kicker">编辑记录</span><h3>修改房源信息</h3></div><button class="icon-btn" value="cancel" aria-label="关闭">×</button></div><input type="hidden" id="edit-id"><label>房源名称或地址<input id="edit-name" required></label><label>房源来源 / 平台<input id="edit-source" list="source-suggestions"></label><div class="modal-row"><label>月租<input id="edit-rent" inputmode="decimal"></label><label>房源链接<input id="edit-url" type="url"></label></div><div class="modal-actions"><button class="secondary-btn" value="cancel">取消</button><button class="primary-btn" id="save-edit" value="default">保存修改</button></div></form></dialog>
+<dialog class="modal" id="stop-modal"><form method="dialog" id="stop-form" class="modal-card small-modal"><div class="modal-head"><div><span class="section-kicker">停止跟进</span><h3>为什么结束这套房源？</h3></div><button class="icon-btn" value="cancel" aria-label="关闭">×</button></div><input type="hidden" id="stop-id"><div class="reason-grid">{% for reason in end_reasons %}<label><input type="radio" name="reason" value="{{ reason }}" {{ 'checked' if loop.first else '' }}><span>{{ reason }}</span></label>{% endfor %}</div><div class="modal-actions"><button class="secondary-btn" value="cancel">取消</button><button class="danger-soft-btn" id="confirm-stop" value="default">结束跟进</button></div></form></dialog>
+<script>window.EXPATUS_PROGRESS_STATE={{ {'properties':properties,'statuses':statuses,'percent':progress_percent,'descriptions':stage_descriptions}|tojson }};</script>
+{% endblock %}
+{% block page_js %}<script src="{{ url_for('static', filename='js/progress.js') }}"></script>{% endblock %}

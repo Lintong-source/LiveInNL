@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% set active_nav = 'city' %}
+{% block seo %}
+<title>莱顿租房指南｜学生住房、PhD住房、私人租房与通勤区域｜Expatus</title>
+<meta name="description" content="莱顿租房中文指南：整理 ROOM、Roommatch、DUWO、SCIS、SUWB、Xior、私人租房与合租渠道，以及申请流程、风险、通勤区域和签约检查。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://expatus.nl/city/leiden">
+<meta property="og:type" content="article"><meta property="og:url" content="https://expatus.nl/city/leiden"><meta property="og:title" content="莱顿租房指南｜Expatus"><meta property="og:description" content="莱顿学生住房、PhD住房、私人租房、合租渠道与通勤地图。"><meta property="og:image" content="https://expatus.nl/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"莱顿租房指南","url":"https://expatus.nl/city/leiden","inLanguage":"zh-CN","dateModified":"2026-08-16"}</script>
+{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/home-core.css') }}"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><link rel="stylesheet" href="{{ url_for('static', filename='css/leiden.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='css/leiden-final.css') }}">{% endblock %}
+{% block content %}
+  <div class="leiden-container">
+    <section class="leiden-hero">
+      <div class="leiden-hero-inner">
+        <div class="eyebrow">📍 城市租房指南 · Leiden</div>
+        <h1>莱顿租房指南：不同渠道的第一步并不一样</h1>
+        <p>学生住房、大学与科研人员住房、住房运营商、私人租赁和合租渠道的资格、申请方式和风险点差别很大。按自己的身份和需求找到合适入口，会比套用同一套申请流程更有效。</p>
+        <div class="hero-meta"><a class="hero-chip" href="#channels">找房渠道</a><a class="hero-chip" href="#search-map">通勤搜索地图</a><a class="hero-chip" href="#housing-map">住房参考地图</a><a class="hero-chip" href="#contract-check">签约检查</a></div>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <div class="guide-label">快速定位</div>
+      <h2 class="guide-title">你是哪一种找房者？</h2>
+      <p class="guide-intro">可以先从最接近自己的路线开始，再根据预算、资格和通勤范围补充其他渠道。具体资格仍以房源或机构当期规则为准。</p>
+      <div class="audience-grid audience-grid-4">
+        <div class="audience-card"><div class="audience-icon">🎓</div><h3>本科 / 硕士学生</h3><p>先看 ROOM / Roommatch、DUWO 与学生住房运营商，再补充合租和私人市场。</p><a href="#student">看学生住房 →</a></div>
+        <div class="audience-card"><div class="audience-icon">🔬</div><h3>PhD / 访问学者</h3><p>除私人市场外，重点确认 Leiden University / SCIS 的科研人员住房资格。</p><a href="#academic">看大学 / 科研住房 →</a></div>
+        <div class="audience-card"><div class="audience-icon">💼</div><h3>工作 / Young professional</h3><p>住房运营商与综合租房通常更重要，同时把海牙方向纳入通勤搜索。</p><a href="#general">看综合租房 →</a></div>
+        <div class="audience-card"><div class="audience-icon">🌍</div><h3>刚到荷兰 / 过渡住房</h3><p>国际和中短租可解决过渡期，再继续寻找更稳定的长期住房。</p><a href="#international">看国际·中短租 →</a></div>
+      </div>
+    </section>
+
+    <section class="guide-section" id="channels">
+      <div class="guide-label">莱顿找房渠道</div>
+      <h2 class="guide-title">按渠道看入口、流程和莱顿可用平台</h2>
+      <p class="guide-intro">不同渠道的资格、分配方式和材料要求差异很大。下方的“交易风险”主要指身份核验、付款、合同与房源真实性风险，不代表申请难度。</p>
+
+      <div class="channel-block" id="student">
+        <div class="channel-head-simple">
+          <div class="channel-title-line"><div class="channel-type-icon">🎓</div><div><h3>学生住房</h3></div><span class="risk-badge risk-low">交易风险 · 低</span></div>
+          <p>主要面向在读学生，分配方式可能是注册时间、候选人提名、优先规则或学校保留房。莱顿最重要的是先分清 ROOM、Roommatch、DUWO 与 Leiden University Housing 的关系。</p>
+          <div class="mini-flow"><span class="flow-step">注册 / 确认资格</span><span class="flow-arrow">→</span><span class="flow-step">查看分配规则</span><span class="flow-arrow">→</span><span class="flow-step">申请 / 响应</span><span class="flow-arrow">→</span><span class="flow-step">候选 / 签约</span></div>
+        </div>
+        <div class="channel-platforms-simple">
+          <div class="local-platform"><div><div class="local-platform-title"><h4>ROOM.nl + Roommatch</h4><span class="tag">莱顿核心入口</span></div><p>ROOM 是学生住房注册系统；莱顿等地区的实际学生房源主要在 Roommatch 展示和申请。使用 Roommatch 需要 ROOM 账号。不同房源会按注册时间、候选人提名或其他规则分配。</p><div class="fact-row"><span class="fact">ROOM 一次性注册 €35</span><span class="fact">注册有效 8 年，可续</span><span class="fact">Roommatch 需要 ROOM 账号</span></div></div><a class="official-link" href="https://www.roommatch.nl/en/" target="_blank" rel="noreferrer">Roommatch 官网 →</a></div>
+          <div class="local-platform"><div><div class="local-platform-title"><h4>DUWO / Leiden University Housing</h4><span class="tag-neutral tag">资格型</span></div><p>DUWO 是莱顿的重要学生住房提供者。普通学生住房与 ROOM / Roommatch 关系密切；学校保留的 University Housing 是另一条渠道，需要先获得学校相应资格，且名额有限。</p><div class="fact-row"><span class="fact">普通房源：常经 ROOM / Roommatch</span><span class="fact">学校住房：资格与名额限制</span></div></div><a class="official-link" href="https://www.duwo.nl/en/i-search/duwo-university-housing/1/duwo-university-housing-location-leiden" target="_blank" rel="noreferrer">DUWO 官网 →</a></div>
+        </div>
+      </div>
+
+      <div class="channel-block" id="academic">
+        <div class="channel-head-simple">
+          <div class="channel-title-line"><div class="channel-type-icon">🔬</div><div><h3>大学 / 科研人员住房</h3></div><span class="risk-badge risk-low">交易风险 · 低</span></div>
+          <p>这条路线主要面向符合 Leiden University 相关资格的国际 PhD、访问学者和部分科研人员。它与本科 / 硕士学生住房不是同一套系统，通常需要先通过学校或 SCIS Housing 确认资格与分配。</p>
+          <div class="mini-flow"><span class="flow-step">确认学校资格</span><span class="flow-arrow">→</span><span class="flow-step">SCIS / 学校住房流程</span><span class="flow-arrow">→</span><span class="flow-step">分配房源</span><span class="flow-arrow">→</span><span class="flow-step">与住房提供方签约</span></div>
+        </div>
+        <div class="channel-platforms-simple">
+          <div class="local-platform"><div><div class="local-platform-title"><h4>SCIS Housing · Leiden University</h4><span class="tag">PhD / 国际科研人员</span></div><p>Leiden University 面向符合条件的国际科研人员提供住房支持与分配。实际住房可能由 DUWO、SUWB、Leiden Vastgoed 等合作住房提供方提供，具体资格、等待时间与分配方式以学校流程为准。</p><div class="fact-row"><span class="fact">先确认学校资格</span><span class="fact">房源由合作住房方提供</span></div></div><a class="official-link" href="https://scishousing.universiteitleiden.nl/" target="_blank" rel="noreferrer">SCIS Housing →</a></div>
+          <div class="local-platform"><div><div class="local-platform-title"><h4>SUWB · Boerhaave Housing</h4><span class="tag">Boerhaavelaan</span></div><p>SUWB 是 Leiden University / SCIS 住房体系中的合作住房提供方之一。Boerhaave Housing 位于 Boerhaavelaan 72 一带，常见住户包括 PhD 和国际科研人员；通常不是面向普通本科 / 硕士生自由申请的学生房平台。</p><div class="fact-row"><span class="fact">Boerhaavelaan 72</span><span class="fact">科研人员住房路线</span><span class="fact">资格通常经学校 / SCIS</span></div></div><a class="official-link" href="https://suwb.nl/" target="_blank" rel="noreferrer">SUWB 官网 →</a></div>
+        </div>
+      </div>
+
+      <div class="channel-block" id="operator">
+        <div class="channel-head-simple">
+          <div class="channel-title-line"><div class="channel-type-icon">🏢</div><div><h3>住房运营商</h3></div><span class="risk-badge risk-low">交易风险 · 低</span></div>
+          <p>运营商直接管理自己的楼盘，家具、租期、资格和费用按项目设置。通常需要查看实时可用房，再按该项目流程申请、抽签或预订。</p>
+          <div class="mini-flow"><span class="flow-step">看实时房源</span><span class="flow-arrow">→</span><span class="flow-step">核对资格与租期</span><span class="flow-arrow">→</span><span class="flow-step">申请 / 抽签 / 预订</span><span class="flow-arrow">→</span><span class="flow-step">签约</span></div>
+        </div>
+        <div class="channel-platforms-simple">
+          <div class="local-platform"><div><div class="local-platform-title"><h4>Xior Student Housing · Verbeekstraat</h4><span class="tag">Leiden</span></div><p>莱顿 Verbeekstraat 的学生住宿项目，提供学生住房并按项目公布实时可用情况与资格要求。</p><div class="fact-row"><span class="fact">Verbeekstraat 11–29</span><span class="fact">学生住宿</span><span class="fact">按项目查看实时可用房</span></div></div><a class="official-link" href="https://www.xiorstudenthousing.eu/netherlands/leiden/" target="_blank" rel="noreferrer">Xior 官网 →</a></div>
+          <div class="local-platform"><div><div class="local-platform-title"><h4>Holland2Stay · MORE5</h4><span class="tag">Bio Science Park</span></div><p>MORE5 位于 Leiden Bio Science Park，提供 studio 和 apartment，面向学生、young professionals 和工作人士。房源可能采用直接预订或抽签，具体以当期房源页面为准。</p><div class="fact-row"><span class="fact">Lise Meitnerhof</span><span class="fact">Studio / Apartment</span><span class="fact">按项目规则申请</span></div></div><a class="official-link" href="https://www.holland2stay.com/city/leiden" target="_blank" rel="noreferrer">Holland2Stay →</a></div>
+        </div>
+      </div>
+
+      <div class="channel-block" id="general">
+        <div class="channel-head-simple">
+          <div class="channel-title-line"><div class="channel-type-icon">🏠</div><div><h3>综合租房</h3></div><span class="risk-badge risk-medium">交易风险 · 中</span></div>
+          <p>主要是私人房东或中介发布的公寓、住宅和部分房间。这里通常不是“排队等房”，而是按每套房源的收入、人数、租期和材料要求筛选申请人。</p>
+          <div class="mini-flow"><span class="flow-step">筛选房源</span><span class="flow-arrow">→</span><span class="flow-step">查看具体要求</span><span class="flow-arrow">→</span><span class="flow-step">联系 / Viewing</span><span class="flow-arrow">→</span><span class="flow-step">提交材料</span><span class="flow-arrow">→</span><span class="flow-step">房东 / 中介筛选</span></div>
+          <div class="private-market-grid">
+            <div class="private-market-card"><strong>常见资格要求</strong><p>不少房源会设置收入门槛、稳定收入要求、入住人数限制，也可能限制学生、合租、宠物或担保方式。具体数值和条件以房源为准。</p></div>
+            <div class="private-market-card"><strong>常见申请材料</strong><p>进入正式申请阶段后，可能要求身份证明、雇佣合同 / 雇主证明、近期工资单、收入证明、BRP 信息或前房东证明等。</p></div>
+            <div class="private-market-card"><strong>常见筛选方式</strong><p>通常包括联系、看房、材料审核和房东 / 中介选择；部分房源会要求简短自我介绍或 motivation，但并非每套房都有正式“面试”。</p></div>
+          </div>
+          <div class="privacy-tip"><strong>材料提醒：</strong>初次咨询阶段不必主动发送整套敏感材料。进入正式申请后，再按对方明确要求提供必要信息，并注意遮盖与申请无关的数据。</div>
+        </div>
+        <div class="channel-platforms-simple">
+          <div class="local-platform"><div><div class="local-platform-title"><h4>Pararius</h4><span class="tag-neutral tag">综合租房</span></div><p>荷兰大型独立租房网站，莱顿长期有中介和专业出租方发布的公寓与住宅。适合与 Funda 交叉查看。</p></div><a class="official-link" href="https://www.pararius.com/apartments/leiden" target="_blank" rel="noreferrer">莱顿房源 →</a></div>
+          <div class="local-platform"><div><div class="local-platform-title"><h4>Funda</h4><span class="tag-neutral tag">综合租房</span></div><p>荷兰主流住宅平台，也有租房频道。莱顿私人市场的住宅、公寓和中介房源值得同步关注。</p></div><a class="official-link" href="https://www.funda.nl/zoeken/huur/?selected_area=%5B%22leiden%22%5D" target="_blank" rel="noreferrer">租房频道 →</a></div>
+          <div class="local-platform"><div><div class="local-platform-title"><h4>Huurwoningen.nl</h4><span class="tag-neutral tag">综合租房</span></div><p>覆盖莱顿的租房搜索网站。Basic 可浏览，部分响应和联系功能需要 Premium；费用以官网当前方案为准。</p></div><a class="official-link" href="https://www.huurwoningen.nl/in/leiden/" target="_blank" rel="noreferrer">莱顿房源 →</a></div>
+        </div>
+      </div>
+
+      <div class="channel-block" id="community">
+        <div class="channel-head-simple">
+          <div class="channel-title-line"><div class="channel-type-icon">👥</div><div><h3>合租 · 社群</h3></div><span class="risk-badge risk-high">交易风险 · 高</span></div>
+          <p>适合寻找单间、合租和临时转租，信息更新快，但个人发布比例高，房源真实性、转租权限、合同和付款对象都需要自己核验。</p>
+          <div class="mini-flow"><span class="flow-step">找帖子 / 房间</span><span class="flow-arrow">→</span><span class="flow-step">联系 / 自我介绍</span><span class="flow-arrow">→</span><span class="flow-step">看房 / 核验</span><span class="flow-arrow">→</span><span class="flow-step">确认合同、付款与注册</span></div>
+          <div class="risk-panel"><strong>常见风险点</strong><div class="risk-grid"><span>房源或发布者身份无法核实</span><span>没看房就要求先付押金或租金</span><span>地址实际不能登记 BRP</span><span>二房东没有合法转租权限</span><span>没有正式书面合同</span><span>过早索要完整护照、BSN 或银行资料</span><span>已约好看房、入住或转租后临时爽约 / 失联</span><span>押金、服务费、转租费或家具费等收费依据不清</span><span>非法 / 无效合同风险：合同主体、转租权限或条款存在明显问题</span></div></div>
+        </div>
+        <div class="channel-platforms-simple">
+          <div class="local-platform"><div><div class="local-platform-title"><h4>Kamernet</h4><span class="tag">房间 / 合租</span></div><p>莱顿房间和合租信息的重要入口之一，也有 studio 和 apartment。联系多数发布者通常需要 Premium。</p><div class="fact-row"><span class="fact">房间为主</span><span class="fact">莱顿专属搜索页</span></div></div><a class="official-link" href="https://kamernet.nl/huren/kamer-leiden" target="_blank" rel="noreferrer">莱顿房间 →</a></div>
+          <div class="local-platform"><div><div class="local-platform-title"><h4>Facebook / 微信租房群</h4><span class="tag-neutral tag">社群</span></div><p>学生群、城市租房群和转租群会出现房间信息。群内发布不等于平台背书，最好单独核验发布者、房源、合同、注册地址和收款对象。</p><div class="fact-row"><span class="fact">信息更新快</span><span class="fact">自行核验身份</span><span class="fact">确认 BRP / 合同</span></div></div><span class="official-link" style="cursor:default">入口因群而异</span></div>
+        </div>
+      </div>
+
+      <div class="channel-block" id="international">
+        <div class="channel-head-simple">
+          <div class="channel-title-line"><div class="channel-type-icon">🌍</div><div><h3>国际 · 中短租</h3></div><span class="risk-badge risk-medium">交易风险 · 中</span></div>
+          <p>更适合刚到荷兰、交换期或需要过渡住房的人。家具和线上申请更常见，但总费用、租期、取消规则和是否能登记地址要看具体房源。</p>
+          <div class="mini-flow"><span class="flow-step">看租期与家具</span><span class="flow-arrow">→</span><span class="flow-step">确认总费用与注册</span><span class="flow-arrow">→</span><span class="flow-step">线上申请 / 预订</span></div>
+        </div>
+        <div class="channel-platforms-simple">
+          <div class="local-platform"><div><div class="local-platform-title"><h4>HousingAnywhere</h4><span class="tag">国际租房</span></div><p>莱顿有房间、studio 和 apartment，面向国际学生和年轻职场人士。费用、联系和预订机制会随房源与市场规则变化，应以当期页面为准。</p></div><a class="official-link" href="https://housinganywhere.com/s/Leiden--Netherlands" target="_blank" rel="noreferrer">Leiden 搜索 →</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-section" id="search-map">
+      <div class="guide-label">扩大搜索范围</div>
+      <h2 class="guide-title">把“莱顿找房”理解成通勤圈，而不只是市界</h2>
+      <p class="guide-intro">近距离区域适合骑车或短程公交；如果接受火车通勤，海牙、Leidschendam、Voorburg / Mariahoeve 一带也可以纳入搜索。真正决定体验的是“具体地址 → 学院 / 工作地点”的 door-to-door 时间。</p>
+      <div class="map-shell"><div class="map-copy"><h3>莱顿周边与通勤搜索地图</h3><p>点击标记查看建议定位。地图只帮助扩展搜索思路，不代表当地一定更便宜或更容易租到。</p></div><div class="map-legend"><span class="legend-chip">深绿：Leiden</span><span class="legend-chip">棕色：近距离搜索</span><span class="legend-chip legend-commute">蓝色：通勤搜索</span></div><div id="searchAreaMap" class="map-area"></div><div class="map-footnote">近距离可关注 Oegstgeest、Leiderdorp、Voorschoten、Zoeterwoude、Rijnsburg 等；接受铁路 / 公交通勤时，可进一步查看 Den Haag、Leidschendam、Voorburg、Mariahoeve 以及 Alphen aan den Rijn 等方向。</div></div>
+    </section>
+
+    <section class="guide-section" id="contract-check">
+      <div class="guide-label">签约前</div><h2 class="guide-title">快速检查几个最容易影响后续的问题</h2>
+      <div class="check-grid"><div class="check-card"><h3>合同快速检查</h3><ul class="check-list"><li>出租人、租客和出租地址是否明确</li><li>基础租金（kale huur）、service costs 及其他费用是否分别写明</li><li>合同期限、开始日期、解约方式和押金是否明确</li><li>是否收到书面的 WWS 点数（puntentelling）及必要的入住交接资料</li></ul><div class="brp-warning"><strong>⚠ 需要注册地址：</strong>签约前单独确认该地址能否正常登记 BRP；搬家登记时租赁合同通常可作为居住证明之一。</div><div class="quick-links"><a class="quick-link" href="/#contract-guide">📄 合同核验清单 →</a><a class="quick-link" href="/#checkin-guide">📷 入住检查清单 →</a></div></div><div class="check-card"><div class="side-note"><strong>WWS 点数</strong><p>新签住宅租约时，应关注房屋点数与基础租金之间的关系；具体适用范围仍要结合房屋类型和当期租金规则判断。</p></div><div class="side-note" style="margin-top:12px"><strong>押金</strong><p>2023 年 7 月 1 日以后签订的租约，押金原则上最高为 2 个月基础租金。</p></div><div class="side-note" style="margin-top:12px"><strong>这里只做快速筛查</strong><p>复杂合同、特殊租期或争议仍应结合具体合同和当期规则判断。</p></div></div></div>
+    </section>
+
+    <section class="guide-section" id="housing-map">
+      <div class="guide-label">位置参考</div><h2 class="guide-title">莱顿找房参考地图</h2><p class="guide-intro">把代表性学生住房、科研人员住房、运营商项目、大学主要学习地点和火车站放在一张图里，更容易判断“这套房对我到底远不远”。</p>
+      <div class="map-shell"><div class="map-copy"><h3>住房 · 大学 · 车站</h3><p>可切换类别。点击标记查看名称和简要说明。</p></div><div class="map-legend"><button class="map-filter active" data-filter="all">全部</button><button class="map-filter" data-filter="housing">住房项目</button><button class="map-filter" data-filter="university">大学地点</button><button class="map-filter" data-filter="station">火车站</button></div><div id="housingMap" class="map-area"></div><div class="map-footnote">这里标的是代表性位置，不是莱顿全部可租公寓。实际看房时仍建议用具体地址计算到学院、实验室或工作地点的通勤时间。</div></div>
+    </section>
+
+    <section class="guide-section"><div class="bottom-actions"><a class="action-card" href="/#platforms"><small>回到首页找房资源</small><strong>继续找房 →</strong><p>按城市、类型和价位筛选荷兰常用找房平台与住房机构。</p></a><a class="action-card" href="/deposit-return-netherlands.html"><small>相关阅读</small><strong>退租押金：退款期限、扣款与证据 →</strong><p>14 天、30 天、扣款范围和证据如何影响后续处理。</p></a></div>
+      <div class="source-note">内容核验时间：2026-08。主要依据 ROOM / Roommatch、DUWO、Leiden University / SCIS、SUWB、Xior、Holland2Stay、荷兰政府与 Juridisch Loket 等公开资料。平台费用、资格、房源和分配规则会变化，正式申请前仍以对应官网为准。</div>
+    </section>
+  </div>
+{% endblock %}
+{% block page_js %}<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="{{ url_for('static', filename='js/leiden.js') }}"></script>{% endblock %}

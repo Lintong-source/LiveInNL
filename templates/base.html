@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <!-- Google tag (gtag.js) - preserved from the currently deployed homepage -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FZPQP950J0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FZPQP950J0');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  {% block seo %}<title>Expatus · 荷兰租房导航</title>{% endblock %}
+  <link rel="icon" href="/favicon-32x32.png" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  {% block page_css %}{% endblock %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<div id="app-shell">
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="logo" href="{{ url_for('home') }}" aria-label="Expatus 首页">
+        <span class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M17 49V28h6v-5h5v-5h8v5h5v5h6v21H17Z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M26 49V36h12v13M23 31h18M27 26h10M21 50h26" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
+        </span>
+        荷兰租房导航
+      </a>
+      {% if auth_simple_nav|default(false) %}
+        <a class="nav-back" href="{{ url_for('home') }}">返回首页</a>
+      {% else %}
+      <div class="nav-links">
+        {% if user %}
+          <a class="{{ 'active' if active_nav == 'progress' else '' }}" href="{{ url_for('progress') }}">我的进度</a>
+          <a class="{{ 'active' if active_nav == 'favorites' else '' }}" href="{{ url_for('favorites_page') }}">我的收藏</a>
+        {% endif %}
+        <a class="{{ 'active' if active_nav == 'resources' else '' }}" href="{{ url_for('home') }}#platforms">找房资源</a>
+        <a class="{{ 'active' if active_nav == 'city' else '' }}" href="{{ url_for('leiden') }}">城市指南</a>
+        <a class="{{ 'active' if active_nav == 'deposit' else '' }}" href="{{ url_for('deposit') }}">退租押金</a>
+        <a class="{{ 'active' if active_nav == 'contact' else '' }}" href="{{ url_for('contact') }}">联系我们</a>
+        {% if user %}
+          <details class="account-menu">
+            <summary>账户</summary>
+            <div class="account-popover">
+              <div class="account-email">{{ user['email'][:3] }}***@{{ user['email'].split('@')[-1] }}</div>
+              <a href="{{ url_for('progress') }}">我的进度</a>
+              <a href="{{ url_for('favorites_page') }}">我的收藏</a>
+              <form method="post" action="{{ url_for('logout') }}">
+                <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+                <button type="submit">退出登录</button>
+              </form>
+            </div>
+          </details>
+        {% else %}
+          <a class="nav-account" href="{{ url_for('auth') }}">注册 / 登录</a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </nav>
+
+  {% block content %}{% endblock %}
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="logo-icon footer-logo"><svg viewBox="0 0 64 64"><path d="M17 49V28h6v-5h5v-5h8v5h5v5h6v21H17Z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M26 49V36h12v13M23 31h18M27 26h10M21 50h26" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></span>Expatus · 荷兰租房导航</div>
+      <div class="footer-info">信息来自平台官网及荷兰政府、Juridisch Loket、Huurcommissie 等公开资料。行动前请再次核验。</div>
+      <div class="footer-tag">非房源平台 · 非中介服务 · <a class="footer-contact" href="{{ url_for('contact') }}">联系我们</a></div>
+    </div>
+  </footer>
+</div>
+{% block page_js %}{% endblock %}
+</body>
+</html>

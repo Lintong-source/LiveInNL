@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% set active_nav = 'favorites' %}
+{% block seo %}<title>我的收藏｜Expatus</title><meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/home-core.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='css/favorites.css') }}">{% endblock %}
+{% block content %}
+<div class="favorites-page container">
+  <section class="favorites-hero"><span class="favorites-kicker">个人收藏</span><h1>我的收藏</h1><p>把想继续关注的找房平台放在这里，需要时再回来看。</p></section>
+  <div class="favorites-head"><div><h2>已收藏的平台</h2><p><span id="favorite-count">{{ platforms|length }}</span> 个</p></div><a class="btn-sm btn-sm-primary" href="{{ url_for('home') }}#platforms">继续找房 →</a></div>
+  <div id="favorites-grid" class="favorites-grid">
+    {% for p in platforms %}
+    <article class="favorite-card" data-platform="{{ p.name }}">
+      <div class="favorite-top"><div class="platform-avatar" style="background:{{ p.color }}">{{ p.initials }}</div><div><h3>{{ p.name }}</h3><div class="platform-city">{{ p.city_text }}</div></div><span class="platform-type-tag type-{{ p.type }}">{{ p.type_label }}</span></div>
+      <p>{{ p.desc }}</p><div class="platform-meta-row"><span class="meta-tag price">{{ p.price }}</span><span class="meta-tag {{ p.meta_class }}">{{ p.meta }}</span></div>
+      <div class="favorite-actions"><a class="btn-sm btn-sm-primary" href="{{ p.url }}" target="_blank" rel="noreferrer">官网 →</a><button class="btn-sm remove-favorite" type="button">取消收藏</button></div>
+    </article>
+    {% else %}
+    <div class="favorites-empty-page"><strong>还没有收藏的平台</strong><p>在找房平台旁点击 ★ 即可保存。</p><a class="btn-sm btn-sm-primary" href="{{ url_for('home') }}#platforms">去找房资源 →</a></div>
+    {% endfor %}
+  </div>
+</div>
+<div class="toast-global" id="favorites-toast"></div>
+{% endblock %}
+{% block page_js %}<script src="{{ url_for('static', filename='js/favorites.js') }}"></script>{% endblock %}

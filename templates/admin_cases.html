@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% set auth_simple_nav = true %}
+{% block seo %}
+<title>用户问题提交｜Expatus 后台</title>
+<meta name="robots" content="noindex,nofollow">
+{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+{% block content %}
+<main class="admin-shell">
+  <div class="admin-tabs">
+    <a class="active" href="{{ url_for('admin_cases') }}">租房问题</a>
+    <a href="{{ url_for('admin_messages') }}">网站留言</a>
+  </div>
+
+  <div class="admin-head">
+    <div>
+      <div class="admin-kicker">Expatus 内部后台</div>
+      <h1>用户问题提交</h1>
+      <p>这里展示退租押金页提交到 SQLite 的最近 500 条记录。</p>
+    </div>
+    <div class="admin-actions">
+      <a class="admin-secondary" href="{{ url_for('admin_cases_csv') }}">导出 CSV →</a>
+      <form method="post" action="{{ url_for('admin_logout') }}">
+        <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+        <button class="admin-secondary" type="submit">退出后台</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-stats">
+    <div><strong>{{ total }}</strong><span>累计提交</span></div>
+    <div><strong>{{ contactable }}</strong><span>同意回访且留有联系方式</span></div>
+  </div>
+
+  {% if cases %}
+  <div class="case-list">
+    {% for c in cases %}
+    <article class="case-card">
+      <div class="case-top">
+        <div>
+          <span class="case-id">#{{ c.id }}</span>
+          <strong>{{ c.city or '未填写城市' }}</strong>
+        </div>
+        <time>{{ c.created_at[:16].replace('T',' ') if c.created_at else '' }} UTC</time>
+      </div>
+
+      {% if c.issues %}
+      <div class="case-chips">
+        {% for issue in c.issues %}<span>{{ issue }}</span>{% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="case-meta">
+        <span>合同：{{ c.contract_date or '—' }}</span>
+        <span>退租：{{ c.moveout_date or '—' }}</span>
+        <span>基础租金：{% if c.base_rent is not none %}€{{ '%.0f'|format(c.base_rent) }}{% else %}—{% endif %}</span>
+        <span>押金：{% if c.deposit is not none %}€{{ '%.0f'|format(c.deposit) }}{% else %}—{% endif %}</span>
+        <span>入住报告：{{ c.checkin_report or '—' }}</span>
+        <span>扣款明细：{{ c.deduction_spec or '—' }}</span>
+      </div>
+
+      <div class="case-description">{{ c.description }}</div>
+
+      <div class="case-contact">
+        <strong>联系方式</strong>
+        <span>邮箱：{{ c.email or '—' }}</span>
+        <span>微信：{{ c.wechat or '—' }}</span>
+        <span class="{{ 'ok' if c.contact_ok else '' }}">同意回访：{{ '是' if c.contact_ok else '否' }}</span>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+    <div class="admin-empty">目前还没有用户提交。</div>
+  {% endif %}
+</main>
+{% endblock %}

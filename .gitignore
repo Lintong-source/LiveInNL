@@ -1,0 +1,6 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+data/expatus.db
+data/case_submissions.csv
