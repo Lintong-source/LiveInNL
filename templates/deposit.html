@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% set active_nav = 'deposit' %}
+{% block seo %}
+<title>荷兰租房押金不退怎么办｜退款期限、扣款、证据与维权路径｜Expatus</title>
+<meta name="description" content="荷兰租房押金不退中文指南：押金上限、14/30天退款期限、合法扣款、入住检查报告、证据、Huurcommissie、Juridisch Loket、律师与法院路径，以及租金、服务费、水电费等其他争议。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://expatus.nl/deposit-return-netherlands.html">
+<meta property="og:type" content="article"><meta property="og:url" content="https://expatus.nl/deposit-return-netherlands.html"><meta property="og:title" content="荷兰租房押金不退怎么办｜Expatus"><meta property="og:description" content="退款期限、合法扣款、证据、Huurcommissie、Juridisch Loket、律师与法院路径。"><meta property="og:image" content="https://expatus.nl/og-image.png">
+{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/deposit.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='css/deposit-final.css') }}">{% endblock %}
+{% block content %}
+  <div class="page-shell">
+    <section class="hero">
+      <div class="eyebrow">退租押金 · 费用争议</div>
+      <h1>荷兰租房押金不退？先看退款期限、扣款、证据和维权路径。</h1>
+      <p>合同日期、入住和退房记录、房东的扣款说明，会直接影响该从哪里开始判断。押金之外，租金、service costs、水电能源和家具费用也可能需要一起核对。</p>
+      <div class="hero-links">
+        <a href="#rules">先看规则</a>
+        <a href="#claims">检查其他诉求</a>
+        <a href="#organisations">遇到问题找谁</a>
+        <a href="#form">提交真实案例</a>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="核心数字">
+      <article class="stat-card"><strong>2个月</strong><b>新合同押金上限</b><span>2023-07-01 以后签订的租约，原则上最高为 2 个月基础租金。</span></article>
+      <article class="stat-card"><strong>14天</strong><b>无合法扣款时退款</b><span>租约结束后，原则上应在 14 天内退还全部押金。</span></article>
+      <article class="stat-card"><strong>30天</strong><b>有合法扣款时退余额</b><span>房东应说明扣款并在 30 天内退还剩余押金。</span></article>
+      <article class="stat-card"><strong>4类</strong><b>押金可抵扣费用</b><span>不是所有“清洁费”“维修费”都能直接从押金扣除。</span></article>
+    </section>
+
+    <section class="section" id="rules">
+      <div class="section-label"><span>先判断这四件事</span></div>
+      <h2>押金纠纷里，最先值得核对的四个问题</h2>
+
+      <div class="legal-list">
+        <article class="legal-row">
+          <div class="legal-num">01</div>
+          <div class="legal-body">
+            <h3>押金是多少？</h3>
+            <p>2023 年 7 月 1 日以后签订的住宅租约，押金原则上最高为 <strong>2 个月基础租金（kale huur）</strong>。更早合同可能适用旧规则。</p>
+            <div class="source-line"><span class="source-badge">法律依据 · BW 7:261b</span><a class="source-btn" href="https://www.rijksoverheid.nl/vraag-en-antwoord/woning-huren/woning-huren-waarborgsom" target="_blank" rel="noreferrer">荷兰政府说明 →</a></div>
+          </div>
+        </article>
+        <article class="legal-row">
+          <div class="legal-num">02</div>
+          <div class="legal-body">
+            <h3>房东什么时候应该退款？</h3>
+            <p><strong>无合法扣款：</strong>原则上 14 天内退回全部押金。<strong>有合法扣款：</strong>房东应书面说明扣款，并在 30 天内退还余额。</p>
+            <div class="source-line"><span class="source-badge">权威出处 · 荷兰政府押金返还规则</span><a class="source-btn" href="https://www.rijksoverheid.nl/vraag-en-antwoord/woning-huren/woning-huren-waarborgsom" target="_blank" rel="noreferrer">查看官方说明 →</a></div>
+          </div>
+        </article>
+        <article class="legal-row">
+          <div class="legal-num">03</div>
+          <div class="legal-body">
+            <h3>入住时有没有双方确认的检查报告？</h3>
+            <p>有双方确认的 <strong>check-in report / opnamestaat</strong> 时，退租状态通常会与入住记录比较。没有入住报告时，法律上存在对租客有利的推定，但不等于自动胜诉。</p>
+            <div class="source-line"><span class="source-badge">法律依据 · BW 7:224 lid 2</span><a class="source-btn" href="https://www.juridischloket.nl/wonen-en-buren/huurwoning/huurwoning-opleveren/" target="_blank" rel="noreferrer">Juridisch Loket 说明 →</a></div>
+          </div>
+        </article>
+        <article class="legal-row">
+          <div class="legal-num">04</div>
+          <div class="legal-body">
+            <h3>扣款有没有明确依据？</h3>
+            <p>房东应书面说明扣了什么、金额是多少以及扣款依据。涉及损坏时，照片、维修记录、报价或发票等材料都会影响责任和金额判断。</p>
+            <div class="source-line"><span class="source-badge">权威出处 · Good Landlordship 规则</span><a class="source-btn" href="https://www.volkshuisvestingnederland.nl/onderwerpen/huren-en-wonen/wet-goed-verhuurderschap/landelijke-regels-van-goed-verhuurderschap" target="_blank" rel="noreferrer">查看规则 →</a></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="deduction-band">
+        <div class="deduction-copy">
+          <span>押金可抵扣项目</span>
+          <h3>不是所有费用换个名字就可以从押金里扣</h3>
+        </div>
+        <div class="deduction-items">
+          <span>欠付租金</span><span>欠付 service costs</span><span>租客依法应承担的房屋损坏</span><span>欠付 energy performance fee</span>
+        </div>
+        <div class="deduction-note"><strong>“清洁费”“家具费”“维修费”不能只看名称。</strong>关键是这笔钱到底属于什么费用、租客是否依法应承担，以及房东能否说明依据。</div>
+      </div>
+    </section>
+
+    <section class="section" id="claims">
+      <div class="section-label"><span>不要只盯着押金</span></div>
+      <h2>同一次租赁关系里，可能还有其他可以一起核对的诉求</h2>
+      <p class="section-intro">如果你已经在整理合同、付款记录和通信，不妨顺手把其他费用也一起看一遍。不同问题对应的处理机构和路径可能不同。</p>
+      <div class="claim-grid">
+        <article class="feature-card">
+          <div class="line-icon">
+            <svg viewBox="0 0 24 24"><path d="M15.5 5.5a5 5 0 1 0 0 13M6 10h7M6 14h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <h3>租金是否过高</h3><p>符合条件时，可结合 WWS 点数、合同类型和租金区间判断基础租金是否可能过高，并考虑 Huurcommissie。</p><a class="soft-link" href="https://www.huurcommissie.nl/" target="_blank" rel="noreferrer">Huurcommissie →</a>
+        </article>
+        <article class="feature-card">
+          <div class="line-icon"><svg viewBox="0 0 24 24"><path d="M7 4h10v16l-2-1.4L13 20l-2-1.4L9 20l-2-1.4L5 20V6a2 2 0 0 1 2-2Zm2 5h6M9 13h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Service costs / 其他收费</h3><p>地址注册费、管理费、清洁费、服务费等不能仅因写进合同就当然有效，要看实际服务、法律依据和金额。</p>
+        </article>
+        <article class="feature-card">
+          <div class="line-icon"><svg viewBox="0 0 24 24"><path d="m13 2-6 11h5l-1 9 6-12h-5l1-8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></div>
+          <h3>水、电、气与能源</h3><p>重点核对年度结算、表计读数和分摊方式。独立计量时，起始和结束读数尤其重要。</p>
+        </article>
+        <article class="feature-card">
+          <div class="line-icon"><svg viewBox="0 0 24 24"><path d="M5 13h14M7 13V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v6M6 13v5M18 13v5M9 9h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+          <h3>家具费用与家具损坏</h3><p>“家具使用费 / 折旧费”和“家具被租客损坏后的赔偿”是两件不同的事，需要分别判断。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section evidence-section">
+      <div class="section-label"><span>证据比争论更重要</span></div>
+      <h2>没有入住报告，也不要放弃自己的证据</h2>
+      <div class="evidence-layout">
+        <div class="evidence-copy evidence-panel evidence-panel-green">
+          <h3>没有 check-in report，不代表自动胜诉</h3>
+          <p>没有双方确认的入住状态报告时，法律上原则上存在对租客有利的推定，房东需要拿出证据推翻。</p>
+          <p>但如果房东之后提供看起来可信的旧照片、维修记录、房屋广告等，法院会具体审查双方材料。租客如果也有入住时照片、视频、聊天记录或房源页面，更容易反驳。</p>
+          <div class="takeaway">有利的举证规则不能替代自己的证据。<strong>入住第一天拍照、录像并保存原始文件</strong>，依然是最稳妥的做法。</div>
+        </div>
+        <div class="evidence-tips evidence-panel evidence-panel-warm">
+          <div class="tip-card">
+            <div class="line-icon small"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 4v3M17 4v3M6 11h12v8H6zM9 14h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+            <div><h3>退租前先清洁，再拍照</h3><p>厨房、卫生间、地面、家具和明显污渍处理完后，再拍一套“清洁完成”的照片和视频。</p></div>
+          </div>
+          <div class="tip-card">
+            <div class="line-icon small"><svg viewBox="0 0 24 24"><path d="M4 5h16v12H7l-3 3V5Zm4 4h8M8 13h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><h3>把催款过程本身也变成证据</h3><p>法定退款期限届满后，用书面方式要求退款；若仍不处理，再发送正式催告，并保存邮件、WhatsApp、挂号信等送达记录。</p><a class="soft-link" href="https://www.juridischloket.nl/voorbeeldbrieven/voorbeeldbrief-terugvragen-borg-huur/" target="_blank" rel="noreferrer">查看催款信模板 →</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="organisations">
+      <div class="section-label"><span>遇到问题找谁</span></div>
+      <h2>Huurcommissie、Juridisch Loket、律师和法院，各自做的事情不一样</h2>
+      <p class="section-intro">先判断问题属于哪一类，再走对应路径。不是所有租房纠纷都去 Huurcommissie，也不是所有案件都需要律师。</p>
+
+      <div class="org-grid">
+        <article class="feature-card org-card">
+          <div class="line-icon"><svg viewBox="0 0 24 24"><path d="M5 20h14M7 20V9h10v11M4 9l8-5 8 5M10 13h4M10 16h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Huurcommissie</h3><small>房屋租赁委员会</small><p><strong>适合：</strong>租金、WWS 点数、service costs、水电气、部分住房缺陷。</p><p><strong>不适合：</strong>单纯要求房东退还押金本身。</p><a class="soft-link" href="https://www.huurcommissie.nl/" target="_blank" rel="noreferrer">官网 →</a>
+        </article>
+        <article class="feature-card org-card">
+          <div class="line-icon"><svg viewBox="0 0 24 24"><path d="M5 5h14v11H8l-3 3V5Zm4 4h6M9 12h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Juridisch Loket</h3><small>法律信息入口</small><p>帮助判断问题性质、提供示例信、解释下一步；符合条件时，还可了解补贴法律援助。</p><a class="soft-link" href="https://www.juridischloket.nl/" target="_blank" rel="noreferrer">官网 →</a>
+        </article>
+        <article class="feature-card org-card">
+          <div class="line-icon"><svg viewBox="0 0 24 24"><path d="M4 20h16M6 20V9h12v11M3 9l9-5 9 5M9 12h2M13 12h2M9 16h2M13 16h2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Municipality</h3><small>Good Landlordship 举报点</small><p>如果房东违反 Good Landlordship Act 的规则，可以向市政府租赁问题举报点反映。</p>
+        </article>
+        <article class="feature-card org-card">
+          <div class="line-icon"><svg viewBox="0 0 24 24"><path d="M12 3v17M6 6h12M8 6 4.5 12h7L8 6Zm8 0-3.5 6h7L16 6ZM8 20h8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>律师 / Kantonrechter</h3><small>律师与地区法院</small><p>押金返还、合同和其他金钱请求最终可能需要 kantonrechter 处理。很多租赁纠纷并不强制律师代理。</p><a class="soft-link" href="https://www.rechtspraak.nl/onderwerpen/huurgeschil/procedure" target="_blank" rel="noreferrer">Rechtspraak →</a>
+        </article>
+      </div>
+
+      <div class="flow-wrap">
+        <div class="flow-title">普通人可以怎么走？</div>
+        <div class="flow-vertical">
+          <div class="flow-node compact"><span>1</span><div><strong>整理证据</strong><p>合同、付款、照片、入住 / 退房记录和房东通信。</p></div></div>
+          <div class="flow-line"></div>
+          <div class="flow-node compact"><span>2</span><div><strong>书面向房东提出诉求</strong><p>明确你的请求，并要求扣款 / 费用明细。</p></div></div>
+          <div class="flow-line"></div>
+          <div class="flow-node compact emphasis"><span>3</span><div><strong>仍未解决 · 判断问题类型</strong><p>可先咨询 Juridisch Loket、发送正式催告或联系 Municipality 举报点，然后进入对应路径。</p></div></div>
+          <div class="branch-stem"></div>
+          <div class="branch-bar"></div>
+          <div class="branch-grid">
+            <div class="branch-card left"><div class="branch-label">租金 / service costs / 水电气等</div><strong>符合条件时 → Huurcommissie</strong><p>适合由租赁委员会评估或裁决的租金与费用问题。</p></div>
+            <div class="branch-card right"><div class="branch-label">押金 / 合同 / 金钱请求</div><strong>必要时 → Kantonrechter</strong><p>最终要求返还押金或处理合同、金钱请求时，可能需要法院程序。</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-label"><span>如果真的走到法院</span></div>
+      <h2>不要因为“上法院”三个字先把自己吓退</h2>
+      <div class="court-grid">
+        <article class="feature-card"><div class="line-icon"><svg viewBox="0 0 24 24"><path d="M7 21v-4a5 5 0 0 1 10 0v4M9 8a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div><h3>律师不是强制</h3><p>Kantonrechter 的很多租赁纠纷并不要求律师代理。金额、证据和争议复杂时，律师会更有帮助。也可以先问 Juridisch Loket。</p></article>
+        <article class="feature-card"><div class="line-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4V5Zm4 4h8M8 12h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>荷兰语不好，也不意味着不能走程序</h3><p>民事案件可以使用口译。若需要中文口译，通常需要自己提前安排并承担费用；具体应提前向法院或律师确认。</p><a class="soft-link" href="https://www.rechtspraak.nl/naar-de-rechter/rol-in-rechtszaak/tolk-en-vertaler" target="_blank" rel="noreferrer">口译与翻译 →</a></article>
+        <article class="feature-card"><div class="line-icon"><svg viewBox="0 0 24 24"><path d="M5 7h14v12H5zM8 4h8v3M8 11h8M8 15h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div><h3>费用要提前有预期</h3><p>可能涉及 griffierecht、口译费和律师费。法院可以判诉讼费用承担，但不等于败诉方一定全额承担你的实际律师账单。</p><a class="soft-link" href="https://www.rechtspraak.nl/naar-de-rechter/kosten-rechtszaak/kostenveroordeling" target="_blank" rel="noreferrer">诉讼费用 →</a></article>
+      </div>
+    </section>
+
+    <section class="section form-section" id="form">
+      <div class="form-head">
+        <div>
+          <div class="section-label"><span>真实问题收集</span></div>
+          <h2>你也遇到了押金、租金或其他租房费用争议？</h2>
+          <p>可以把情况告诉我们。你的反馈会帮助我们继续完善 Expatus 的租房内容；如果你留下联系方式并同意回访，我们可能会联系你进一步了解。</p>
+        </div>
+        <div class="privacy-note">
+          <svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.8 8.1 7 10 4.2-1.9 7-5.5 7-10V6l-7-3Zm-3 9 2 2 4-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>不需要上传合同或证件。请不要填写姓名、BSN、证件号码或完整住址，也不要粘贴护照或合同全文。</span>
+        </div>
+      </div>
+
+      <form id="caseForm" class="case-form">
+        <div class="form-grid">
+          <label><span>所在城市</span><input name="city" placeholder="例如 Leiden"></label>
+          <label><span>合同签订日期</span><input type="date" name="contract_date"></label>
+          <label><span>租约是否已经结束</span><select name="ended"><option value="">请选择</option><option>已经结束</option><option>还在租</option></select></label>
+          <label><span>退租日期</span><input type="date" name="moveout_date"></label>
+          <label><span>基础租金（€/月）</span><input type="number" min="0" name="rent" placeholder="可选"></label>
+          <label><span>押金金额（€）</span><input type="number" min="0" name="deposit" placeholder="可选"></label>
+        </div>
+
+        <div class="form-block">
+          <div class="field-title">主要争议类型（可多选）</div>
+          <div class="chip-grid" id="issueChips">
+            <button type="button" data-value="押金不退">押金不退</button>
+            <button type="button" data-value="清洁费">清洁费</button>
+            <button type="button" data-value="家具/损坏">家具 / 损坏</button>
+            <button type="button" data-value="租金过高">租金过高</button>
+            <button type="button" data-value="service costs">Service costs</button>
+            <button type="button" data-value="水电能源">水电能源</button>
+            <button type="button" data-value="超过退款期限">超过退款期限</button>
+            <button type="button" data-value="其他">其他</button>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <label><span>是否有入住检查报告？</span><select name="checkin"><option value="">请选择</option><option>有</option><option>没有</option><option>不确定</option></select></label>
+          <label><span>房东是否提供书面扣款明细？</span><select name="spec"><option value="">请选择</option><option>有</option><option>没有</option><option>尚未发生扣款</option></select></label>
+        </div>
+
+        <label class="full-field"><span>简单描述发生了什么</span><textarea id="description" rows="7" placeholder="例如：退租后房东扣除 €350 清洁费，但没有提供费用明细；入住时没有双方签字的 check-in report……"></textarea></label>
+
+        <div class="form-grid">
+          <label><span>邮箱（选填）</span><input type="email" name="email" placeholder="name@example.com"></label>
+          <label><span>微信（选填）</span><input name="wechat" placeholder="WeChat ID"></label>
+        </div>
+
+        <label class="consent"><input type="checkbox" name="contact_ok"><span>我愿意接受 Expatus 就这个问题进行一次简短回访。</span></label>
+        <div class="submit-row">
+          <button type="submit" id="submitBtn" class="submit-btn">提交问题</button>
+          <div id="formMessage" class="form-message" aria-live="polite"></div>
+        </div>
+      </form>
+    </section>
+
+    <div class="disclaimer"><strong>说明：</strong>本页用于整理公开规则和一般性信息，不替代针对具体案件的法律意见。租金区间、合同类型、时间点和证据都可能影响适用规则，正式行动前建议结合当期官方信息再次核验。</div>
+  </div>
+{% endblock %}
+{% block page_js %}<script src="{{ url_for('static', filename='js/deposit.js') }}"></script>{% endblock %}

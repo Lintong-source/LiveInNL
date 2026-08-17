@@ -1,0 +1,3 @@
+/* Final locked city-page details */
+.channel-title-line>div:nth-child(2)>h3{margin-bottom:0}.channel-title-line>div:nth-child(2){display:flex;align-items:center}.official-link,.quick-link{white-space:nowrap}.risk-grid{grid-template-columns:repeat(2,1fr)}
+@media(max-width:700px){.risk-grid{grid-template-columns:1fr}}

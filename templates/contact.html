@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% set active_nav = 'contact' %}
+{% block seo %}
+<title>联系我们｜Expatus 荷兰租房导航</title>
+<meta name="description" content="通过站内留言联系 Expatus。欢迎反馈网站建议、补充找房资源、分享租房问题或提出合作想法。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://expatus.nl/contact">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://expatus.nl/contact">
+<meta property="og:title" content="联系我们｜Expatus">
+<meta property="og:description" content="通过站内留言联系 Expatus。">
+<meta property="og:image" content="https://expatus.nl/og-image.png">
+{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+{% block content %}
+<main class="contact-shell">
+  <section class="contact-hero">
+    <div class="contact-eyebrow">联系我们</div>
+    <h1>有想法、有问题，或者发现了新的找房资源？</h1>
+    <p>目前可以直接通过下面的表单给 Expatus 留言。网站建议、平台补充、租房问题或合作想法都欢迎告诉我们。</p>
+  </section>
+
+  <section class="contact-layout">
+    <div class="contact-copy">
+      <div class="contact-label"><span>站内留言</span></div>
+      <h2>写下你想说的内容就可以</h2>
+      <p>不需要注册，也不需要填写姓名。如果你希望我们之后回复，可以留下邮箱或微信；不需要回复的话，联系方式可以全部留空。</p>
+      <div class="contact-note">
+        <strong>隐私提醒</strong>
+        <span>请不要在留言里填写 BSN、护照号码、银行卡信息或完整住址等敏感信息。</span>
+      </div>
+    </div>
+
+    <form id="contactForm" class="contact-form">
+      <div class="field-title">留言类型</div>
+      <div class="contact-chips" id="contactChips">
+        <button type="button" class="active" data-value="网站建议">网站建议</button>
+        <button type="button" data-value="找房资源补充">找房资源补充</button>
+        <button type="button" data-value="租房问题">租房问题</button>
+        <button type="button" data-value="合作">合作</button>
+        <button type="button" data-value="其他">其他</button>
+      </div>
+
+      <label>
+        <span>主题（选填）</span>
+        <input name="subject" maxlength="120" placeholder="一句话概括你的留言">
+      </label>
+
+      <label>
+        <span>留言内容</span>
+        <textarea name="message" id="contactMessage" rows="8" maxlength="4000" placeholder="写下你想告诉我们的内容……" required></textarea>
+      </label>
+
+      <div class="contact-fields">
+        <label>
+          <span>邮箱（选填）</span>
+          <input type="email" name="email" maxlength="254" placeholder="希望邮件回复时填写">
+        </label>
+        <label>
+          <span>微信（选填）</span>
+          <input name="wechat" maxlength="120" placeholder="希望微信联系时填写">
+        </label>
+      </div>
+
+      <div class="contact-submit-row">
+        <button type="submit" id="contactSubmit" class="contact-submit">提交留言</button>
+        <div id="contactStatus" class="contact-status" aria-live="polite"></div>
+      </div>
+    </form>
+  </section>
+</main>
+{% endblock %}
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/contact.js') }}"></script>
+{% endblock %}

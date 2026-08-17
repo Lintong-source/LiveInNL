@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% set auth_simple_nav = true %}
+{% block seo %}
+<title>Expatus 后台登录</title>
+<meta name="robots" content="noindex,nofollow">
+{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+{% block content %}
+<main class="admin-shell admin-login-shell">
+  <section class="admin-login-card">
+    <div class="admin-kicker">Expatus 内部后台</div>
+    <h1>问题提交后台</h1>
+    <p>仅用于查看退租押金页收集的用户问题。</p>
+    {% if not configured %}
+      <div class="admin-setup">
+        <strong>后台还没有配置密码</strong>
+        <p>在项目根目录的 <code>.env</code> 中加入：</p>
+        <code>ADMIN_PASSWORD=你自己设置的后台密码</code>
+        <p>保存后重启 Flask，再回到这个页面登录。</p>
+      </div>
+    {% else %}
+      {% if error %}<div class="admin-error">{{ error }}</div>{% endif %}
+      <form method="post" action="{{ url_for('admin_login') }}">
+        <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+        <input type="hidden" name="next" value="{{ next_url }}">
+        <label>
+          <span>后台密码</span>
+          <input type="password" name="password" autocomplete="current-password" required autofocus>
+        </label>
+        <button class="admin-primary" type="submit">进入后台</button>
+      </form>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}

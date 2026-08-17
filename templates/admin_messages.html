@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% set auth_simple_nav = true %}
+{% block seo %}
+<title>网站留言｜Expatus 后台</title>
+<meta name="robots" content="noindex,nofollow">
+{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+{% block content %}
+<main class="admin-shell">
+  <div class="admin-tabs">
+    <a href="{{ url_for('admin_cases') }}">租房问题</a>
+    <a class="active" href="{{ url_for('admin_messages') }}">网站留言</a>
+  </div>
+
+  <div class="admin-head">
+    <div>
+      <div class="admin-kicker">Expatus 内部后台</div>
+      <h1>网站留言</h1>
+      <p>这里展示“联系我们”页面最近 500 条留言。</p>
+    </div>
+    <div class="admin-actions">
+      <a class="admin-secondary" href="{{ url_for('admin_messages_csv') }}">导出 CSV →</a>
+      <form method="post" action="{{ url_for('admin_logout') }}">
+        <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+        <button class="admin-secondary" type="submit">退出后台</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-stats">
+    <div><strong>{{ total }}</strong><span>累计留言</span></div>
+    <div><strong>{{ with_contact }}</strong><span>留下联系方式</span></div>
+  </div>
+
+  {% if messages %}
+  <div class="case-list">
+    {% for m in messages %}
+    <article class="case-card">
+      <div class="case-top">
+        <div>
+          <span class="case-id">#{{ m.id }}</span>
+          <span class="message-category">{{ m.category }}</span>
+          <strong>{{ m.subject or '无主题' }}</strong>
+        </div>
+        <time>{{ m.created_at[:16].replace('T',' ') if m.created_at else '' }} UTC</time>
+      </div>
+
+      <div class="case-description">{{ m.message }}</div>
+
+      <div class="case-contact">
+        <strong>联系方式</strong>
+        <span>邮箱：{{ m.email or '—' }}</span>
+        <span>微信：{{ m.wechat or '—' }}</span>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+    <div class="admin-empty">目前还没有网站留言。</div>
+  {% endif %}
+</main>
+{% endblock %}

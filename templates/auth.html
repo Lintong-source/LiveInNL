@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% set auth_simple_nav = true %}
+{% block seo %}<title>注册 / 登录｜Expatus</title><meta name="robots" content="noindex, follow">{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/home-core.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <section class="auth-card" aria-live="polite">
+    <div class="auth-view" data-view="login">
+      <div class="auth-icon" aria-hidden="true">↗</div><span class="auth-kicker">登录</span><h1>登录 Expatus</h1><p class="auth-intro">继续查看你的找房进度和收藏。</p>
+      <form id="login-form" class="auth-form" novalidate>
+        <div class="field"><label for="login-email">邮箱</label><input id="login-email" type="email" autocomplete="email" placeholder="name@example.com" required><div class="field-error" data-error="login-email"></div></div>
+        <div class="field"><label for="login-password">密码</label><div class="password-wrap"><input id="login-password" type="password" autocomplete="current-password" placeholder="输入密码" required><button class="password-toggle" type="button" data-toggle-password="login-password">显示</button></div><div class="field-error" data-error="login-password"></div></div>
+        <div class="form-row"><button class="text-link" type="button" data-go="forgot">忘记密码？</button></div><div class="auth-message" data-message="login" hidden></div>
+        <button class="auth-primary" type="submit" data-idle="登录" data-loading="登录中…" data-success="✓ 登录成功">登录</button>
+      </form><div class="auth-switch">还没有账户？ <button class="text-link strong" type="button" data-go="register">注册</button></div>
+    </div>
+
+    <div class="auth-view" data-view="register" hidden>
+      <div class="auth-icon" aria-hidden="true">✉</div><span class="auth-kicker">注册</span><h1>创建 Expatus 账户</h1><p class="auth-intro">保存你的找房进度和收藏。</p>
+      <form id="register-form" class="auth-form" novalidate>
+        <div class="field"><label for="register-email">邮箱</label><input id="register-email" type="email" autocomplete="email" placeholder="name@example.com" required><div class="field-error" data-error="register-email"></div></div>
+        <div class="field"><label for="register-password">密码</label><div class="password-wrap"><input id="register-password" type="password" autocomplete="new-password" placeholder="至少 8 位字符" minlength="8" required><button class="password-toggle" type="button" data-toggle-password="register-password">显示</button></div><div class="field-hint">至少 8 位字符</div><div class="field-error" data-error="register-password"></div></div>
+        <div class="auth-message" data-message="register" hidden></div><button class="auth-primary" type="submit" data-idle="发送验证码" data-loading="发送中…" data-success="✓ 已发送">发送验证码</button>
+      </form><div class="auth-switch">已经有账户？ <button class="text-link strong" type="button" data-go="login">登录</button></div>
+    </div>
+
+    <div class="auth-view" data-view="verify-register" hidden>
+      <div class="auth-icon" aria-hidden="true">✓</div><span class="auth-kicker">邮箱验证</span><h1>验证你的邮箱</h1>
+      <div class="verify-destination"><span>验证码已发送至</span><strong data-pending-email>name@example.com</strong><button class="text-link" type="button" data-go="register">换一个邮箱</button></div>
+      <form id="verify-register-form" class="auth-form" novalidate><label>6 位验证码</label><div class="code-boxes" data-code-group="register">{% for i in range(6) %}<input inputmode="numeric" {{ 'autocomplete=one-time-code' if loop.first else '' }} maxlength="1" aria-label="验证码第{{ loop.index }}位">{% endfor %}</div><div class="auth-message" data-message="verify-register" hidden></div><button class="auth-primary" type="submit" data-idle="验证并继续" data-loading="验证中…" data-success="✓ 验证成功">验证并继续</button></form>
+      <button class="resend-button" type="button" data-resend="register" disabled>重新发送（60s）</button><div class="auth-note">验证码 10 分钟内有效。重新发送后，上一组验证码失效。</div><div class="preview-helper dev-code" hidden></div>
+    </div>
+
+    <div class="auth-view" data-view="forgot" hidden>
+      <div class="auth-icon" aria-hidden="true">?</div><span class="auth-kicker">找回密码</span><h1>重新设置密码</h1><p class="auth-intro">输入注册邮箱，我们会发送验证码确认是你本人。</p>
+      <form id="forgot-form" class="auth-form" novalidate><div class="field"><label for="forgot-email">邮箱</label><input id="forgot-email" type="email" autocomplete="email" placeholder="name@example.com" required><div class="field-error" data-error="forgot-email"></div></div><div class="auth-message" data-message="forgot" hidden></div><button class="auth-primary" type="submit" data-idle="发送验证码" data-loading="发送中…" data-success="✓ 已发送">发送验证码</button></form><div class="auth-switch"><button class="text-link" type="button" data-go="login">← 返回登录</button></div>
+    </div>
+
+    <div class="auth-view" data-view="verify-reset" hidden>
+      <div class="auth-icon" aria-hidden="true">✓</div><span class="auth-kicker">邮箱验证</span><h1>验证你的邮箱</h1><div class="verify-destination"><span>验证码已发送至</span><strong data-reset-email>name@example.com</strong><button class="text-link" type="button" data-go="forgot">换一个邮箱</button></div>
+      <form id="verify-reset-form" class="auth-form" novalidate><label>6 位验证码</label><div class="code-boxes" data-code-group="reset">{% for i in range(6) %}<input inputmode="numeric" {{ 'autocomplete=one-time-code' if loop.first else '' }} maxlength="1" aria-label="验证码第{{ loop.index }}位">{% endfor %}</div><div class="auth-message" data-message="verify-reset" hidden></div><button class="auth-primary" type="submit" data-idle="验证并继续" data-loading="验证中…" data-success="✓ 验证成功">验证并继续</button></form><button class="resend-button" type="button" data-resend="reset" disabled>重新发送（60s）</button><div class="auth-note">验证码 10 分钟内有效。</div><div class="preview-helper dev-code" hidden></div>
+    </div>
+
+    <div class="auth-view" data-view="new-password" hidden>
+      <div class="auth-icon" aria-hidden="true">⌁</div><span class="auth-kicker">设置新密码</span><h1>设置一个新密码</h1><p class="auth-intro">设置完成后会直接登录，不需要再回到登录页。</p>
+      <form id="new-password-form" class="auth-form" novalidate><div class="field"><label for="new-password">新密码</label><div class="password-wrap"><input id="new-password" type="password" autocomplete="new-password" placeholder="至少 8 位字符" minlength="8" required><button class="password-toggle" type="button" data-toggle-password="new-password">显示</button></div><div class="field-hint">至少 8 位字符</div><div class="field-error" data-error="new-password"></div></div><div class="auth-message" data-message="new-password" hidden></div><button class="auth-primary" type="submit" data-idle="保存新密码" data-loading="保存中…" data-success="✓ 已完成">保存新密码</button></form>
+    </div>
+
+    <div class="auth-view" data-view="success" hidden>
+      <div class="auth-success-icon" aria-hidden="true">✓</div><span class="auth-kicker">已登录</span><h1 data-success-title>邮箱验证成功</h1><p class="auth-intro" data-success-copy>正在进入 Expatus…</p><div class="success-progress"><span></span></div><a class="auth-primary static-button" href="{{ next_url or url_for('home') }}">继续</a>
+    </div>
+  </section>
+</div>
+<script>window.EXPATUS_AUTH_STATE={{ {'next': next_url}|tojson }};</script>
+{% endblock %}
+{% block page_js %}<script src="{{ url_for('static', filename='js/auth.js') }}"></script>{% endblock %}

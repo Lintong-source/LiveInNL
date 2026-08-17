@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% set active_nav = 'home' %}
+{% block seo %}
+  <!-- Keep the currently deployed homepage SEO signals stable -->
+  <title>荷兰租房导航 | 阿姆斯特丹鹿特丹莱顿租房平台大全</title>
+  <meta name="description" content="为刚来荷兰的留学生和华人整理的租房平台大全。涵盖阿姆斯特丹、鹿特丹、莱顿、海牙等城市的学生宿舍、商业租房平台、合租信息，持续更新。">
+  <meta name="keywords" content="荷兰租房,荷兰留学租房,阿姆斯特丹租房,鹿特丹租房,莱顿租房,荷兰学生宿舍,荷兰找房,荷兰租房平台,荷兰合租">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="ExpatUS">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://expatus.nl">
+  <meta property="og:title" content="荷兰租房导航站 | 阿姆斯特丹鹿特丹莱顿租房平台大全">
+  <meta property="og:description" content="为刚来荷兰的留学生和华人整理的租房平台大全，按城市分类，持续更新。">
+  <meta property="og:image" content="https://expatus.nl/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="荷兰租房导航站">
+  <meta name="twitter:description" content="荷兰租房平台大全，按城市分类">
+  <meta name="twitter:image" content="https://expatus.nl/og-image.png">
+  <link rel="canonical" href="https://expatus.nl">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "荷兰租房导航站",
+    "url": "https://expatus.nl",
+    "description": "为刚来荷兰的留学生和华人整理的租房平台大全",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://expatus.nl/?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-core.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-preview.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-extra.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container" id="top">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">给在荷兰租房的中文用户</div>
+      <h1>荷兰租房导航站</h1>
+      <div class="hero-btns">
+        <a class="btn btn-white" href="#platforms">🏠 我正在找房</a>
+        <a class="btn btn-ghost" href="{{ url_for('progress') if user else url_for('auth', next='/progress') }}">📋 打开我的找房进度</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section phase-section">
+    <div class="section-title">你现在走到哪一步？</div>
+    <div class="phase-grid">
+      <a class="phase-card" href="#platforms"><div class="phase-num">01</div><div class="phase-name">找房</div><div class="phase-desc">选平台、准备材料、及时申请</div><div class="phase-arrow">→</div><div class="phase-tooltip" role="tooltip"><strong>找房阶段</strong><span>常用租房平台与住房机构，可按城市、类型和价位筛选。</span></div></a>
+      <a class="phase-card" href="#contract-guide"><div class="phase-num">02</div><div class="phase-name">签约</div><div class="phase-desc">拆分租金、费用、押金与中介费</div><div class="phase-arrow">→</div><div class="phase-tooltip" role="tooltip"><strong>签约阶段</strong><span>合同中的租金构成、期限、押金和出租关系。</span></div></a>
+      <a class="phase-card" href="#checkin-guide"><div class="phase-num">03</div><div class="phase-name">入住留证</div><div class="phase-desc">入住报告、照片、邮件和付款证明</div><div class="phase-arrow">→</div><div class="phase-tooltip" role="tooltip"><strong>入住留证阶段</strong><span>房屋原始状态、入住报告、表计读数和书面记录。</span></div></a>
+      <a class="phase-card" href="#deposit"><div class="phase-num">04</div><div class="phase-name">退租押金</div><div class="phase-desc">退房检查、扣款明细与催款步骤</div><div class="phase-arrow">→</div><div class="phase-tooltip" role="tooltip"><strong>退租押金阶段</strong><span>退款期限、允许扣款、证据和后续处理信息。</span></div></a>
+    </div>
+  </div>
+
+  <div class="workspace-section" id="workspace">
+    <div class="workspace-left">
+      <div class="workspace-tag">免费找房工作台</div>
+      <h2>把散落的房源和回复，放进一个进度里。</h2>
+      <p>房源太多记不过来？联系到哪一步、下一步该做什么总容易混在一起？用找房工作台，把房源、租金和跟进状态放在一起管理。</p>
+      <a class="btn btn-white workspace-start" href="{{ url_for('progress') if user else url_for('auth', next='/progress') }}">开始记录 →</a>
+      <p class="workspace-note">* 无需上传护照、工资单等敏感材料</p>
+    </div>
+    <div class="workspace-right">
+      <h3>我的找房进度 <span class="count">3 套房源</span></h3>
+      <div class="progress-item"><span class="num">01</span><span class="name">Leiden · Studio</span><span class="status status-wait">待处理</span></div>
+      <div class="progress-item"><span class="num">02</span><span class="name">Den Haag · Room</span><span class="status status-wait">准备申请材料</span></div>
+      <div class="progress-item"><span class="num">03</span><span class="name">Oegstgeest · Flat</span><span class="status status-active">已签约</span></div>
+    </div>
+  </div>
+
+  <div class="section" id="platforms">
+    <div class="section-label">找房资源</div>
+    <div class="section-header-row resource-heading">
+      <div class="section-title">荷兰常用找房平台与住房机构</div>
+      <div class="section-subtitle">费用和申请规则可能变化，申请或付款前请以官网为准。</div>
+    </div>
+    <div class="search-section">
+      <div class="search-bar">
+        <div class="search-input-wrapper"><span class="search-icon">⌕</span><input id="platform-search" placeholder="搜索平台、城市或房源类型"></div>
+        <select id="platform-type"><option value="all">全部类型</option><option value="student">学生住房</option><option value="general">综合租房</option><option value="operator">住房运营商</option><option value="international">国际·中短租</option><option value="community">合租·社群</option></select>
+        <select id="platform-price"><option value="all">全部价位</option><option value="low">€400-600</option><option value="mid">€600-900</option><option value="high">€900+</option></select>
+      </div>
+      <div class="filter-tabs">
+        {% for city in ['全部城市','阿姆斯特丹','鹿特丹','乌特勒支','海牙','莱顿','代尔夫特','埃因霍温','格罗宁根','马斯特里赫特','蒂尔堡','瓦赫宁根','其他城市'] %}<button class="filter-tab {{ 'active' if loop.first else '' }}">{{ city }}</button>{% endfor %}
+      </div>
+    </div>
+
+    <div class="city-guide-banner" id="city-guide-banner">
+      <div class="city-guide-copy"><div class="city-guide-eyebrow">📍 城市租房指南</div><div class="city-guide-title">第一次在莱顿找房？</div><div class="city-guide-desc">学生住房、私人市场、常用平台和周边通勤区域，集中整理在这一页。</div></div>
+      <a class="btn-sm btn-sm-primary" href="{{ url_for('leiden') }}">查看莱顿指南 →</a>
+    </div>
+
+    <div class="platform-section-title">找到 <span class="count">{{ platforms|length }}</span> 个结果 · 价格为常见挂牌范围，仅作预算参考</div>
+    {% for p in platforms %}
+    <div class="platform-card" data-type="{{ p.type }}" data-cities="{{ p.cities|join('|') }}" data-price="{{ p.price_band }}">
+      <div class="platform-card-inner">
+        <div class="platform-avatar" style="background:{{ p.color }}">{{ p.initials }}</div>
+        <div class="platform-body">
+          <div class="platform-header-row"><div class="platform-name-wrap"><div class="platform-name">{{ p.name }} <button class="star-btn {{ 'is-favorite' if p.name in favorites else '' }}" data-platform="{{ p.name }}" aria-label="收藏 {{ p.name }}">★</button></div><div class="platform-city">{{ p.city_text }}</div></div><span class="platform-type-tag type-{{ p.type }}">{{ p.type_label }}</span></div>
+          <div class="platform-desc">{{ p.desc }}</div>
+          <div class="platform-meta-row"><span class="meta-tag price">{{ p.price }}</span><span class="meta-tag {{ p.meta_class }}">{{ p.meta }}</span></div>
+          <div class="platform-actions"><a class="btn-sm btn-sm-primary" href="{{ p.url }}" target="_blank" rel="noreferrer">官网 →</a></div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="tips-grid" id="contract">
+    <div class="tip-card" id="contract-guide">
+      <h3>签约前</h3><p class="tip-kicker">合同里最值得看清的几项信息</p><p class="tip-summary">租金构成、合同期限、押金和出租关系，往往也是后续最容易产生分歧的地方。</p>
+      <ul class="tip-list"><li>基础租金、服务费及其他费用是否分别写明</li><li>合同期限、起租日期和解约方式</li><li>押金金额、收款方和返还条件</li><li>出租人、中介与收款方的身份关系</li></ul>
+      <a href="{{ url_for('download_file', name='contract-checklist.pdf') }}" class="checklist-download" data-tooltip="下载 PDF 清单">📄 合同核验清单 ↓</a>
+    </div>
+    <div class="tip-card" id="checkin-guide">
+      <h3>入住当天</h3><p class="tip-kicker">入住时留下的房屋状态记录</p><p class="tip-summary">入住报告、照片和书面记录，会成为之后判断房屋原始状态的重要依据。</p>
+      <ul class="tip-list"><li>房间及已有损坏的照片 / 视频</li><li>双方确认的入住报告（opnamestaat / check-in report）</li><li>水、电、气等入住时的表计读数</li><li>已发现问题的书面记录及交接资料</li></ul>
+      <a href="{{ url_for('download_file', name='move-in-checklist.pdf') }}" class="checklist-download" data-tooltip="下载 PDF 清单">📄 入住检查清单 ↓</a>
+    </div>
+  </div>
+
+  <div class="deposit-banner" id="deposit">
+    <div><h2>退租押金：退款期限、扣款与证据</h2><p>14 天、30 天分别适用于什么情况？哪些费用可能被扣？已有证据又会影响什么？</p></div>
+    <a class="btn btn-white" href="{{ url_for('deposit') }}">打开处理指南 →</a>
+  </div>
+</div>
+<div class="toast-global" id="home-toast"></div>
+<script>window.EXPATUS_HOME_STATE={{ {'authenticated': user is not none, 'favorites': favorites}|tojson }};</script>
+{% endblock %}
+{% block page_js %}<script src="{{ url_for('static', filename='js/home.js') }}"></script>{% endblock %}
