@@ -142,3 +142,26 @@ ADMIN_PASSWORD=你自己的后台密码
 ```
 
 修改 `.env` 后必须重启 Flask。
+
+
+## v0.5 Turso / Vercel
+
+This version automatically selects the database backend:
+
+- If `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` exist: use the remote Turso database.
+- Otherwise: continue using local `data/expatus.db` for development.
+
+On Vercel, the Turso Marketplace integration injects the two Turso variables automatically.
+
+Important production variables:
+- `TURSO_DATABASE_URL`
+- `TURSO_AUTH_TOKEN`
+- `SECRET_KEY`
+- `ADMIN_PASSWORD`
+- Gmail SMTP variables
+- `DEMO_MODE=0`
+- `DEV_SHOW_VERIFICATION_CODE=0`
+- `COOKIE_SECURE=1`
+- `FLASK_DEBUG=0`
+
+The database schema is initialized lazily on the first request instead of writing to the filesystem while Vercel imports `app.py`.

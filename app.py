@@ -35,8 +35,9 @@ def load_env_file(path: Path):
 
 load_env_file(BASE_DIR / ".env")
 
-# DB_PATH = Path(os.getenv("EXPATUS_DB", BASE_DIR / "data" / "expatus.db"))
-DB_PATH = Path("/tmp/expatus.db")
+DB_PATH = Path(os.getenv("EXPATUS_DB", BASE_DIR / "data" / "expatus.db"))
+TURSO_DATABASE_URL = os.getenv("TURSO_DATABASE_URL", "").strip()
+TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN", "").strip()
 BASE_URL = os.getenv("BASE_URL", "https://expatus.nl").rstrip("/")
 EMAIL_RE = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 STATUSES = ["待处理", "已表达意向", "准备申请材料", "已提交申请", "已签约"]
@@ -84,12 +85,120 @@ def utcnow():
     return datetime.now(timezone.utc)
 
 
+class CompatRow(dict):
+    """Dict-like row that also supports SQLite-style numeric indexing."""
+    def __init__(self, columns, values):
+        self._values = tuple(values)
+        super().__init__(zip(columns, self._values))
+
+    def __getitem__(self, key):
+        if isinstance(key, int):
+            return self._values[key]
+        return super().__getitem__(key)
+
+
+class CompatCursor:
+    def __init__(self, cursor):
+        self._cursor = cursor
+
+    @property
+    def lastrowid(self):
+        return getattr(self._cursor, "lastrowid", None)
+
+    @property
+    def rowcount(self):
+        return getattr(self._cursor, "rowcount", -1)
+
+    def _columns(self):
+        description = getattr(self._cursor, "description", None) or []
+        return [col[0] for col in description]
+
+    def _convert(self, row):
+        if row is None:
+            return None
+        if isinstance(row, dict):
+            return CompatRow(list(row.keys()), list(row.values()))
+        return CompatRow(self._columns(), row)
+
+    def fetchone(self):
+        return self._convert(self._cursor.fetchone())
+
+    def fetchall(self):
+        rows = self._cursor.fetchall()
+        return [self._convert(row) for row in rows]
+
+    def __iter__(self):
+        for row in self._cursor:
+            yield self._convert(row)
+
+
+class RemoteConnection:
+    """Small compatibility layer so the existing sqlite3-style app code can use Turso."""
+    def __init__(self, connection):
+        self._connection = connection
+
+    def execute(self, sql, params=()):
+        return CompatCursor(self._connection.execute(sql, params))
+
+    def executescript(self, script):
+        # sqlite3.complete_statement lets us safely split the schema script.
+        statement = ""
+        for line in script.splitlines():
+            statement += line + "\n"
+            if sqlite3.complete_statement(statement):
+                sql = statement.strip()
+                if sql:
+                    self.execute(sql)
+                statement = ""
+        if statement.strip():
+            self.execute(statement.strip())
+        return self
+
+    def commit(self):
+        return self._connection.commit()
+
+    def rollback(self):
+        rollback = getattr(self._connection, "rollback", None)
+        if rollback:
+            return rollback()
+
+    def close(self):
+        return self._connection.close()
+
+
+def open_db_connection():
+    """Use Turso on Vercel/production when credentials exist; otherwise local SQLite."""
+    if TURSO_DATABASE_URL and TURSO_AUTH_TOKEN:
+        if TURSO_DATABASE_URL.startswith("turso://"):
+            import turso_serverless
+            remote = turso_serverless.connect(
+                TURSO_DATABASE_URL,
+                auth_token=TURSO_AUTH_TOKEN,
+            )
+        else:
+            import libsql
+            remote = libsql.connect(
+                database=TURSO_DATABASE_URL,
+                auth_token=TURSO_AUTH_TOKEN,
+            )
+        conn = RemoteConnection(remote)
+        # Keep behavior aligned with the original SQLite setup.
+        try:
+            conn.execute("PRAGMA foreign_keys=ON")
+        except Exception:
+            pass
+        return conn
+
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys=ON")
+    return conn
+
+
 def db():
     if "db" not in g:
-        DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-        g.db = sqlite3.connect(DB_PATH)
-        g.db.row_factory = sqlite3.Row
-        g.db.execute("PRAGMA foreign_keys=ON")
+        g.db = open_db_connection()
     return g.db
 
 
@@ -105,9 +214,7 @@ def column_names(conn, table):
 
 
 def init_db():
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute("PRAGMA foreign_keys=ON")
+    conn = open_db_connection()
     conn.executescript("""
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -216,7 +323,14 @@ def init_db():
     conn.close()
 
 
-init_db()
+_db_initialized = False
+
+
+def ensure_db_initialized():
+    global _db_initialized
+    if not _db_initialized:
+        init_db()
+        _db_initialized = True
 
 
 def csrf_token():
@@ -232,6 +346,7 @@ app.jinja_env.globals.update(csrf_token=csrf_token, BASE_URL=BASE_URL)
 
 @app.before_request
 def load_user_and_csrf():
+    ensure_db_initialized()
     g.user = None
     uid = session.get("user_id")
     if uid:
@@ -1056,4 +1171,5 @@ def not_found(_exc):
 
 
 if __name__ == "__main__":
+    ensure_db_initialized()
     app.run(host="127.0.0.1", port=int(os.getenv("PORT", "8000")), debug=os.getenv("FLASK_DEBUG", "1") == "1")
