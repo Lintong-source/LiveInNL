@@ -1,0 +1,7 @@
+{% extends "admin/base.html" %}
+{% block title %}登录与活动{% endblock %}
+{% block content %}
+<main class="expatus-admin-shell"><div class="expatus-admin-top"><div><span class="expatus-admin-kicker">账户安全</span><h1>登录与活动</h1><p>仅保留必要事件、时间和 IP 哈希，不保存密码、验证码或明文 IP。</p></div></div>{% include "partials/admin_nav.html" %}
+<nav class="expatus-admin-tabs"><a{% if not current_filter %} class="is-active"{% endif %} href="/admin/activity">全部</a><a{% if current_filter == 'login_success' %} class="is-active"{% endif %} href="/admin/activity?type=login_success">登录成功</a><a{% if current_filter == 'login_failed' %} class="is-active"{% endif %} href="/admin/activity?type=login_failed">登录失败</a><a{% if current_filter == 'register_completed' %} class="is-active"{% endif %} href="/admin/activity?type=register_completed">完成注册</a><a{% if current_filter == 'strategy_generated' %} class="is-active"{% endif %} href="/admin/activity?type=strategy_generated">生成策略</a></nav>
+{% set compact_events = events %}{% include "admin/event_table.html" %}</main>
+{% endblock %}

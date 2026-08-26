@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="{{ csrf_token() }}" name="csrf-token">
+<title>我的收藏｜Expatus</title><meta content="noindex,follow" name="robots">
+<link href="/static/css/dist/favorites.css" rel="stylesheet">
+
+<meta content="保存你关注的荷兰租房平台与住房资源。" name="description"><meta content="#134b36" name="theme-color"><meta content="Expatus · 荷兰租房导航" property="og:site_name"><meta content="website" property="og:type"><meta content="我的收藏｜Expatus" property="og:title"><meta content="保存你关注的荷兰租房平台与住房资源。" property="og:description"><meta content="{{ base_url }}/og-image.png" property="og:image"><meta content="1200" property="og:image:width"><meta content="630" property="og:image:height"><meta content="summary_large_image" name="twitter:card"><meta content="我的收藏｜Expatus" name="twitter:title"><meta content="保存你关注的荷兰租房平台与住房资源。" name="twitter:description"><meta content="{{ base_url }}/og-image.png" name="twitter:image"><link href="/favicon.ico" rel="icon" sizes="any"><link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"><link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"><link href="/site.webmanifest" rel="manifest"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "{{ base_url }}/#organization", "name": "Expatus", "url": "{{ base_url }}/", "logo": {"@type": "ImageObject", "url": "{{ base_url }}/icon-512x512.png", "width": 512, "height": 512}}]}</script>
+<script defer src="/static/js/site-nav.js"></script>
+</head>
+<body class="page-favorites">
+<div id="app-shell">
+{% include "partials/header.html" %}
+<div class="favorites-page container">
+<section class="favorites-hero"><span class="favorites-kicker">个人收藏</span><h1>我的收藏</h1><p>把想继续关注的找房平台放在这里，需要时再回来看。</p></section>
+<div class="favorites-head"><div><h2>已收藏的平台</h2><p><span id="favorite-count">{{ favorite_platforms|length }}</span> 个</p></div><a class="btn-sm btn-sm-primary" href="/#platforms">继续找房 →</a></div>
+<div class="favorites-grid" id="favorites-grid">
+{% for platform in favorite_platforms %}
+<article class="favorite-card" data-platform="{{ platform.name }}">
+<div class="favorite-top"><div class="platform-avatar expatus-avatar--{{ platform.avatar_key }}" aria-label="{{ platform.name }} 平台图标">{{ platform.initials }}</div><div><h3>{{ platform.name }}</h3><div class="platform-city">{{ platform.city_text }}</div></div><span class="platform-type-tag type-{{ platform.type }}">{{ platform.type_label }}</span></div>
+<p>{{ platform.desc }}</p><div class="platform-meta-row"><span class="meta-tag price">{{ platform.price }}</span><span class="meta-tag {{ platform.meta_class }}">{{ platform.meta }}</span></div>
+<div class="favorite-actions"><a class="btn-sm btn-sm-primary" href="{{ platform.url }}" rel="noreferrer" target="_blank">官网 →</a><button class="btn-sm remove-favorite" type="button">取消收藏</button></div>
+</article>
+{% else %}
+<p class="empty-favs">还没有收藏的平台。可以回首页继续浏览。</p>
+{% endfor %}
+</div>
+</div>
+<div class="toast-global" id="favorites-toast"></div>
+{% include "partials/footer.html" %}
+</div>
+<script src="/static/js/favorites.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+/*
+ * Expatus reusable UI primitives.
+ * Public component classes always use the `expatus-` prefix. Page-specific
+ * selectors belong in `pages/_partials/` and must not be added here.
+ */
+
+:root{
+  --expatus-color-ink:#18211d;
+  --expatus-color-muted:#69706b;
+  --expatus-color-green:#1f513c;
+  --expatus-color-green-soft:#eef5f1;
+  --expatus-color-warm:#fbf6e9;
+  --expatus-color-border:#e5e2dc;
+  --expatus-color-surface:#fff;
+  --expatus-radius-sm:9px;
+  --expatus-radius-md:12px;
+  --expatus-radius-lg:16px;
+  --expatus-shadow-soft:0 5px 20px rgba(28,58,45,.06);
+}
+
+:where(.expatus-panel){
+  border:1px solid var(--expatus-color-border);
+  border-radius:var(--expatus-radius-lg);
+  background:var(--expatus-color-surface);
+}
+
+:where(.expatus-notice){
+  padding:12px 14px;
+  border:1px solid #d9e5de;
+  border-radius:var(--expatus-radius-md);
+  background:var(--expatus-color-green-soft);
+  color:#486055;
+  font-size:12px;
+  line-height:1.7;
+}
+:where(.expatus-notice--warm){border-color:#ead8a9;background:var(--expatus-color-warm);color:#675b3d}
+:where(.expatus-notice--danger){border-color:#edd5cf;background:#fff3ef;color:#795249}
+
+:where(.expatus-table){
+  width:100%;
+  overflow:hidden;
+  border:1px solid var(--expatus-color-border);
+  border-radius:var(--expatus-radius-md);
+  background:var(--expatus-color-surface);
+}
+
+:where(.expatus-field){display:grid;gap:6px}
+:where(.expatus-field__label){color:#35423b;font-size:12px;font-weight:750}
+:where(.expatus-input,.expatus-select,.expatus-textarea){
+  width:100%;
+  min-height:42px;
+  padding:9px 11px;
+  border:1px solid #ddd9d2;
+  border-radius:var(--expatus-radius-sm);
+  background:#fff;
+  color:var(--expatus-color-ink);
+  font:inherit;
+}
+:where(.expatus-input,.expatus-select,.expatus-textarea):focus{
+  border-color:#7fa18f;
+  outline:3px solid rgba(56,111,82,.12);
+}
+
+:where(.expatus-button){
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:8px 13px;
+  border:1px solid transparent;
+  border-radius:var(--expatus-radius-sm);
+  background:var(--expatus-color-green);
+  color:#fff;
+  font:inherit;
+  font-weight:800;
+  text-decoration:none;
+  cursor:pointer;
+}
+:where(.expatus-button--secondary){border-color:#d9e3dd;background:#fff;color:var(--expatus-color-green)}
+
+.expatus-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.expatus-related-card{padding:15px;border:1px solid #e7e4de;border-radius:12px;background:#fff;color:inherit;text-decoration:none}
+.expatus-related-card__summary{margin:5px 0 0;color:#6d716c;font-size:12px}
+.expatus-action-row{display:flex;align-items:center;flex-wrap:wrap;gap:14px}

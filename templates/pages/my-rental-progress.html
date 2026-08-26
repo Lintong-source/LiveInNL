@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="{{ csrf_token() }}" name="csrf-token">
+<title>我的找房进度｜Expatus</title><meta content="noindex,follow" name="robots">
+<link href="/static/css/dist/my-rental-progress.css" rel="stylesheet">
+
+<meta content="记录荷兰找房申请、联系、Viewing 与签约状态。" name="description"><meta content="#134b36" name="theme-color"><meta content="Expatus · 荷兰租房导航" property="og:site_name"><meta content="website" property="og:type"><meta content="我的找房进度｜Expatus" property="og:title"><meta content="记录荷兰找房申请、联系、Viewing 与签约状态。" property="og:description"><meta content="{{ base_url }}/og-image.png" property="og:image"><meta content="1200" property="og:image:width"><meta content="630" property="og:image:height"><meta content="summary_large_image" name="twitter:card"><meta content="我的找房进度｜Expatus" name="twitter:title"><meta content="记录荷兰找房申请、联系、Viewing 与签约状态。" name="twitter:description"><meta content="{{ base_url }}/og-image.png" name="twitter:image"><link href="/favicon.ico" rel="icon" sizes="any"><link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"><link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"><link href="/site.webmanifest" rel="manifest"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "{{ base_url }}/#organization", "name": "Expatus", "url": "{{ base_url }}/", "logo": {"@type": "ImageObject", "url": "{{ base_url }}/icon-512x512.png", "width": 512, "height": 512}}]}</script>
+<script defer src="/static/js/site-nav.js"></script>
+</head>
+<body class="expatus-workspace-page page-my-rental-progress">
+<div id="app-shell">
+{% include "partials/header.html" %}
+<main class="page-shell progress-page">
+<section class="hero compact-hero workspace-hero"><div class="workspace-hero-inner"><span class="eyebrow">个人工作台</span><h1>我的找房进度</h1><p>仅记录你主动填写的找房信息，不要求上传护照、工资单等敏感材料。</p><div class="hero-note"><span>房源集中记录</span><span>申请状态跟进</span><span>策略联动更新</span><span>自动保存</span></div><div class="workspace-tabs" aria-label="个人工作台功能"><a class="" href="/workspace/strategy">找房策略</a><a class="is-active" href="/progress">找房进度</a></div></div></section>
+<div class="workspace-grid">
+<section class="workspace-main">
+<div class="section-heading-row"><div><span class="section-kicker">正在跟进</span><h2>房源记录</h2></div><span class="sync-note"><span class="sync-dot"></span> 自动保存</span></div>
+<form class="add-card" id="add-form">
+<div class="field field-wide"><label for="property-name">房源名称或地址</label><input id="property-name" name="name" placeholder="例如：Leiden · Rapenburg 28" required=""></div>
+<div class="field"><label for="property-source">房源来源 / 平台</label><input id="property-source" list="source-suggestions" name="source" placeholder="可自行输入"><datalist id="source-suggestions"><option value="Pararius"></option><option value="Funda"></option><option value="Kamernet"></option><option value="ROOM.nl"></option><option value="DUWO"></option><option value="HousingAnywhere"></option><option value="Facebook 群"></option><option value="微信群"></option><option value="朋友介绍"></option></datalist></div>
+<div class="field field-rent"><label for="property-rent">月租（可选）</label><div class="money-input"><span>€</span><input id="property-rent" inputmode="decimal" name="rent" placeholder="1250"></div></div>
+<div class="field field-link"><label for="property-url">房源链接（可选）</label><input id="property-url" name="url" placeholder="https://…" type="url"></div>
+<button class="primary-btn add-btn" type="submit"><span>＋</span> 添加房源</button>
+</form>
+<div class="property-list" id="active-list"></div>
+<section class="ended-section"><div class="ended-header"><span>已结束的房源 <b id="ended-count">0</b></span><small>被拒绝、已出租、无回复或主动放弃</small></div><div class="ended-list" id="ended-list"></div></section>
+</section>
+<aside class="sidebar">
+<div class="sidebar-card stats-card"><div class="sidebar-title-row"><div><span class="section-kicker">概览</span><h3>进度概览</h3></div><span class="today-tag">实时</span></div><div class="stats-grid"><div class="stat-item"><strong id="stat-following">0</strong><span>正在跟进</span></div><div class="stat-item"><strong id="stat-material">0</strong><span>准备材料</span></div><div class="stat-item"><strong id="stat-submitted">0</strong><span>已提交申请</span></div><div class="stat-item signed-stat"><strong id="stat-signed">0</strong><span>已签约</span></div></div></div>
+<div class="sidebar-card quick-note"><span class="mini-icon">→</span><div><strong>状态可以直接跳转</strong><p>不同平台流程不同，不需要按顺序逐项完成。</p></div></div>
+</aside>
+</div>
+</main>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<dialog class="modal" id="edit-modal"><form class="modal-card" id="edit-form" method="dialog"><div class="modal-head"><div><span class="section-kicker">编辑记录</span><h3>修改房源信息</h3></div><button aria-label="关闭" class="icon-btn" value="cancel">×</button></div><input id="edit-id" type="hidden"><label>房源名称或地址<input id="edit-name" required=""></label><label>房源来源 / 平台<input id="edit-source" list="source-suggestions"></label><div class="modal-row"><label>月租<input id="edit-rent" inputmode="decimal"></label><label>房源链接<input id="edit-url" type="url"></label></div><div class="modal-actions"><button class="secondary-btn" value="cancel">取消</button><button class="primary-btn" id="save-edit" value="default">保存修改</button></div></form></dialog>
+<dialog class="modal" id="stop-modal"><form class="modal-card small-modal" id="stop-form" method="dialog"><div class="modal-head"><div><span class="section-kicker">停止跟进</span><h3>为什么结束这套房源？</h3></div><button aria-label="关闭" class="icon-btn" value="cancel">×</button></div><input id="stop-id" type="hidden"><div class="reason-grid"><label><input checked name="reason" type="radio" value="房源已出租"><span>房源已出租</span></label><label><input name="reason" type="radio" value="被拒绝"><span>被拒绝</span></label><label><input name="reason" type="radio" value="无回复"><span>无回复</span></label><label><input name="reason" type="radio" value="主动放弃"><span>主动放弃</span></label><label><input name="reason" type="radio" value="其他"><span>其他</span></label></div><div class="modal-actions"><button class="secondary-btn" value="cancel">取消</button><button class="danger-soft-btn" id="confirm-stop" value="default">结束跟进</button></div></form></dialog>
+<script>window.EXPATUS_PROGRESS_STATE={{ progress_state|tojson }};</script>
+{% include "partials/footer.html" %}
+</div>
+<script src="/static/js/progress.js"></script>
+</body>
+</html>

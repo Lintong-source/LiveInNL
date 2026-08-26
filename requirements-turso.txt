@@ -1,0 +1,4 @@
+# Compatibility file retained for existing operator commands.
+# Production dependencies are declared in requirements.txt so Vercel installs
+# the Turso drivers during its normal Python build.
+-r requirements.txt

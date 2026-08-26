@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport">
+<title>我的找房策略｜Expatus</title>
+<meta content="根据身份、城市、预算、房型、预计入住时间与实际申请进度，生成当前阶段的荷兰找房行动策略、渠道时间投入建议与 Plan B 提醒。" name="description">
+<meta content="noindex,follow" name="robots">
+<link href="/static/css/dist/my-housing-strategy.css" rel="stylesheet">
+<meta content="#134b36" name="theme-color"><meta content="Expatus · 荷兰租房导航" property="og:site_name"><meta content="website" property="og:type"><meta content="我的找房策略｜Expatus" property="og:title"><meta content="根据身份、城市、预算、房型、预计入住时间与实际申请进度，生成当前阶段的荷兰找房行动策略、渠道时间投入建议与 Plan B 提醒。" property="og:description"><meta content="{{ base_url }}/og-image.png" property="og:image"><meta content="1200" property="og:image:width"><meta content="630" property="og:image:height"><meta content="summary_large_image" name="twitter:card"><meta content="我的找房策略｜Expatus" name="twitter:title"><meta content="根据身份、城市、预算、房型、预计入住时间与实际申请进度，生成当前阶段的荷兰找房行动策略、渠道时间投入建议与 Plan B 提醒。" name="twitter:description"><meta content="{{ base_url }}/og-image.png" name="twitter:image"><link href="/favicon.ico" rel="icon" sizes="any"><link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"><link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"><link href="/site.webmanifest" rel="manifest"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "{{ base_url }}/#organization", "name": "Expatus", "url": "{{ base_url }}/", "logo": {"@type": "ImageObject", "url": "{{ base_url }}/icon-512x512.png", "width": 512, "height": 512}}]}</script>
+
+<script defer src="/static/js/site-nav.js"></script>
+</head>
+<body class="expatus-workspace-page strategy-workspace-page page-my-housing-strategy">
+{% include "partials/header.html" %}
+<main class="shell">
+<section class="hero compact-hero workspace-hero"><div class="workspace-hero-inner"><span class="eyebrow">个人工作台</span><h1>我的找房策略</h1><p>根据身份、租房城市、预算和入住时间，生成一份当前阶段的个性化行动策略。</p><div class="hero-note"><span>渠道动态配置</span><span>按时间动态调整</span><span>策略可解释</span><span>非成功率预测</span></div><div class="workspace-tabs" aria-label="个人工作台功能"><a class="is-active" href="/workspace/strategy">找房策略</a><a class="" href="/progress">找房进度</a></div></div></section>
+<section class="onboarding" id="onboarding">
+<div class="onboard-head"><h2>填写找房信息</h2><p>仅需 1 分钟。首次生成系统需要您的基本信息为您生成策略。</p></div>
+<form class="card form-card expatus-panel" id="strategyForm">
+<div class="form-progress"><span>约 8 项信息 · 不需要上传证件</span></div>
+<div class="group"><div class="group-label"><span class="group-num">01</span><strong>你的情况</strong><span>决定你能进入哪些住房体系</span></div><div class="form-grid">
+<div class="field"><label for="identity">当前身份</label><select id="identity"><option value="master">硕士 / 国际学生</option><option value="bachelor">本科生</option><option value="phd">PhD / 访问学者</option><option value="worker">在职人士</option><option value="family">情侣 / 家庭</option></select></div>
+<div class="field"><label for="city">主要找房城市</label><select id="city"><option value="Leiden">Leiden 莱顿</option><option value="Den Haag">Den Haag 海牙</option><option value="Rotterdam">Rotterdam 鹿特丹</option><option value="Amsterdam">Amsterdam 阿姆斯特丹</option><option value="Utrecht">Utrecht 乌特勒支</option></select></div>
+<div class="field"><label for="moveDate">预计入住日期</label><input id="moveDate" type="date" value="{{ default_move_date }}"></div>
+</div></div>
+<div class="group"><div class="group-label"><span class="group-num">02</span><strong>你要找什么</strong><span>决定商业市场与 room 渠道的权重</span></div><div class="form-grid">
+<div class="field"><label for="homeType">房型</label><select id="homeType"><option value="room">Room / 合租单间</option><option value="studio">Studio</option><option value="apartment">Apartment / 整租</option></select></div>
+<div class="field"><label for="budget">最高月预算</label><input id="budget" min="300" step="50" type="number" value="900"><span class="helper">不含一次性押金</span></div>
+<div class="field"><label for="income">稳定荷兰收入</label><select id="income"><option value="none">暂无稳定荷兰收入</option><option value="salary">有固定工资收入</option><option value="stipend">PhD / stipend / scholarship</option></select></div>
+</div></div>
+<div class="group"><div class="group-label"><span class="group-num">03</span><strong>目前准备到哪一步</strong><span>避免重复建议已经完成的事情</span></div><div class="form-grid">
+<div class="field"><label for="studentReg">学生住房注册</label><select id="studentReg"><option value="unknown">尚未注册 / 不确定</option><option value="registered">已完成注册</option><option value="na">不适用</option></select></div>
+<div class="field"><label for="universityHousing">学校合作住房</label><select id="universityHousing"><option value="unknown">尚未确认 / 不确定</option><option value="waiting">已申请 / 排队中</option><option value="no">学校无资格 / 不适用</option></select></div>
+<div class="field"><label for="areaFlex">是否接受周边城市</label><select id="areaFlex"><option value="yes">可以，接受合理通勤</option><option value="maybe">暂时只看目标城市</option></select></div>
+</div></div>
+<div class="form-footer"><div class="privacy"><i>✓</i><span><b>只使用找房策略所需的信息。</b> 不需要护照、BSN、工资单等隐私数据；请慎重保存您的隐私数据。</span></div><button class="primary-btn" type="submit">生成我的找房策略 <span>→</span></button></div>
+</form>
+</section>
+<section class="loading-wrap" id="loading"><div class="card loading-card expatus-panel"><div class="radar"><div class="sweep"></div><span class="radar-dot"></span></div><h2 id="loadingTitle">正在生成找房策略</h2><p id="loadingSub">仅处理您刚刚填写的信息。</p><div class="loading-steps">
+<div class="load-step" data-step="0"><span class="ico">1</span><span>读取身份、城市、预算和入住时间</span><em>个人条件</em></div>
+<div class="load-step" data-step="1"><span class="ico">2</span><span>匹配对应住房体系与渠道类型</span><em>渠道规则</em></div>
+<div class="load-step" data-step="2"><span class="ico">3</span><span>评估时间窗口、主动权与每日投入</span><em>阶段判断</em></div>
+<div class="load-step" data-step="3"><span class="ico">4</span><span>生成“现在就做 / 每日主战 / 后期加强”优先级</span><em>行动策略</em></div>
+</div><div class="load-foot">按公开规则生成，<b>不提供成功率预测。</b></div></div></section>
+<section class="result" id="result">
+<div class="result-actions"><span class="regen-info" id="regenInfo">今日策略生成 <b>1 / 3</b></span><button class="secondary-btn" id="editBtn">修改资料</button><button class="secondary-btn" id="regenBtn">重新制定策略</button></div>
+<div class="overview-grid">
+<div class="card strategy-summary expatus-panel"><div class="state-icon" id="stateIcon">→</div><div><small>当前阶段</small><h2 id="stateTitle">主动找房期：保留注册渠道，提高主动申请</h2><p id="stateDesc">你已进入主动找房阶段。保留学生住房等注册渠道，同时把更多时间用于能产生新申请和反馈的渠道。</p></div><div class="countdown"><strong id="days">40</strong><span>天至预计入住</span></div></div>
+<aside class="card planb-card planb-safe expatus-panel" id="planBCard"><div class="planb-headline"><div class="planb-eyebrow">Plan B 状态</div><span class="planb-stage" id="planBStage">暂不启动</span></div><h3 id="planBTitle">当前以长期房申请为主</h3><p id="planBDesc">当前时间仍相对充足，继续执行主线策略即可。越临近入住，系统会根据真实申请进度提高 Plan B 警示。</p><div class="planb-bottom"><a class="planb-link" href="/housing-plan-b">来荷兰前还没房怎么办 →</a></div></aside>
+</div>
+<div class="profile-chips" id="profileChips"></div>
+<section class="card top3 expatus-panel"><h3>本周三项行动</h3><!--<p>系统会先给出当前结论，再展示渠道判断和本周行动。</p>--><div class="action-grid" id="topActions"></div></section>
+<div class="section-title"><div><h2>建议投入时间</h2><p>总投入时间由你决定。这里展示不同投入时长下，时间更适合怎样分到各条渠道；重要但被动的渠道不会因为你多花时间就等比例增加。</p></div><span class="note">鼠标悬停查看具体渠道行动时间</span></div>
+<section class="card effort-card expatus-panel"><div class="effort-head"><div><h3>不同投入时长下的渠道分配示例</h3><p id="effortCopy">横轴是当天投入时间，纵轴是各渠道占比。新增时间会优先分配给能产生新申请和反馈的渠道。</p></div></div><div class="effort-chart-wrap"><div class="effort-chart"><div class="y-axis"><span class="y100">100%</span><span class="y75">75%</span><span class="y50">50%</span><span class="y25">25%</span><span class="y0">0</span></div><div class="chart-plot" id="effortChart"></div></div><div class="effort-legend" id="effortLegend"></div><div class="chart-tooltip" id="chartTooltip"></div></div><div class="effort-note"><i>i</i><span><b>这是渠道分配示例，不是每日时长要求。</b> 学生住房注册后，每天可用约 5 分钟处理提醒；增加总投入时长时，被动渠道无需同比增加。</span></div></section>
+<div class="section-title"><div><h2>渠道优先级与平台</h2><!--<p>每条渠道下面直接列出现在值得处理的平台，以及“今天注册 / 开提醒 / 每日查看 / 重点警示”等动作。</p>--></div><span class="note">点击“判断依据”查看策略原因</span></div>
+<div class="channel-list" id="channelList"></div>
+<div class="section-title"><div><h2>根据申请进度调整策略</h2><p>自动读取当前账户在房源进度管理中的真实记录。</p></div></div>
+<section class="card progress-card expatus-panel"><div class="mini-head"><div><h3>我的房源进度</h3><!--<p>这里保留摘要；完整房源、状态转换和跟进仍放在原来的进度管理页。</p>--></div><span class="status-pill passive" id="progressState">尚未同步</span></div><div class="progress-stats"><div class="pstat"><span>已联系 / 申请</span><strong id="pApplications">0</strong></div><div class="pstat"><span>收到回复</span><strong id="pReplies">0</strong></div><div class="pstat"><span>Viewing</span><strong id="pViewings">0</strong></div><div class="pstat"><span>正在推进</span><strong id="pActive">0</strong></div></div><div class="progress-diagnosis" id="progressDiagnosis"><b>还没有真实申请数据。</b> 当前策略主要根据身份、城市和时间生成；开始记录房源后，系统才能判断你是“渠道覆盖不足”还是“申请有量但转化偏低”。</div><div class="progress-footer"><span>Viewing 指已预约或完成看房；“正在推进”指尚未结束、尚未签约且已经开始联系的房源。同步不消耗每日生成次数。</span><div class="expatus-action-row"><a href="/progress">打开完整进度管理 →</a><button id="manageProgressBtn" type="button">同步并重新计算</button></div></div><div class="feedback-loop"><b>反馈回路：</b> 策略 → 去申请 → 记录进度 → 后端重新计算完整策略。</div></section>
+<div class="section-title"><div><h2>策略如何更新</h2><!--<p>随着入住日期接近，部分渠道会自动升降级；更新普通进度不消耗策略生成次数。</p>--></div></div>
+<section class="card phase-line expatus-panel"><div class="phase-head"><div><h3>你的时间窗口</h3><p id="phaseCopy">当前位于“主动找房”阶段。</p></div><span class="status-pill daily" id="phaseBadge">当前</span></div><div class="phase-track" id="phaseTrack"></div><div class="phase-trigger" id="phaseTrigger"></div></section>
+<section class="card explain-card expatus-panel"><div class="explain-head"><div><h3>策略依据</h3><!--<p>建议基于入住时间、身份、预算、城市、渠道和申请进度生成。</p>--></div><button class="text-btn" id="explainToggle">收起依据</button></div><div id="explainBody"><div class="explain-grid" id="factorGrid"></div><div class="explain-text" id="explainText"></div></div></section>
+<p class="footer-note"><b>提醒：</b>这是找房行动建议，不代表任何平台会接受你的申请。城市、住房机构与出租方规则可能变化，正式申请前仍需核对具体要求。</p>
+</section>
+</main>
+<dialog id="editDialog"><div class="dialog-card"><div class="dialog-head"><div><h3>修改找房资料</h3><p>修改资料本身不扣次数；只有点击“重新制定策略”才会重新计算整套渠道优先级。</p></div><button class="close-btn" id="closeDialog">×</button></div><div id="dialogFormMount"></div><div class="dialog-actions"><button class="secondary-btn" id="cancelEdit">取消</button><button class="primary-btn" id="saveEdit">保存资料</button></div></div></dialog>
+<div class="toast" id="toast"></div>
+<script>window.EXPATUS_STRATEGY_STATE={{ strategy_state|tojson }};</script>
+<script src="/static/js/my-housing-strategy.js"></script>
+{% include "partials/footer.html" %}
+</body></html>

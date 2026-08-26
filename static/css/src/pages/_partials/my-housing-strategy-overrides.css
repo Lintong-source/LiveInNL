@@ -1,0 +1,126 @@
+
+/* v1.0 visual balance: align overview cards + reduce green surface area */
+
+/* 1) Top overview: equal-height without oversized empty space */
+.overview-grid{
+  grid-template-columns:minmax(0,1fr) 306px;
+  gap:12px;
+  align-items:stretch;
+}
+.overview-grid .strategy-summary{
+  align-self:stretch;
+  padding:18px 20px;
+  min-height:148px;
+  background:#fff;
+}
+.overview-grid .planb-card{
+  align-self:stretch;
+  min-height:148px;
+  padding:13px 15px 12px;
+  display:flex;
+  flex-direction:column;
+}
+.planb-card h3{
+  font-size:13.5px;
+  line-height:1.42;
+  margin:0 0 4px;
+}
+.planb-card>p{
+  font-size:11px;
+  line-height:1.48;
+  margin-bottom:7px;
+}
+.planb-headline{margin-bottom:3px}
+.planb-eyebrow{font-size:11px;margin:0}
+.planb-stage{font-size:11px;padding:4px 8px}
+.planb-bottom{margin-top:auto;padding-top:5px}
+.planb-link{min-height:36px;font-size:11px;border-radius:8px}
+.overview-grid .strategy-summary h2{font-size:19px;line-height:1.32}
+.overview-grid .strategy-summary p{font-size:12.3px;line-height:1.55}
+.overview-grid .countdown{align-self:center}
+
+/* 2) Reduce the 'everything is green' feeling. Green is reserved for state/action. */
+.top3{
+  background:#fff;
+}
+.action.hot{
+  background:#fff9ef;
+  border-color:#eee0c9;
+}
+.action.hot .n{color:#94621f}
+
+/* Channel cards: neutral main surface + warm-gray platform area */
+.channel{
+  background:#fff;
+  border-color:#e6e3dd;
+  box-shadow:0 3px 14px rgba(38,45,40,.035);
+}
+.channel:hover{
+  border-color:#dcd7cf;
+  box-shadow:0 7px 22px rgba(38,45,40,.055);
+}
+.platform-strip{
+  background:#f7f5f1;
+  border-top-color:#e9e4dc;
+}
+.platform-item{
+  background:rgba(255,255,255,.72);
+  border-color:#e6e0d8;
+  box-shadow:none;
+}
+.platform-item:hover{background:#fff}
+.channel-expand{
+  background:#faf8f5;
+  border-top-color:#e9e4dc;
+}
+.why-box{
+  background:#fff;
+  border:1px solid #ebe6df;
+}
+
+/* Use neutral/cool surfaces for analysis areas instead of more pale green */
+.progress-diagnosis{
+  background:#f5f7f8;
+  border-color:#e4e8ea;
+  color:#626c72;
+}
+.progress-diagnosis b{color:#394950}
+.phase-trigger{
+  background:#faf8f4;
+  border-color:#ece7df;
+}
+.explain-text{
+  background:#f6f7f5;
+  border-left-color:#8b9b91;
+  color:#59645e;
+}
+.factor{
+  background:#faf9f7;
+  border-color:#ece8e1;
+}
+.factor:hover{background:#fff}
+
+/* Effort chart stays predominantly neutral; channels themselves provide color */
+.effort-card{background:#fff}
+.chart-plot{
+  background:repeating-linear-gradient(to bottom,transparent 0,transparent calc(25% - 1px),#eceae6 25%);
+}
+.effort-note{
+  color:#737873;
+}
+.effort-note i{
+  background:#f1efe9;
+  color:#6e674f;
+}
+
+/* Profile chips neutral rather than green-gray */
+.profile-chips span{
+  background:#f7f6f3;
+  border-color:#e8e4dd;
+  color:#626661;
+}
+
+@media(max-width:900px){
+  .overview-grid{grid-template-columns:1fr;align-items:stretch}
+  .overview-grid .strategy-summary,.overview-grid .planb-card{min-height:0}
+}

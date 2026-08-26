@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>隐私声明与 Cookie 设置｜Expatus 荷兰租房导航</title>
+  <meta name="description" content="了解 Expatus 如何使用账户邮箱、找房进度、策略资料、联系留言及可选访问分析，以及如何访问、导出或删除个人数据。">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="{{ base_url }}/privacy">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="/static/css/dist/privacy.css">
+  <script defer src="/static/js/site-nav.js"></script>
+</head>
+<body class="expatus-article-page page-privacy">
+{% include "partials/header.html" %}
+<main class="expatus-privacy-shell">
+  <section class="expatus-privacy-hero">
+    <h1>隐私声明</h1>
+    <p>Expatus 目前作为免费的公开测试服务，提供荷兰租房信息、找房策略和房源进度管理。我们只收集运行这些功能所需的数据，不要求上传护照、BSN、银行卡、工资单或完整合同。</p>
+    <div class="expatus-privacy-meta">当前版本：{{ settings.privacy_policy_version }} · 网站：{{ base_url }}</div>
+  </section>
+
+  {% if current_user and acknowledgement_requested and not current_user.privacy_acknowledged_at %}
+  <section class="expatus-privacy-acknowledgement" aria-labelledby="privacy-ack-title">
+    <h2 id="privacy-ack-title">请先了解账户数据如何使用</h2>
+    <p>你的账户创建于新版隐私声明发布之前。阅读本页后，请确认你已了解邮箱、房源记录和找房策略的处理方式。访问分析仍由你单独选择，不会因为这次确认而开启。</p>
+    <form action="/api/account/privacy/acknowledge" method="post">
+      <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+      <input type="hidden" name="next" value="{{ acknowledgement_next }}">
+      <button type="submit">我已阅读隐私声明，继续使用账户 →</button>
+    </form>
+  </section>
+  {% endif %}
+
+  <section class="expatus-privacy-section">
+    <h2>谁负责处理你的数据</h2>
+    <p>数据控制者：{{ settings.controller_name }}，所在地：{{ settings.controller_country }}。如需了解、纠正、导出、删除你的数据，或撤回可选数据分析同意，请联系 <a href="mailto:{{ settings.controller_email }}">{{ settings.controller_email }}</a>。</p>
+    {% if not settings.is_production %}<p class="expatus-privacy-warning">这是本地测试版本。正式上线前必须将运营者真实身份、有效隐私联系邮箱及实际基础设施区域替换为已经核实的信息。</p>{% endif %}
+  </section>
+
+  <section class="expatus-privacy-section">
+    <h2>我们处理哪些信息</h2>
+    <div class="expatus-privacy-table-wrap"><table class="expatus-privacy-table">
+      <thead><tr><th>功能</th><th>处理的信息</th><th>用途与法律依据</th><th>保存时间</th></tr></thead>
+      <tbody>
+        <tr><td>账户与邮箱验证</td><td>邮箱、加密后的密码、注册时间、邮箱验证时间、隐私声明确认版本；验证码只保存不可逆摘要。</td><td>创建账户、验证邮箱、登录和找回密码；为提供你主动申请的账户服务所必需，GDPR 第 6(1)(b) 条。</td><td>账户存续期间保存；删除账户后关联信息随账户删除。验证码有效期 10 分钟，过期记录定期清理。</td></tr>
+        <tr><td>找房进度和收藏</td><td>你主动保存的房源名称或地址、平台、租金、链接、申请状态、结束原因和收藏的平台。</td><td>为你提供房源跟进与收藏功能；GDPR 第 6(1)(b) 条。请避免填写不必要的真实姓名或完整住址。</td><td>账户存续期间保存；你可随时删除单条记录，账户删除时一并删除。</td></tr>
+        <tr><td>个性化找房策略</td><td>身份类别、目标城市、入住日期、预算区间、房型、收入类别、学生住房注册情况、是否接受周边城市，以及账户内房源的当前进度摘要。</td><td>在服务器上生成并保存你主动请求的策略结果、引擎版本和每日使用次数；GDPR 第 6(1)(b) 条。不会要求上传证件或工资材料。</td><td>生成记录最多保存 {{ settings.strategy_retention_days }} 天，或在账户删除时提前删除。</td></tr>
+        <tr><td>联系留言和租房问题</td><td>你提交的内容、城市或问题类别；邮箱和微信为选填。只有你勾选允许回访时，我们才会就具体租房问题联系你。</td><td>答复主动咨询、改进相关内容和进行你选择允许的回访；根据用途适用 GDPR 第 6(1)(b)、6(1)(f) 或 6(1)(a) 条。</td><td>最多保存 {{ settings.message_retention_days }} 天；不再需要时提前删除。</td></tr>
+        <tr><td>登录与安全记录</td><td>登录成功或失败、账户注册、房源关键操作、策略生成和后台操作时间；IP 地址仅保存不可逆哈希，不保存明文。</td><td>保护账户、排查错误、限制垃圾信息和防止滥用；基于网站安全的正当利益，GDPR 第 6(1)(f) 条。</td><td>最多保存 {{ settings.log_retention_days }} 天，之后定期清理。</td></tr>
+        <tr><td>可选访问分析</td><td>仅在你主动同意后，Google Analytics 可能记录访问页面、设备或浏览器信息及大致来源。</td><td>了解哪些内容有帮助；基于你单独作出的可撤回同意，GDPR 第 6(1)(a) 条。不会启用广告个性化。</td><td>按 Google Analytics 属性中配置的数据保留期限处理；上线前应使用最短适当期限。</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="expatus-privacy-section">
+    <h2>Cookie、浏览器存储和访问分析</h2>
+    <p>登录会话与防止跨站请求伪造所需的 Cookie 属于运行网站必须的技术措施。浏览器本地存储只用于保存你的 Cookie 选择或必要页面状态；个人找房策略和房源摘要由当前登录账户对应的服务器数据提供。</p>
+    <p>Google Analytics 属于可选访问分析。默认不加载 Google Analytics 脚本、不写入分析 Cookie；只有你点击“允许访问分析”之后才启用。广告存储、广告用户数据和广告个性化始终关闭。你可以选择“仅使用必要 Cookie”，也可以通过页面底部“Cookie 设置”随时更改选择。</p>
+    <p>本地开发与测试环境默认完全禁用 Google Analytics，不会将测试访问发送到正式网站的分析账户。</p>
+  </section>
+
+  <section class="expatus-privacy-section">
+    <h2>数据由谁协助处理、存放在哪里</h2>
+    <p>网站和后端函数由 Vercel 托管；账户、收藏、房源进度、策略记录及留言保存在 Turso；注册和密码重置邮件由 Namecheap Private Email 发送。只有你主动同意访问分析后，网站才会加载 Google Analytics。这些服务商仅在提供对应功能所需的范围内处理数据。</p>
+    <p>网站函数区域：{{ settings.hosting_region }}。数据库区域：{{ settings.database_region }}。这两个当前区域均位于美国，因此使用账户、房源进度、策略或留言功能会涉及向美国传输和处理相关数据。</p>
+    <p>Vercel 说明其参加 EU–US Data Privacy Framework，并在适用时使用标准合同条款等机制。其他服务商的数据处理受其适用服务条款和隐私条款约束。Expatus 仍处于免费测试阶段；在转为商业服务或扩大数据处理范围前，我们会重新评估处理者协议和跨境传输安排，必要时升级服务计划或更换服务商。你可以通过隐私联系邮箱了解当前安排。</p>
+    <p>我们不会出售账户数据，也不会将你的找房资料用于广告投放。依法必须披露，或为保护账户安全、响应合法请求时，可能在必要范围内提供相关信息。</p>
+  </section>
+
+  <section class="expatus-privacy-section">
+    <h2>你的选择和权利</h2>
+    <ul>
+      <li>查阅、更正或下载与你有关的账户和找房数据。</li>
+      <li>删除你的账户及关联房源、收藏和策略记录，或要求限制特定处理。</li>
+      <li>在法律允许的情况下反对基于正当利益的处理，或请求数据可携带。</li>
+      <li>随时通过 Cookie 设置撤回可选访问分析同意；撤回不影响此前基于有效同意进行的处理。</li>
+      <li>向荷兰数据保护机构 Autoriteit Persoonsgegevens 提出投诉。</li>
+    </ul>
+    {% if current_user %}<p class="expatus-privacy-links"><a href="/account/data">查看和下载我的账户数据 →</a> · <button class="expatus-cookie-settings" type="button" id="expatus-delete-account">删除我的账户与找房数据</button></p>{% endif %}
+  </section>
+
+  <section class="expatus-privacy-section">
+    <h2>关于找房策略和自动化判断</h2>
+    <p>策略功能根据你填写的城市、身份、预算、入住时间等信息生成参考性的渠道与行动建议，不决定是否向你出租住房，不预测申请成功率，也不会产生 GDPR 第 22 条所述具有法律效力或类似重大影响的自动化决定。</p>
+    <p>本声明会根据功能和服务商变化更新。涉及账户数据处理的重要调整时，我们会在适当位置提示新的版本。</p>
+  </section>
+</main>
+{% include "partials/footer.html" %}
+{% if current_user %}<script src="/static/js/privacy-account.js" defer></script>{% endif %}
+</body>
+</html>

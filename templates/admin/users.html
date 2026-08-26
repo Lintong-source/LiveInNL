@@ -1,0 +1,7 @@
+{% extends "admin/base.html" %}
+{% block title %}注册用户{% endblock %}
+{% block content %}
+<main class="expatus-admin-shell"><div class="expatus-admin-top"><div><span class="expatus-admin-kicker">账户管理</span><h1>注册用户</h1><p>查看邮箱验证、隐私声明确认、最近登录以及功能使用概况。</p></div></div>{% include "partials/admin_nav.html" %}
+<div class="expatus-admin-table-wrap"><table class="expatus-admin-table"><thead><tr><th>邮箱</th><th>注册时间</th><th>最近登录</th><th>隐私版本</th><th>房源</th><th>策略</th></tr></thead><tbody>{% for user in users %}<tr><td>{{ user.email }}</td><td><time>{{ user.created_at[:16].replace('T', ' ') }}</time></td><td><time>{{ user.last_login_at[:16].replace('T', ' ') if user.last_login_at else '—' }}</time></td><td>{{ user.privacy_policy_version or '历史账户' }}</td><td>{{ user.property_count }}</td><td>{{ user.strategy_count }}</td></tr>{% else %}<tr><td colspan="6" class="expatus-admin-empty">暂无注册用户。</td></tr>{% endfor %}</tbody></table></div>
+</main>
+{% endblock %}

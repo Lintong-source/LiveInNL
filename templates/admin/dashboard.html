@@ -1,0 +1,17 @@
+{% extends "admin/base.html" %}
+{% block title %}运营概览{% endblock %}
+{% block content %}
+<main class="expatus-admin-shell">
+  <div class="expatus-admin-top"><div><span class="expatus-admin-kicker">Expatus 内部后台</span><h1>运营概览</h1><p>只记录账号安全和功能使用所必需的事件，不跟踪完整浏览轨迹。</p></div><form method="post" action="/admin/logout"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="expatus-admin-secondary" type="submit">退出后台</button></form></div>
+  {% include "partials/admin_nav.html" %}
+  <section class="expatus-admin-metrics">
+    <article class="expatus-admin-metric"><strong>{{ metrics.users }}</strong><span>已注册用户</span><small>近 7 天新增 {{ metrics.new_users_week }}</small></article>
+    <article class="expatus-admin-metric"><strong>{{ metrics.logins_day }}</strong><span>近 24 小时登录</span><small>失败尝试 {{ metrics.failed_logins_day }}</small></article>
+    <article class="expatus-admin-metric"><strong>{{ metrics.strategies }}</strong><span>累计策略生成</span><small>近 7 天生成 {{ metrics.strategies_week }}</small></article>
+    <article class="expatus-admin-metric"><strong>{{ metrics.properties }}</strong><span>房源进度记录</span><small>仅统计数量</small></article>
+    <article class="expatus-admin-metric"><strong>{{ metrics.messages }}</strong><span>网站留言</span></article>
+    <article class="expatus-admin-metric"><strong>{{ metrics.cases }}</strong><span>租房问题</span></article>
+  </section>
+  <section class="expatus-admin-section"><h2>最近的关键活动</h2>{% set compact_events = events %}{% include "admin/event_table.html" %}</section>
+</main>
+{% endblock %}

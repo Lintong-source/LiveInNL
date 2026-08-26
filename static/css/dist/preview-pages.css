@@ -1,0 +1,148 @@
+/* Generated from static/css/src/pages/preview-pages.css.
+ * Edit source modules and run: python tools/build_css.py
+ */
+/* Expatus page entry: preview-pages.html
+ * Import order mirrors the pre-refactor cascade. Do not reorder casually.
+ */
+/*
+ * Expatus reusable UI primitives.
+ * Public component classes always use the `expatus-` prefix. Page-specific
+ * selectors belong in `pages/_partials/` and must not be added here.
+ */
+
+:root{
+  --expatus-color-ink:#18211d;
+  --expatus-color-muted:#69706b;
+  --expatus-color-green:#1f513c;
+  --expatus-color-green-soft:#eef5f1;
+  --expatus-color-warm:#fbf6e9;
+  --expatus-color-border:#e5e2dc;
+  --expatus-color-surface:#fff;
+  --expatus-radius-sm:9px;
+  --expatus-radius-md:12px;
+  --expatus-radius-lg:16px;
+  --expatus-shadow-soft:0 5px 20px rgba(28,58,45,.06);
+}
+
+:where(.expatus-panel){
+  border:1px solid var(--expatus-color-border);
+  border-radius:var(--expatus-radius-lg);
+  background:var(--expatus-color-surface);
+}
+
+:where(.expatus-notice){
+  padding:12px 14px;
+  border:1px solid #d9e5de;
+  border-radius:var(--expatus-radius-md);
+  background:var(--expatus-color-green-soft);
+  color:#486055;
+  font-size:12px;
+  line-height:1.7;
+}
+:where(.expatus-notice--warm){border-color:#ead8a9;background:var(--expatus-color-warm);color:#675b3d}
+:where(.expatus-notice--danger){border-color:#edd5cf;background:#fff3ef;color:#795249}
+
+:where(.expatus-table){
+  width:100%;
+  overflow:hidden;
+  border:1px solid var(--expatus-color-border);
+  border-radius:var(--expatus-radius-md);
+  background:var(--expatus-color-surface);
+}
+
+:where(.expatus-field){display:grid;gap:6px}
+:where(.expatus-field__label){color:#35423b;font-size:12px;font-weight:750}
+:where(.expatus-input,.expatus-select,.expatus-textarea){
+  width:100%;
+  min-height:42px;
+  padding:9px 11px;
+  border:1px solid #ddd9d2;
+  border-radius:var(--expatus-radius-sm);
+  background:#fff;
+  color:var(--expatus-color-ink);
+  font:inherit;
+}
+:where(.expatus-input,.expatus-select,.expatus-textarea):focus{
+  border-color:#7fa18f;
+  outline:3px solid rgba(56,111,82,.12);
+}
+
+:where(.expatus-button){
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:8px 13px;
+  border:1px solid transparent;
+  border-radius:var(--expatus-radius-sm);
+  background:var(--expatus-color-green);
+  color:#fff;
+  font:inherit;
+  font-weight:800;
+  text-decoration:none;
+  cursor:pointer;
+}
+:where(.expatus-button--secondary){border-color:#d9e3dd;background:#fff;color:var(--expatus-color-green)}
+
+.expatus-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.expatus-related-card{padding:15px;border:1px solid #e7e4de;border-radius:12px;background:#fff;color:inherit;text-decoration:none}
+.expatus-related-card__summary{margin:5px 0 0;color:#6d716c;font-size:12px}
+.expatus-action-row{display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+
+
+:root{--p:#18392e;--bg:#f7f5f0;--line:#e5e0d7}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#202420}.wrap{max-width:1050px;margin:auto;padding:54px 22px 80px}header{background:linear-gradient(135deg,#17382d,#2e6247);color:white;border-radius:20px;padding:32px;margin-bottom:22px}h1{margin:0 0 8px;font-size:30px}header p{margin:0;color:#dce8e1}.notice{padding:12px 15px;border:1px solid #e4dccb;background:#fffbf2;border-radius:12px;font-size:13px;color:#6f6758;margin-bottom:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:10px}.card{display:flex;flex-direction:column;min-height:135px;padding:16px;border:1px solid var(--line);background:white;border-radius:14px;text-decoration:none;color:inherit;box-shadow:0 5px 18px rgba(40,50,45,.04)}.card:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(40,50,45,.08)}.card small{color:#7a817c;font-size:11px;line-height:1.5}.card strong{font-size:16px;margin:8px 0 14px}.card span{margin-top:auto;font-size:12px;font-weight:800;color:#356049}.foot{margin-top:22px;font-size:12px;color:#858b86}
+
+
+/* Expatus unified brand icon */
+.brand-mark,.logo-icon,.brand-icon{background:transparent!important;box-shadow:none!important;overflow:visible!important}
+.brand-mark img,.logo-icon img,.brand-icon img{display:block;width:100%;height:100%;object-fit:contain}
+
+/* Small, single-purpose utilities. Keep this file short and non-semantic. */
+.expatus-space-top-md{margin-top:12px!important}
+.expatus-link-disabled{cursor:default!important}
+
+.expatus-avatar--room{background:#355f49!important}
+.expatus-avatar--duwo{background:#2d5a3f!important}
+.expatus-avatar--ssh{background:#4a7c59!important}
+.expatus-avatar--xior{background:#496f60!important}
+.expatus-avatar--vesteda{background:#5a7a65!important}
+.expatus-avatar--mvgm{background:#476b5b!important}
+.expatus-avatar--holland2stay{background:#5a9a6a!important}
+.expatus-avatar--pararius{background:#b18b62!important}
+.expatus-avatar--funda{background:#b87a42!important}
+.expatus-avatar--huurwoningen{background:#8e775e!important}
+.expatus-avatar--housinganywhere{background:#587394!important}
+.expatus-avatar--neste{background:#61778d!important}
+.expatus-avatar--kamernet{background:#9a7657!important}
+.expatus-avatar--facebook{background:#765a82!important}
+.expatus-avatar--airbnb{background:#4f7088!important}
+
+
+/* Shared consent UI and authenticated account menu. */
+/* Shared consent controls and account dropdown. All classes are namespaced. */
+.expatus-cookie-settings{appearance:none;padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer}
+.expatus-consent-banner{position:fixed;right:20px;bottom:20px;left:20px;z-index:250;display:flex;max-width:1080px;margin:auto;padding:18px 20px;border:1px solid #dfe5de;border-radius:16px;background:#fff;box-shadow:0 14px 44px rgba(29,52,39,.13);align-items:center;justify-content:space-between;gap:18px}
+.expatus-consent-banner[hidden]{display:none}
+.expatus-consent-copy{display:grid;gap:5px;color:#535d57;font-size:13px;line-height:1.6}
+.expatus-consent-copy strong{color:#183a2a;font-size:15px}
+.expatus-consent-copy a{margin-left:7px;color:#24543e}
+.expatus-consent-actions{display:flex;flex:0 0 auto;gap:9px}
+.expatus-consent-primary,.expatus-consent-secondary{padding:10px 13px;border-radius:10px;font:inherit;font-size:12px;font-weight:750;cursor:pointer}
+.expatus-consent-primary{border:1px solid #224d37;background:#224d37;color:#fff}
+.expatus-consent-secondary{border:1px solid #dce2dc;background:#fff;color:#264331}
+.expatus-account-menu{position:relative}
+.expatus-account-menu>summary{list-style:none;cursor:pointer;color:#333;font-size:13px}
+.expatus-account-menu>summary::-webkit-details-marker{display:none}
+.expatus-account-menu .account-popover{position:absolute;top:calc(100% + 11px);right:0;z-index:150;display:grid;min-width:184px;gap:2px;padding:9px;border:1px solid #e5e4df;border-radius:12px;background:#fff;box-shadow:0 12px 28px rgba(27,47,35,.12)}
+.expatus-account-menu .account-popover a,.expatus-account-menu .account-popover button,.expatus-account-menu .account-email{display:block;width:100%;padding:8px 9px;border:0;border-radius:7px;background:transparent;color:#314338;text-align:left;text-decoration:none;font:inherit;font-size:12px}
+.expatus-account-menu .account-popover a:hover,.expatus-account-menu .account-popover button:hover{background:#f1f6f2}
+.expatus-account-menu .account-popover form{margin:0}
+.expatus-account-menu .account-email{color:#747a76}
+.expatus-honeypot{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important}
+.expatus-privacy-ack{display:flex;align-items:flex-start;gap:9px;margin:3px 0 14px;color:#58625c;font-size:12px;line-height:1.65}
+.expatus-privacy-ack input{width:15px;height:15px;margin-top:2px;accent-color:#285c42}
+.expatus-privacy-ack a{color:#24543e}
+.expatus-form-privacy{margin:9px 0;color:#737975;font-size:11px;line-height:1.65}
+.expatus-form-privacy a{color:#24543e}
+@media(max-width:720px){.expatus-consent-banner{right:12px;bottom:12px;left:12px;align-items:stretch;flex-direction:column}.expatus-consent-actions{display:grid;grid-template-columns:1fr 1fr}.expatus-consent-primary,.expatus-consent-secondary{font-size:11px}}

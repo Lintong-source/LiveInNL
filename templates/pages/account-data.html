@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="查看当前账户保存的个人资料、找房记录和收藏，或下载可读的数据副本。">
+  <title>我的账户数据｜Expatus</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="/static/css/dist/privacy.css">
+  <script defer src="/static/js/site-nav.js"></script>
+</head>
+<body class="expatus-article-page page-account-data">
+{% include "partials/header.html" %}
+<main class="expatus-privacy-shell">
+  <section class="expatus-privacy-hero">
+    <h1>我的账户数据</h1>
+    <p>这里只显示当前登录账户的数据。你可以直接查看保存内容，或下载包含中文表头的 Excel 可读文件。</p>
+    <div class="expatus-data-actions"><a class="expatus-data-download" href="/api/account/export">下载我的数据 ZIP →</a><a href="/privacy">查看隐私声明 →</a></div>
+  </section>
+
+  <section class="expatus-privacy-section">
+    <h2>账户信息</h2>
+    <dl class="expatus-data-details">
+      <div><dt>账户邮箱</dt><dd>{{ personal_data.account.email }}</dd></div>
+      <div><dt>注册时间</dt><dd>{{ personal_data.account.created_at }}</dd></div>
+      <div><dt>邮箱验证</dt><dd>{{ personal_data.account.verified_at or '尚未验证' }}</dd></div>
+      <div><dt>隐私声明</dt><dd>{{ personal_data.account.privacy_policy_version or '尚未记录' }}</dd></div>
+    </dl>
+  </section>
+
+  <section class="expatus-privacy-section">
+    <h2>房源进度 <span class="expatus-data-count">{{ personal_data.rental_properties|length }} 条</span></h2>
+    {% if personal_data.rental_properties %}<div class="expatus-privacy-table-wrap"><table class="expatus-privacy-table"><thead><tr><th>房源</th><th>来源</th><th>状态</th><th>月租</th></tr></thead><tbody>{% for item in personal_data.rental_properties %}<tr><td>{{ item.name }}</td><td>{{ item.source or '—' }}</td><td>{{ item.status }}{% if item.is_ended %} · 已结束{% endif %}</td><td>{% if item.rent is not none %}€{{ item.rent }}{% else %}—{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p>还没有保存房源记录。</p>{% endif %}
+    <p><a href="/progress">打开房源进度管理 →</a></p>
+  </section>
+
+  <section class="expatus-privacy-section">
+    <h2>收藏平台 <span class="expatus-data-count">{{ personal_data.favorites|length }} 个</span></h2>
+    {% if personal_data.favorites %}<div class="expatus-data-tags">{% for platform in personal_data.favorites %}<span>{{ platform }}</span>{% endfor %}</div>{% else %}<p>还没有收藏租房平台。</p>{% endif %}
+  </section>
+
+  <section class="expatus-privacy-section">
+    <h2>其他保存记录</h2>
+    <dl class="expatus-data-details">
+      <div><dt>找房策略</dt><dd>{{ personal_data.strategy_generations|length }} 条</dd></div>
+      <div><dt>联系留言</dt><dd>{{ personal_data.contact_messages|length }} 条</dd></div>
+      <div><dt>租房问题</dt><dd>{{ personal_data.rental_case_submissions|length }} 条</dd></div>
+      <div><dt>账户活动</dt><dd>{{ personal_data.account_activity|length }} 条</dd></div>
+    </dl>
+    <p>下载的 ZIP 包含分类整理的 CSV 表格、账户说明，以及供数据迁移使用的 JSON 副本；不会包含密码或验证码。</p>
+  </section>
+</main>
+{% include "partials/footer.html" %}
+</body>
+</html>
