@@ -82,7 +82,13 @@ class Settings:
 def load_settings(overrides: dict | None = None) -> Settings:
     load_env_file(PROJECT_ROOT / ".env")
     environment = os.getenv("APP_ENV", "development").strip().lower()
-    database_path = Path(os.getenv("EXPATUS_DB", str(PROJECT_ROOT / "data" / "expatus-local.db")))
+    # Vercel Preview has a read-only project filesystem. Use its writable
+    # temporary directory unless an explicit database path was configured.
+    default_database_path = PROJECT_ROOT / "data" / "expatus-local.db"
+    if os.getenv("VERCEL_ENV", "").strip().lower() == "preview":
+        default_database_path = Path("/tmp/expatus-preview.db")
+
+    database_path = Path(os.getenv("EXPATUS_DB", str(default_database_path)))
     if not database_path.is_absolute():
         database_path = PROJECT_ROOT / database_path
     settings = Settings(
