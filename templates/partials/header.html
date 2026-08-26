@@ -1,0 +1,75 @@
+{% macro nav_link(path, title, description) -%}
+<a href="{{ path }}"{% if request.path == path %} class="is-current" aria-current="page"{% endif %}><strong>{{ title }}</strong><small>{{ description }}</small></a>
+{%- endmacro %}
+<nav class="navbar expatus-shared-header" data-authenticated="{{ 'true' if current_user else 'false' }}">
+  <div class="navbar-inner">
+    <a aria-label="Expatus 首页" class="logo" href="/">
+      <span aria-hidden="true" class="logo-icon"><img alt="Expatus" src="/logo-mark.png"></span>
+      <span>荷兰租房导航</span>
+    </a>
+    <div class="nav-links">
+      {% if current_user %}
+      <details class="nav-dropdown nav-workspace{% if active_section|default('') == 'workspace' %} is-active{% endif %}">
+        <summary>个人工作台</summary>
+        <div class="nav-dropdown-panel">
+          {{ nav_link('/workspace/strategy', '我的找房策略', '按身份、城市和入住时间生成') }}
+          {{ nav_link('/progress', '我的找房进度', '记录房源、回复和申请状态') }}
+          {{ nav_link('/favorites', '我的收藏', '查看已收藏的租房平台') }}
+        </div>
+      </details>
+      {% endif %}
+      <details class="nav-dropdown nav-cities{% if active_section|default('') == 'cities' %} is-active{% endif %}">
+        <summary>城市指南</summary>
+        <div class="nav-dropdown-panel">
+          {{ nav_link('/city/leiden', '莱顿 Leiden', '学生住房、私人市场与通勤区域') }}
+          {{ nav_link('/city/den-haag', '海牙 Den Haag', '住房许可、房源渠道与周边地区') }}
+        </div>
+      </details>
+      <details class="nav-dropdown nav-strategy nav-guides{% if active_section|default('') == 'guides' %} is-active{% endif %}">
+        <summary>租房攻略</summary>
+        <div class="nav-dropdown-panel">
+          {{ nav_link('/rental-channels', '荷兰租房渠道', '平台、机构与抢房分配方式') }}
+          {{ nav_link('/housing-strategy', '荷兰找房策略', '不同阶段应该怎样行动') }}
+          {{ nav_link('/rental-materials', '租房材料准备', '身份、收入和申请文件') }}
+          {{ nav_link('/housing-plan-b', '找房 Plan B', '出发前还没有房时') }}
+          {{ nav_link('/deposit-return-netherlands.html', '退租押金', '退款期限、扣款与证据') }}
+        </div>
+      </details>
+      <details class="mobile-site-menu">
+        <summary>菜单</summary>
+        <div class="mobile-dropdown-panel">
+          {% if current_user %}
+          <span class="menu-group-label">个人工作台</span>
+          {{ nav_link('/workspace/strategy', '我的找房策略', '按身份、城市和入住时间生成') }}
+          {{ nav_link('/progress', '我的找房进度', '记录房源、回复和申请状态') }}
+          {{ nav_link('/favorites', '我的收藏', '查看已收藏的租房平台') }}
+          {% endif %}
+          <span class="menu-group-label">城市指南</span>
+          {{ nav_link('/city/leiden', '莱顿 Leiden', '学生住房、私人市场与通勤区域') }}
+          {{ nav_link('/city/den-haag', '海牙 Den Haag', '住房许可、房源渠道与周边地区') }}
+          <span class="menu-group-label">租房攻略</span>
+          {{ nav_link('/rental-channels', '荷兰租房渠道', '平台、机构与抢房分配方式') }}
+          {{ nav_link('/housing-strategy', '荷兰找房策略', '不同阶段应该怎样行动') }}
+          {{ nav_link('/rental-materials', '租房材料准备', '身份、收入和申请文件') }}
+          {{ nav_link('/housing-plan-b', '找房 Plan B', '出发前还没有房时') }}
+          {{ nav_link('/deposit-return-netherlands.html', '退租押金', '退款期限、扣款与证据') }}
+        </div>
+      </details>
+      {% if current_user %}
+      <details class="account-menu expatus-account-menu">
+        <summary>账户</summary>
+        <div class="account-popover">
+          <span class="account-email">{{ current_user.email[:3] }}***@{{ current_user.email.split('@')[-1] }}</span>
+          <a href="/workspace/strategy">我的找房策略</a>
+          <a href="/progress">我的找房进度</a>
+          <a href="/favorites">我的收藏</a>
+          <a href="/account/data">我的账户数据</a>
+          <form method="post" action="/logout"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button type="submit">退出登录</button></form>
+        </div>
+      </details>
+      {% else %}
+      <a class="nav-account" href="/auth">注册 / 登录</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>

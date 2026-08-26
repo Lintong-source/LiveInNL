@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="{{ csrf_token() }}" name="csrf-token">
+<title>联系我们｜Expatus 荷兰租房导航</title>
+<meta content="通过站内留言联系 Expatus。欢迎反馈荷兰租房内容、城市指南、找房资源、租房材料、产品建议或合作想法。" name="description">
+<meta content="index,follow" name="robots">
+<link href="{{ base_url }}/contact" rel="canonical">
+<meta content="website" property="og:type">
+<meta content="{{ base_url }}/contact" property="og:url">
+<meta content="联系我们｜Expatus 荷兰租房导航" property="og:title">
+<meta content="通过站内留言联系 Expatus。欢迎反馈荷兰租房内容、城市指南、找房资源、租房材料、产品建议或合作想法。" property="og:description">
+<meta content="{{ base_url }}/og-image.png" property="og:image">
+<link href="/static/css/dist/contact.css" rel="stylesheet">
+
+<meta content="#134b36" name="theme-color"><meta content="Expatus · 荷兰租房导航" property="og:site_name"><meta content="1200" property="og:image:width"><meta content="630" property="og:image:height"><meta content="summary_large_image" name="twitter:card"><meta content="联系我们｜Expatus 荷兰租房导航" name="twitter:title"><meta content="通过站内留言联系 Expatus。欢迎反馈荷兰租房内容、城市指南、找房资源、租房材料、产品建议或合作想法。" name="twitter:description"><meta content="{{ base_url }}/og-image.png" name="twitter:image"><link href="/favicon.ico" rel="icon" sizes="any"><link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"><link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"><link href="/site.webmanifest" rel="manifest"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "{{ base_url }}/#organization", "name": "Expatus", "url": "{{ base_url }}/", "logo": {"@type": "ImageObject", "url": "{{ base_url }}/icon-512x512.png", "width": 512, "height": 512}}]}</script>
+<script defer src="/static/js/site-nav.js"></script>
+</head>
+<body class="page-contact">
+<div id="app-shell">
+{% include "partials/header.html" %}
+<main class="contact-shell">
+<section class="contact-hero">
+<div class="contact-eyebrow">联系我们</div>
+<h1>有想法、有问题，或者发现了新的找房资源？</h1>
+<p>目前可以直接通过下面的表单给 Expatus 留言。网站建议、平台补充、租房问题或合作想法都欢迎告诉我们。</p>
+</section>
+<section class="contact-layout">
+<div class="contact-copy">
+<div class="contact-label"><span>站内留言</span></div>
+<h2>写下你想说的内容就可以</h2>
+<p>不需要注册，也不需要填写姓名。如果你希望我们之后回复，可以留下邮箱或微信；不需要回复的话，联系方式可以全部留空。</p>
+<div class="contact-note">
+<strong>隐私提醒</strong>
+<span>请不要在留言里填写 BSN、护照号码、银行卡信息或完整住址等敏感信息。</span>
+</div>
+</div>
+<form class="contact-form" id="contactForm"><label class="expatus-honeypot" aria-hidden="true">请勿填写<input name="website" autocomplete="off" tabindex="-1"></label>
+<div class="field-title">留言类型</div>
+<div class="contact-chips" id="contactChips">
+<button class="active" data-value="网站建议" type="button">网站建议</button>
+<button data-value="找房资源补充" type="button">找房资源补充</button>
+<button data-value="租房问题" type="button">租房问题</button>
+<button data-value="合作" type="button">合作</button>
+<button data-value="其他" type="button">其他</button>
+</div>
+<label>
+<span>主题（选填）</span>
+<input maxlength="120" name="subject" placeholder="一句话概括你的留言">
+</label>
+<label>
+<span>留言内容</span>
+<textarea id="contactMessage" maxlength="4000" minlength="8" name="message" placeholder="请简单描述具体问题或建议，至少填写 8 个字……" required="" rows="8"></textarea>
+</label>
+<div class="contact-fields">
+<label>
+<span>邮箱（选填）</span>
+<input maxlength="254" name="email" placeholder="希望邮件回复时填写" type="email">
+</label>
+<label>
+<span>微信（选填）</span>
+<input maxlength="120" name="wechat" placeholder="希望微信联系时填写">
+</label>
+</div>
+<p class="expatus-form-privacy">提交的信息仅用于处理这条留言或租房问题；联系方式选填。<a href="/privacy">了解数据使用与保存规则</a></p><div class="contact-submit-row">
+<button class="contact-submit" id="contactSubmit" type="submit">提交留言</button>
+<div aria-live="polite" class="contact-status" id="contactStatus"></div>
+</div>
+</form>
+</section>
+</main>
+{% include "partials/footer.html" %}
+</div>
+<script src="/static/js/contact.js"></script>
+</body>
+</html>

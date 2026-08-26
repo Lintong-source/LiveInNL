@@ -1,0 +1,8 @@
+<nav class="expatus-admin-tabs" aria-label="后台导航">
+  <a{% if active_admin == 'dashboard' %} class="is-active"{% endif %} href="/admin">概览</a>
+  <a{% if active_admin == 'users' %} class="is-active"{% endif %} href="/admin/users">注册用户</a>
+  <a{% if active_admin == 'activity' %} class="is-active"{% endif %} href="/admin/activity">登录与活动</a>
+  <a{% if active_admin == 'strategies' %} class="is-active"{% endif %} href="/admin/strategies">策略生成</a>
+  <a{% if active_admin == 'messages' %} class="is-active"{% endif %} href="/admin/messages">网站留言</a>
+  <a{% if active_admin == 'cases' %} class="is-active"{% endif %} href="/admin/cases">租房问题</a>
+</nav>

@@ -1,0 +1,12 @@
+/* Expatus page entry: my-housing-strategy.html
+ * Import order mirrors the pre-refactor cascade. Do not reorder casually.
+ */
+@import url("../components/primitives.css");
+@import url("_partials/my-housing-strategy-page.css");
+@import url("../core/runtime-guard.css");
+@import url("_partials/my-housing-strategy-overrides.css");
+@import url("../core/integration.css");
+@import url("../core/utilities.css");
+
+/* Shared consent UI and authenticated account menu. */
+@import url("../components/privacy-and-account.css");

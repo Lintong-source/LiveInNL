@@ -1,0 +1,7 @@
+{% extends "admin/base.html" %}
+{% block title %}网站留言{% endblock %}
+{% block content %}
+<main class="expatus-admin-shell"><div class="expatus-admin-top"><div><span class="expatus-admin-kicker">用户反馈</span><h1>网站留言</h1><p>用户主动提交的反馈与可选联系方式。</p></div><a class="expatus-admin-secondary" href="/admin/messages.csv">导出 CSV →</a></div>{% include "partials/admin_nav.html" %}
+<div class="expatus-admin-table-wrap"><table class="expatus-admin-table"><thead><tr><th>时间</th><th>类型</th><th>内容</th><th>联系方式</th></tr></thead><tbody>{% for message in messages %}<tr><td><time>{{ message.created_at[:16].replace('T', ' ') }}</time></td><td><span class="expatus-admin-pill">{{ message.category }}</span></td><td><strong>{{ message.subject or '无主题' }}</strong><div class="expatus-admin-copy">{{ message.message }}</div></td><td>{{ message.email or '—' }}{% if message.wechat %}<br>微信：{{ message.wechat }}{% endif %}</td></tr>{% else %}<tr><td colspan="4" class="expatus-admin-empty">暂时没有网站留言。</td></tr>{% endfor %}</tbody></table></div>
+</main>
+{% endblock %}

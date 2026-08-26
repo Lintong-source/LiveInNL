@@ -1,0 +1,12 @@
+<footer class="expatus-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="logo-icon footer-logo"><img alt="Expatus" src="/logo-mark.png"></span>Expatus · 荷兰租房导航</div>
+    <div class="footer-info">信息来自平台官网及荷兰政府、Juridisch Loket、Huurcommissie 等公开资料。行动前请再次核验。</div>
+    <div class="footer-tag">非房源平台 · 非中介服务 · <a class="footer-contact" href="/contact">联系我们</a> · <a class="footer-contact" href="/privacy">隐私声明</a> · <button class="expatus-cookie-settings" type="button" data-cookie-settings>Cookie 设置</button></div>
+  </div>
+</footer>
+<aside class="expatus-consent-banner" id="expatus-consent-banner" hidden aria-label="Cookie 和隐私设置">
+  <div class="expatus-consent-copy"><strong>隐私与 Cookie</strong><span>网站运行需要必要 Cookie。只有你选择同意后，我们才会启用可选的网站访问分析。<a href="/privacy">阅读隐私声明</a></span></div>
+  <div class="expatus-consent-actions"><button class="expatus-consent-secondary" type="button" data-consent="necessary">仅使用必要 Cookie</button><button class="expatus-consent-primary" type="button" data-consent="analytics">允许访问分析</button></div>
+</aside>
+<script src="/static/js/privacy-consent.js" defer data-analytics-enabled="{{ 'true' if settings.analytics_enabled and settings.is_production and not session.get('admin_authenticated') and not request.path.startswith('/admin') else 'false' }}" data-measurement-id="{{ settings.analytics_measurement_id }}"></script>

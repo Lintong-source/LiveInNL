@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+{% block title %}后台登录{% endblock %}
+{% block content %}
+<main class="expatus-admin-login"><section class="expatus-admin-login-card">
+  <span class="expatus-admin-kicker">Expatus 内部后台</span>
+  <h1>后台登录</h1>
+  <p>只有网站运营者可以查看用户、联系留言及必要的运营日志。</p>
+  {% if error %}<p class="expatus-admin-error">{{ error }}</p>{% endif %}
+  {% if configured %}<form method="post"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input type="hidden" name="next" value="{{ next_url }}"><label>后台密码<input type="password" name="password" required autocomplete="current-password"></label><button class="expatus-admin-primary" type="submit">进入后台</button></form>{% else %}<p class="expatus-admin-error">尚未配置 ADMIN_PASSWORD，后台已禁用。</p>{% endif %}
+</section></main>
+{% endblock %}

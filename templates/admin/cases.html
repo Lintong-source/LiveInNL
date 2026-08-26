@@ -1,0 +1,7 @@
+{% extends "admin/base.html" %}
+{% block title %}租房问题{% endblock %}
+{% block content %}
+<main class="expatus-admin-shell"><div class="expatus-admin-top"><div><span class="expatus-admin-kicker">租房问题反馈</span><h1>租房问题</h1><p>只有用户明确勾选允许回访时，才可使用其联系方式进行一次相关联系。</p></div><a class="expatus-admin-secondary" href="/admin/cases.csv">导出 CSV →</a></div>{% include "partials/admin_nav.html" %}
+<div class="expatus-admin-table-wrap"><table class="expatus-admin-table"><thead><tr><th>时间</th><th>城市</th><th>问题</th><th>描述</th><th>联系方式</th><th>回访</th></tr></thead><tbody>{% for item in cases %}<tr><td><time>{{ item.created_at[:16].replace('T', ' ') }}</time></td><td>{{ item.city or '—' }}</td><td>{{ item.issues|join('、') or '—' }}</td><td class="expatus-admin-copy">{{ item.description }}</td><td>{{ item.email or '—' }}{% if item.wechat %}<br>微信：{{ item.wechat }}{% endif %}</td><td><span class="expatus-admin-pill{% if not item.contact_ok %} is-warning{% endif %}">{{ '同意' if item.contact_ok else '未同意' }}</span></td></tr>{% else %}<tr><td colspan="6" class="expatus-admin-empty">暂时没有租房问题记录。</td></tr>{% endfor %}</tbody></table></div>
+</main>
+{% endblock %}

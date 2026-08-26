@@ -1,0 +1,7 @@
+{% extends "admin/base.html" %}
+{% block title %}策略生成{% endblock %}
+{% block content %}
+<main class="expatus-admin-shell"><div class="expatus-admin-top"><div><span class="expatus-admin-kicker">核心工具使用</span><h1>策略生成记录</h1><p>只展示用户主动填写的基础找房条件，不收集证件或工资材料。</p></div></div>{% include "partials/admin_nav.html" %}
+<div class="expatus-admin-table-wrap"><table class="expatus-admin-table"><thead><tr><th>时间</th><th>账户</th><th>城市</th><th>身份</th><th>房型</th><th>预算</th><th>入住日期</th><th>引擎版本</th></tr></thead><tbody>{% for item in generations %}<tr><td><time>{{ item.created_at[:16].replace('T', ' ') }}</time></td><td>{{ item.email }}</td><td>{{ item.city }}</td><td>{{ item.identity_type }}</td><td>{{ item.home_type }}</td><td>€{{ item.budget }}</td><td>{{ item.move_date }}</td><td>{{ item.engine_version or '历史版本' }}</td></tr>{% else %}<tr><td colspan="8" class="expatus-admin-empty">暂时没有策略生成记录。</td></tr>{% endfor %}</tbody></table></div>
+</main>
+{% endblock %}

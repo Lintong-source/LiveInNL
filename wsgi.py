@@ -1,4 +1,6 @@
-from app import app
+"""WSGI entry point retained for Gunicorn and later Vercel integration."""
 
-if __name__ == '__main__':
-    app.run()
+from expatus import create_app
+
+
+app = create_app()

@@ -15,9 +15,14 @@
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const message = form.message.value.trim();
-    if (message.length < 5) {
+    if (message.replace(/\s/g, '').length < 8) {
       status.className = 'contact-status error';
-      status.textContent = '请至少写几句话告诉我们你的留言。';
+      status.textContent = '请补充清楚你遇到的问题或建议，至少填写 8 个字。';
+      return;
+    }
+    if (csrf === 'static-preview-token') {
+      status.className = 'contact-status';
+      status.textContent = '静态预览不会发送留言；接入现有后台后可以正常提交。';
       return;
     }
     const payload = {
@@ -25,7 +30,8 @@
       subject: form.subject.value.trim(),
       message,
       email: form.email.value.trim(),
-      wechat: form.wechat.value.trim()
+      wechat: form.wechat.value.trim(),
+      website: form.website.value.trim()
     };
     submit.disabled = true;
     submit.textContent = '提交中…';

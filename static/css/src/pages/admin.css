@@ -1,0 +1,8 @@
+/* Internal operations interface; reuse the shared site chrome and primitives. */
+@import url("../components/primitives.css");
+@import url("../core/home-foundation.css");
+@import url("../core/base.css");
+@import url("../core/integration.css");
+@import url("../components/privacy-and-account.css");
+@import url("_partials/admin.css");
+@import url("_partials/admin-dashboard.css");

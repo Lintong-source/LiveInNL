@@ -1,0 +1,26 @@
+
+/* Expatus content page visual refinement — 2026-08-23 */
+:root{
+  --x-ink:#18211c;--x-green:#173b2f;--x-green2:#2f6249;--x-green3:#6f927f;
+  --x-bg:#faf9f6;--x-white:#fff;--x-line:#e8e4dd;--x-muted:#70756f;
+  --x-warm:#f7f3ec;--x-warm2:#fbf8f2;--x-mint:#f1f6f3;--x-blue:#f2f6f8;
+  --x-amber:#a9722c;--x-orange:#c77742;--x-red:#a6584b;
+  --x-shadow:0 10px 30px rgba(28,54,43,.055);--x-radius:18px;
+}
+body{background:var(--x-bg)!important;color:var(--x-ink);}
+.page-shell{max-width:1120px!important;padding-bottom:72px!important}
+.navbar,.site-header{box-shadow:none!important;background:rgba(255,255,255,.96)!important}
+.navbar-inner,.header-inner{max-width:1160px!important}
+.brand-mark,.brand-icon{box-shadow:0 4px 12px rgba(23,59,47,.12)}
+.nav-links a,.nav a{transition:color .15s ease,background .15s ease}
+.nav-links a:hover,.nav a:hover{color:var(--x-green)!important}
+.account-btn,.nav .account{background:#fbfbfa!important;border-color:#dedbd5!important}
+.hero{margin-bottom:34px!important;padding-top:46px!important;padding-bottom:42px!important;box-shadow:0 16px 40px rgba(20,50,39,.11);}
+.hero h1{max-width:900px!important;font-weight:850!important;letter-spacing:-.55px!important}
+.hero p{max-width:880px!important;line-height:1.75!important}
+.hero-links{margin-top:18px!important}
+.hero-links a{backdrop-filter:blur(3px);transition:.15s ease}
+.hero-links a:hover{transform:translateY(-1px);background:rgba(255,255,255,.15)!important}
+.answer-card{border-color:#e4e1da!important;box-shadow:none!important;background:linear-gradient(135deg,#fff 0%,#fbfaf7 100%)!important;padding:20px 22px!important}
+.answer-icon{background:var(--x-warm)!important;color:var(--x-green)!important}
+.section{margin-top:56px!important;margin-bottom:56px!important}

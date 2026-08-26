@@ -1,0 +1,26 @@
+/* Shared consent controls and account dropdown. All classes are namespaced. */
+.expatus-cookie-settings{appearance:none;padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer}
+.expatus-consent-banner{position:fixed;right:20px;bottom:20px;left:20px;z-index:250;display:flex;max-width:1080px;margin:auto;padding:18px 20px;border:1px solid #dfe5de;border-radius:16px;background:#fff;box-shadow:0 14px 44px rgba(29,52,39,.13);align-items:center;justify-content:space-between;gap:18px}
+.expatus-consent-banner[hidden]{display:none}
+.expatus-consent-copy{display:grid;gap:5px;color:#535d57;font-size:13px;line-height:1.6}
+.expatus-consent-copy strong{color:#183a2a;font-size:15px}
+.expatus-consent-copy a{margin-left:7px;color:#24543e}
+.expatus-consent-actions{display:flex;flex:0 0 auto;gap:9px}
+.expatus-consent-primary,.expatus-consent-secondary{padding:10px 13px;border-radius:10px;font:inherit;font-size:12px;font-weight:750;cursor:pointer}
+.expatus-consent-primary{border:1px solid #224d37;background:#224d37;color:#fff}
+.expatus-consent-secondary{border:1px solid #dce2dc;background:#fff;color:#264331}
+.expatus-account-menu{position:relative}
+.expatus-account-menu>summary{list-style:none;cursor:pointer;color:#333;font-size:13px}
+.expatus-account-menu>summary::-webkit-details-marker{display:none}
+.expatus-account-menu .account-popover{position:absolute;top:calc(100% + 11px);right:0;z-index:150;display:grid;min-width:184px;gap:2px;padding:9px;border:1px solid #e5e4df;border-radius:12px;background:#fff;box-shadow:0 12px 28px rgba(27,47,35,.12)}
+.expatus-account-menu .account-popover a,.expatus-account-menu .account-popover button,.expatus-account-menu .account-email{display:block;width:100%;padding:8px 9px;border:0;border-radius:7px;background:transparent;color:#314338;text-align:left;text-decoration:none;font:inherit;font-size:12px}
+.expatus-account-menu .account-popover a:hover,.expatus-account-menu .account-popover button:hover{background:#f1f6f2}
+.expatus-account-menu .account-popover form{margin:0}
+.expatus-account-menu .account-email{color:#747a76}
+.expatus-honeypot{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important}
+.expatus-privacy-ack{display:flex;align-items:flex-start;gap:9px;margin:3px 0 14px;color:#58625c;font-size:12px;line-height:1.65}
+.expatus-privacy-ack input{width:15px;height:15px;margin-top:2px;accent-color:#285c42}
+.expatus-privacy-ack a{color:#24543e}
+.expatus-form-privacy{margin:9px 0;color:#737975;font-size:11px;line-height:1.65}
+.expatus-form-privacy a{color:#24543e}
+@media(max-width:720px){.expatus-consent-banner{right:12px;bottom:12px;left:12px;align-items:stretch;flex-direction:column}.expatus-consent-actions{display:grid;grid-template-columns:1fr 1fr}.expatus-consent-primary,.expatus-consent-secondary{font-size:11px}}

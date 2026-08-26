@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="{{ csrf_token() }}" name="csrf-token">
+<title>页面未找到｜Expatus</title><meta content="noindex,follow" name="robots">
+<link href="/static/css/dist/404.css" rel="stylesheet">
+<meta content="页面未找到。" name="description"><meta content="#134b36" name="theme-color"><meta content="Expatus · 荷兰租房导航" property="og:site_name"><meta content="website" property="og:type"><meta content="页面未找到｜Expatus" property="og:title"><meta content="页面未找到。" property="og:description"><meta content="{{ base_url }}/og-image.png" property="og:image"><meta content="1200" property="og:image:width"><meta content="630" property="og:image:height"><meta content="summary_large_image" name="twitter:card"><meta content="页面未找到｜Expatus" name="twitter:title"><meta content="页面未找到。" name="twitter:description"><meta content="{{ base_url }}/og-image.png" name="twitter:image"><link href="/favicon.ico" rel="icon" sizes="any"><link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"><link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"><link href="/site.webmanifest" rel="manifest"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "{{ base_url }}/#organization", "name": "Expatus", "url": "{{ base_url }}/", "logo": {"@type": "ImageObject", "url": "{{ base_url }}/icon-512x512.png", "width": 512, "height": 512}}]}</script>
+<script defer src="/static/js/site-nav.js"></script>
+</head>
+<body class="page-404">
+<div id="app-shell">
+{% include "partials/header.html" %}
+<div class="page-not-found"><div class="page-not-found__code">404</div><h1 class="page-not-found__title">这个页面暂时不存在</h1><p class="page-not-found__summary">可以回到首页继续查看找房资源、城市指南和退租押金内容。</p><a href="/" class="page-not-found__home">返回首页 →</a></div>
+{% include "partials/footer.html" %}
+</div>
+</body>
+</html>

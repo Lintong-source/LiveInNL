@@ -1,0 +1,5 @@
+.page-not-found{max-width:720px;margin:70px auto;padding:0 20px;text-align:center}
+.page-not-found__code{color:#1a3a2f;font-size:52px;font-weight:900}
+.page-not-found__title{font-size:26px}
+.page-not-found__summary{color:#777}
+.page-not-found__home{display:inline-block;margin-top:15px;padding:10px 16px;border-radius:9px;background:#1a3a2f;color:#fff;font-weight:700;text-decoration:none}
