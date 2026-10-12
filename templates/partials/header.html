@@ -23,6 +23,7 @@
         <div class="nav-dropdown-panel">
           {{ nav_link('/city/leiden', '莱顿 Leiden', '学生住房、私人市场与通勤区域') }}
           {{ nav_link('/city/den-haag', '海牙 Den Haag', '住房许可、房源渠道与周边地区') }}
+          {{ nav_link('/shortstay', '短租房源', '查看最近30天的临时住房') }}
         </div>
       </details>
       <details class="nav-dropdown nav-strategy nav-guides{% if active_section|default('') == 'guides' %} is-active{% endif %}">
@@ -47,6 +48,7 @@
           <span class="menu-group-label">城市指南</span>
           {{ nav_link('/city/leiden', '莱顿 Leiden', '学生住房、私人市场与通勤区域') }}
           {{ nav_link('/city/den-haag', '海牙 Den Haag', '住房许可、房源渠道与周边地区') }}
+          {{ nav_link('/shortstay', '短租房源', '查看最近30天的临时住房') }}
           <span class="menu-group-label">租房攻略</span>
           {{ nav_link('/rental-channels', '荷兰租房渠道', '平台、机构与抢房分配方式') }}
           {{ nav_link('/housing-strategy', '荷兰找房策略', '不同阶段应该怎样行动') }}

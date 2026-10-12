@@ -42,11 +42,13 @@ def create_app(overrides: dict | None = None) -> Flask:
     from expatus.controllers.admin import blueprint as admin_blueprint
     from expatus.controllers.auth import blueprint as auth_blueprint
     from expatus.controllers.pages import blueprint as pages_blueprint
+    from expatus.controllers.shortstay import blueprint as shortstay_blueprint
     from expatus.controllers.submissions import blueprint as submissions_blueprint
     from expatus.controllers.workspace import blueprint as workspace_blueprint
 
     for blueprint in (
         pages_blueprint,
+        shortstay_blueprint,
         auth_blueprint,
         workspace_blueprint,
         submissions_blueprint,
