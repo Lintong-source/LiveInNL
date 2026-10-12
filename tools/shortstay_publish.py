@@ -3,7 +3,7 @@
 Never points at Expatus user data or creates anything through an HTTP request.
 """
 from __future__ import annotations
-import argparse, hashlib, os, sqlite3
+import argparse, hashlib, os, sqlite3, time
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 from urllib.parse import urlsplit
@@ -101,7 +101,23 @@ def upload_photo(path,uid,token):
     )
     return public_url(result.url)
 
-def publish(source,rows,*,connect=remote_connect,images=False,upload=upload_photo):
+def _is_temporary_connection_error(error):
+    """Only retry transport failures; auth, syntax, or schema errors must surface."""
+    msg = str(error).lower()
+    return any(part in msg for part in (
+        "connection closed", "connection reset", "stream expired",
+        "timed out", "timeout", "unexpected eof", "broken pipe"
+    ))
+
+def _close_quietly(connection):
+    if connection is not None:
+        try:
+            connection.close()
+        except Exception:
+            pass
+
+def publish(source, rows, *, connect=remote_connect, images=False,
+            upload=upload_photo, max_retries=3, sleep=time.sleep):
     url=os.getenv("SHORTSTAY_TURSO_DATABASE_URL","").strip()
     token=os.getenv("SHORTSTAY_TURSO_AUTH_TOKEN","").strip()
     if not url or not token:
@@ -111,37 +127,71 @@ def publish(source,rows,*,connect=remote_connect,images=False,upload=upload_phot
     blob_token=os.getenv("BLOB_READ_WRITE_TOKEN","").strip()
     if images and not blob_token:
         raise RuntimeError("--with-images requires a PUBLIC Vercel Blob store token")
-    remote=connect(url,token)
+
+    remote=None
     written=uploaded=0
     try:
-        for statement in make_schema():remote.execute(statement)
-        remote.commit()
-        for row in rows:
-            if not row.get("url") or not row.get("source"):continue
-            old=remote.execute("SELECT public_image_url FROM listings WHERE url=?",(row["url"],)).fetchone()
-            image=public_url(old[0]) if old else None
-            photo=local_photo(row,source.parent.parent)
-            if images and photo and not image:
-                image=upload(photo,stable_uid(row),blob_token)
-                if not image:raise ValueError("Unexpected image storage URL")
-                uploaded+=1
-            values={k:row.get(k) for k in COLS}
-            values["listing_uid"]=stable_uid(row)
-            values["local_image"]=None
-            values["public_image_url"]=image
+        remote=connect(url,token)
+        for statement in make_schema():
+            remote.execute(statement)
+            remote.commit()
+        print("Cloud schema ready.",flush=True)
+        for index,row in enumerate(rows,1):
+            if not row.get("url") or not row.get("source"):
+                print(f"Skipping invalid row {index}/{len(rows)}",flush=True)
+                continue
             fields=",".join(COLS)
             placeholders=",".join("?" for _ in COLS)
             changes=",".join(f"{k}=excluded.{k}" for k in COLS
                              if k not in {"url","first_seen_at","listing_uid"})
-            remote.execute(
+            statement=(
                 f"INSERT INTO listings({fields}) VALUES ({placeholders}) "
-                f"ON CONFLICT(url) DO UPDATE SET {changes}",
-                tuple(values[k] for k in COLS))
-            written+=1
-            if written % 100==0:remote.commit()
-        remote.commit()
+                f"ON CONFLICT(url) DO UPDATE SET {changes}"
+            )
+            for attempt in range(max_retries+1):
+                try:
+                    previous=remote.execute(
+                        "SELECT public_image_url FROM listings WHERE url=?",(row["url"],)
+                    ).fetchone()
+                    image=public_url(previous[0]) if previous else None
+                    photo=local_photo(row,source.parent.parent)
+                    if images and photo and not image:
+                        image=upload(photo,stable_uid(row),blob_token)
+                        if not image:
+                            raise ValueError("Unexpected image storage URL")
+                        uploaded+=1
+                    values={k:row.get(k) for k in COLS}
+                    values["listing_uid"]=stable_uid(row)
+                    values["local_image"]=None
+                    values["public_image_url"]=image
+                    remote.execute(statement,tuple(values[k] for k in COLS))
+                    # Crucial: commit EACH row. Long-lived transactions over
+                    # hundreds of HTTP round trips can expire in Hrana.
+                    remote.commit()
+                    written+=1
+                    if index%10==0 or index==len(rows):
+                        print(f"Committed {index}/{len(rows)} local rows "
+                              f"({written} published)",flush=True)
+                    break
+                except Exception as exc:
+                    # A failed Hrana request invalidates the existing stream.
+                    _close_quietly(remote)
+                    remote=None
+                    if attempt>=max_retries or not _is_temporary_connection_error(exc):
+                        raise RuntimeError(
+                            f"Cloud write stopped at local row {index}/{len(rows)} "
+                            f"(successfully committed {written} this run); "
+                            f"data size: {len(str(row.get('raw_json') or '')) + len(str(row.get('canonical_json') or ''))} characters. "
+                            f"Cause: {type(exc).__name__}: {exc}"
+                        ) from exc
+                    delay=min(2**attempt,4)
+                    print(f"Transient Turso connection error at row {index}/{len(rows)}. "
+                          f"Reconnecting after {delay}s (retry {attempt+1}/{max_retries}).",
+                          flush=True)
+                    sleep(delay)
+                    remote=connect(url,token)
     finally:
-        remote.close()
+        _close_quietly(remote)
     return written,uploaded
 
 def main():

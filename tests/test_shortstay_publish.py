@@ -54,6 +54,43 @@ class PublishTests(unittest.TestCase):
             self.assertIsNone(mod.local_photo({**row,
               "source_posted_at":(datetime.now(timezone.utc)-timedelta(days=31)).isoformat()},root))
 
+    def test_transient_reconnect_and_per_row_commit(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/"remote.sqlite3"
+            attempts=[0]
+            commits=[0]
+            class Adapter:
+                def __init__(self):
+                    self.db=sqlite3.connect(path)
+                def execute(self,sql,params=()):
+                    if "INSERT INTO listings(" in sql and attempts[0]==0:
+                        attempts[0]+=1
+                        raise ValueError("Hrana: connection closed before message completed")
+                    return self.db.execute(sql,params)
+                def commit(self):
+                    commits[0]+=1
+                    self.db.commit()
+                def close(self):
+                    self.db.close()
+            now="2026-10-11T10:00:00+00:00"
+            rows=[{"url":f"https://example.org/{i}","source":"kamernet",
+                   "first_seen_at":now,"last_seen_at":now,
+                   "canonical_json":'{"city":"Leiden"}'} for i in range(3)]
+            connections=[0]
+            def connect(*_):
+                connections[0]+=1
+                return Adapter()
+            with patch.dict(os.environ,{"SHORTSTAY_TURSO_DATABASE_URL":"test",
+                                        "SHORTSTAY_TURSO_AUTH_TOKEN":"test",
+                                        "SHORTSTAY_DATABASE_CONFIRMED":"yes"}):
+                count,_=mod.publish(Path(folder)/"data"/"source.sqlite3",rows,
+                                    connect=connect,sleep=lambda _:None)
+            self.assertEqual(count,3)
+            self.assertGreaterEqual(connections[0],2)
+            self.assertGreaterEqual(commits[0],3)
+            with sqlite3.connect(path) as c:
+                self.assertEqual(c.execute("SELECT COUNT(*) FROM listings").fetchone()[0],3)
+
     def test_safe_url(self):
         self.assertIsNone(mod.public_url("javascript:alert(1)"))
         self.assertIsNone(mod.public_url("https://evil.example/"))
