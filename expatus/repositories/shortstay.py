@@ -135,11 +135,16 @@ def read_connection():
 def _rows(conn):
     # Status is intentionally NOT a filter: Radar V2 recomputes eligibility
     # for each market, because one global status can reflect another market.
-    cur = conn.execute(
+    sql = (
         "SELECT id,listing_uid,url,source,source_posted_at,first_seen_at,"
-        "status,canonical_json FROM listings "
+        "status,canonical_json,public_image_url FROM listings "
         "WHERE canonical_json IS NOT NULL ORDER BY id DESC LIMIT 15000"
     )
+    try:
+        cur = conn.execute(sql)
+    except Exception:
+        # Older local Radar V2 databases predate the cloud-only image field.
+        cur = conn.execute(sql.replace(",public_image_url FROM", ",NULL AS public_image_url FROM"))
     columns = [col[0] for col in cur.description]
     return [dict(zip(columns, tuple(row))) for row in cur.fetchall()]
 
@@ -206,7 +211,12 @@ def query_listings(market="leiden", mode="today", *, connection=None, now=None, 
                 "original_url":url,
                 # Radar V2's local_image is a WSL path, not a public URL.
                 # Images require separately approved persistent hosting.
-                "image_url":None,
+                "image_url": (
+                    row.get("public_image_url")
+                    if public_url(row.get("public_image_url"))
+                    and urlsplit(row["public_image_url"]).hostname.endswith(".public.blob.vercel-storage.com")
+                    else None
+                ),
                 "_sort":(priority.get(normalized,len(priority)+1),-posted.timestamp(),row["id"]),
             })
         except (ValueError,TypeError,KeyError):
