@@ -1,0 +1,48 @@
+/* Generated from static/css/src/pages/shortstay.css. */
+/* Scoped Shortstay styles; existing Expatus navigation/footer comes from index.css. */
+.page-shortstay{background:#f6f7f5;color:#20322b}
+.ss-page{min-height:60vh;padding:30px 16px 80px}
+.ss-container{width:min(1120px,100%);margin:auto}
+.ss-intro{padding:30px 0 22px}
+.ss-eyebrow{color:#397b57;font-size:12px;font-weight:800;letter-spacing:.14em}
+.ss-intro h1{margin:10px 0;font-size:clamp(28px,4vw,42px);line-height:1.18}
+.ss-intro p{max-width:750px;margin:0;line-height:1.8;color:#62746a}
+.ss-page .ss-panel{background:white;border:1px solid #dbe3db;border-radius:16px;padding:20px}
+.ss-controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.ss-controls label{color:#445e4d;font-size:14px;font-weight:700}
+.ss-controls select{appearance:auto;background:white;border:1px solid #bacbbd;border-radius:8px;padding:11px 14px;font:inherit;min-width:175px;color:#244632}
+.ss-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+.ss-tabs button{background:#eef3ef;border:1px solid #d6e1d9;border-radius:9px;color:#2a5a3d;cursor:pointer;font:inherit;font-size:14px;font-weight:700;padding:10px 15px}
+.ss-tabs button.is-active{background:#205d3a;border-color:#205d3a;color:white}
+.ss-tabs button:focus-visible,.ss-original:focus-visible,.ss-controls select:focus-visible{outline:3px solid #8ac5a0;outline-offset:3px}
+.ss-status{color:#607267;font-size:14px;padding:18px 0}
+.ss-results{display:flex;flex-direction:column;gap:25px}
+.ss-city-section{display:flex;flex-direction:column;gap:14px}
+.ss-city-title{font-size:22px;font-weight:750;margin:4px 0 0}
+.ss-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}
+.ss-card{overflow:hidden;border:1px solid #dce5dc;border-radius:16px;background:white;box-shadow:0 2px 8px rgb(10 50 20 / 4%)}
+.ss-thumbnail{display:grid;place-items:center;height:160px;background:#eef1ee;color:#7d887f;font-size:13px}
+.ss-image{width:100%;height:100%;object-fit:cover;display:block}
+.ss-card-body{display:flex;flex-direction:column;gap:9px;padding:16px}
+.ss-freshness{color:#527258;font-size:12px;font-weight:700;margin:0}
+.ss-title{font-size:17px;line-height:1.45;margin:0}
+.ss-place{color:#4d6156;font-size:13px;margin:0;overflow-wrap:anywhere}
+.ss-facts{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.ss-price{color:#215c38;font-weight:800;font-size:17px}
+.ss-dates{color:#5b6a61;font-size:12px}
+.ss-summary{line-height:1.6;color:#46574c;font-size:14px;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.ss-original{display:inline-block;align-self:flex-start;margin-top:4px;color:#226244;font-weight:800;font-size:14px;text-decoration:none}
+.ss-original:hover{text-decoration:underline}
+.ss-empty{text-align:center;border:1px dashed #b6c9bb;background:white;padding:55px 18px;border-radius:14px;color:#687b6d}
+.ss-note{margin:32px 0 0;max-width:950px;line-height:1.7;font-size:12px;color:#7b8b80}
+@media(max-width:620px){
+.ss-page{padding:16px 12px 46px}
+.ss-intro{padding:18px 0}
+.ss-controls{align-items:stretch}
+.ss-controls label{flex-basis:100%}
+.ss-controls select,.ss-tabs{width:100%;min-width:0;margin-left:0}
+.ss-tabs{display:grid;grid-template-columns:1fr 1fr}
+.ss-tabs button{padding:10px 5px}
+.ss-page .ss-panel{padding:14px}
+.ss-thumbnail{height:180px}
+}

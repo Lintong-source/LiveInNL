@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>荷兰短租房源｜近期房源与城市筛选｜Expatus</title>
+<meta name="description" content="按城市查看荷兰近期短期住房信息，Leiden、Amsterdam、Den Haag、Rotterdam、Utrecht 等城市。">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="{{ base_url }}/shortstay">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="stylesheet" href="/static/css/dist/index.css">
+<link rel="stylesheet" href="/static/css/dist/shortstay.css">
+<script defer src="/static/js/site-nav.js"></script>
+<script defer src="/static/js/shortstay.js"></script>
+</head>
+<body class="page-shortstay">
+{% include "partials/header.html" %}
+<main class="ss-page"><div class="ss-container">
+<header class="ss-intro">
+<span class="ss-eyebrow">EXPATUS · SHORT STAY</span>
+<h1>荷兰短租房源</h1>
+<p>整理近期公开的短期住房信息。选择城市后，可查看今日新发现或最近30天的房源。感兴趣请在原平台核实详情。</p>
+</header>
+<section class="ss-controls ss-panel" aria-label="房源筛选">
+<label for="ss-market">目标城市</label>
+<select id="ss-market" name="market">
+{% for code, name in markets.items() %}<option value="{{code}}"{% if code == 'leiden' %} selected{% endif %}>{{name}}</option>{% endfor %}
+</select>
+<div class="ss-tabs" role="group" aria-label="房源时间范围">
+<button type="button" data-mode="today" class="is-active" aria-pressed="true">今日最新房源</button>
+<button type="button" data-mode="30d" aria-pressed="false">最近30天房源</button>
+</div>
+</section>
+<p id="ss-status" class="ss-status" role="status" aria-live="polite">正在读取房源……</p>
+<div id="ss-results" class="ss-results" aria-live="polite"></div>
+<p class="ss-note">房源信息可能变化，请通过原平台核实价格、租期与真实性。本站不提供预订或交易担保。</p>
+</div></main>
+{% include "partials/footer.html" %}
+</body></html>
