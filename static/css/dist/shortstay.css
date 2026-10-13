@@ -20,9 +20,10 @@
 .ss-city-section{display:flex;flex-direction:column;gap:14px}
 .ss-city-title{font-size:22px;font-weight:750;margin:4px 0 0}
 .ss-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}
-.ss-card{overflow:hidden;border:1px solid #dce5dc;border-radius:16px;background:white;box-shadow:0 2px 8px rgb(10 50 20 / 4%)}
-.ss-thumbnail{display:grid;place-items:center;height:160px;background:#eef1ee;color:#7d887f;font-size:13px}
-.ss-image{width:100%;height:100%;object-fit:cover;display:block}
+.ss-card{overflow:hidden;min-width:0;border:1px solid #dce5dc;border-radius:16px;background:white;box-shadow:0 2px 8px rgb(10 50 20 / 4%)}
+/* An absolutely positioned image cannot expand the thumbnail's track and overlap text. */
+.ss-thumbnail{position:relative;display:flex;align-items:center;justify-content:center;height:160px;overflow:hidden;min-width:0;background:#eef1ee;color:#7d887f;font-size:13px}
+.ss-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .ss-card-body{display:flex;flex-direction:column;gap:9px;padding:16px}
 .ss-freshness{color:#527258;font-size:12px;font-weight:700;margin:0}
 .ss-title{font-size:17px;line-height:1.45;margin:0}
