@@ -186,11 +186,38 @@ def read_connection():
     finally:
         conn.close()
 
+def display_title(canonical, raw_json, source):
+    """Prefer the actual source title, keeping Latin place/street names intact."""
+    title = str(canonical.get("title_cn") or "临时房源")[:140]
+    if not raw_json:
+        return title
+    try:
+        raw = json.loads(raw_json)
+        detail = raw.get("detail") if isinstance(raw, dict) else None
+        original = detail.get("raw_title") if isinstance(detail, dict) else None
+    except (TypeError, ValueError, AttributeError):
+        return title
+    if not isinstance(original, str):
+        return title
+    original = " ".join(original.split()).strip()
+    if not original or len(original) > 220:
+        return title
+    # Only translate generic English housing wording, not Dutch place names.
+    match = re.match(
+        r"^(Apartment|Room|Studio|House)\s+for\s+rent\s*",
+        original, flags=re.I
+    )
+    if match:
+        names = {"apartment": "公寓", "room": "房间", "studio": "Studio", "house": "住宅"}
+        original = "出租" + names[match.group(1).lower()] + " " + original[match.end():]
+    return original[:140]
+
+
 def _rows(conn):
     # New cloud DBs have public_image_url; older local V2 DBs do not.
     query = (
         "SELECT id,listing_uid,url,source,source_posted_at,first_seen_at,"
-        "status,canonical_json,public_image_url FROM listings "
+        "status,canonical_json,raw_json,public_image_url FROM listings "
         "WHERE canonical_json IS NOT NULL ORDER BY id DESC LIMIT 15000"
     )
     try:
@@ -252,7 +279,7 @@ def query_listings(market="leiden", mode="today", *, connection=None, now=None, 
                 "city":place,
                 "city_group":normalized,
                 "address":str(c.get("address") or "")[:180],
-                "title":str(c.get("title_cn") or "临时房源")[:140],
+                "title":display_title(c, row.get("raw_json"), row.get("source")),
                 "summary":str(c.get("summary_cn") or "")[:1200],
                 "price_eur":rent,
                 "price_period":rent_period,
