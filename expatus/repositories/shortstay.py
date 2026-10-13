@@ -8,6 +8,7 @@ from __future__ import annotations
 import calendar
 import json
 import os
+import re
 import sqlite3
 from contextlib import contextmanager
 from datetime import date, datetime, timezone
@@ -104,6 +105,59 @@ def public_url(value):
         return None
     return value if parsed.scheme in {"https","http"} and parsed.hostname else None
 
+def blob_image_url(value):
+    """Only allow HTTPS pictures in our public Vercel Blob store."""
+    url = public_url(value)
+    if not url or not url.startswith("https://"):
+        return None
+    host = urlsplit(url).hostname or ""
+    return url if host.endswith(".public.blob.vercel-storage.com") else None
+
+
+def _euro_amount(raw):
+    if isinstance(raw, bool):
+        return None
+    if isinstance(raw, (int, float)):
+        amount = float(raw)
+    elif isinstance(raw, str):
+        text = raw.strip().replace("€", "").replace("EUR", "").strip()
+        if not re.fullmatch(r"\d{1,3}(?:[.,]\d{3})+(?:[.,]\d{1,2})?|\d{1,5}(?:[.,]\d{1,2})?", text):
+            return None
+        if "," in text and "." in text:
+            text = text.replace(".", "").replace(",", ".") if text.rfind(",") > text.rfind(".") else text.replace(",", "")
+        elif re.fullmatch(r"\d{1,3}[.,]\d{3}", text):
+            text = text.replace(",", "").replace(".", "")
+        else:
+            text = text.replace(",", ".")
+        try:
+            amount = float(text)
+        except ValueError:
+            return None
+    else:
+        return None
+    # A few scraped source prices are malformed (e.g. €1.34 for €1,340).
+    return round(amount, 2) if 10 <= amount <= 100000 else None
+
+
+def public_price(canonical):
+    """Use source facts first; only take an unambiguous euro amount from the title."""
+    period = canonical.get("rent_period")
+    period = period if period in {"month", "week", "night", "total"} else "unknown"
+    amount = _euro_amount(canonical.get("rent_eur"))
+    if amount is not None:
+        return amount, period, "structured"
+    title = str(canonical.get("title_cn") or "")
+    matches = re.findall(
+        r"€\s*(\d{2,5}(?:[.,]\d{2})?)|(?<!\d)(\d{2,5}(?:[.,]\d{2})?)\s*(?:欧元|EUR)(?!\w)",
+        title, flags=re.I
+    )
+    amounts = {_euro_amount(a or b) for a, b in matches}
+    amounts.discard(None)
+    if len(amounts) == 1 and not any(word in title for word in ("押金", "保证金", "中介费", "押一付")):
+        return next(iter(amounts)), period, "title"
+    return None, "unknown", None
+
+
 @contextmanager
 def read_connection():
     url = os.getenv("SHORTSTAY_TURSO_DATABASE_URL", "").strip()
@@ -133,15 +187,21 @@ def read_connection():
         conn.close()
 
 def _rows(conn):
-    # Status is intentionally NOT a filter: Radar V2 recomputes eligibility
-    # for each market, because one global status can reflect another market.
-    cur = conn.execute(
+    # New cloud DBs have public_image_url; older local V2 DBs do not.
+    query = (
         "SELECT id,listing_uid,url,source,source_posted_at,first_seen_at,"
-        "status,canonical_json FROM listings "
+        "status,canonical_json,public_image_url FROM listings "
         "WHERE canonical_json IS NOT NULL ORDER BY id DESC LIMIT 15000"
     )
+    try:
+        cur = conn.execute(query)
+    except Exception as exc:
+        if "no such column" not in str(exc).lower() or "public_image_url" not in str(exc):
+            raise
+        cur = conn.execute(query.replace(",public_image_url FROM", ",NULL AS public_image_url FROM"))
     columns = [col[0] for col in cur.description]
     return [dict(zip(columns, tuple(row))) for row in cur.fetchall()]
+
 
 def query_listings(market="leiden", mode="today", *, connection=None, now=None, limit=300):
     if market not in MARKETS or mode not in {"today","30d"}:
@@ -186,9 +246,7 @@ def query_listings(market="leiden", mode="today", *, connection=None, now=None, 
             stay = c.get("stay") or {}
             if not isinstance(stay,dict):
                 stay={}
-            rent = c.get("rent_eur")
-            if isinstance(rent,bool) or not isinstance(rent,(float,int)) or not 0 <= rent <= 100000:
-                rent = None
+            rent, rent_period, rent_source = public_price(c)
             items.append({
                 "uid":str(row["listing_uid"] or row["id"]),
                 "city":place,
@@ -197,6 +255,8 @@ def query_listings(market="leiden", mode="today", *, connection=None, now=None, 
                 "title":str(c.get("title_cn") or "临时房源")[:140],
                 "summary":str(c.get("summary_cn") or "")[:1200],
                 "price_eur":rent,
+                "price_period":rent_period,
+                "price_source":rent_source,
                 "room_type":str(c.get("room_type") or "unknown")[:30],
                 "start_date":str(stay.get("start_date") or "")[:10],
                 "end_date":str(stay.get("end_date") or "")[:10],
@@ -204,9 +264,8 @@ def query_listings(market="leiden", mode="today", *, connection=None, now=None, 
                 "freshness":"今天" if days==0 else f"{days}天前",
                 "age_band":band,
                 "original_url":url,
-                # Radar V2's local_image is a WSL path, not a public URL.
-                # Images require separately approved persistent hosting.
-                "image_url":None,
+                # Only a public Blob URL, never local_image or scraped remote-site URLs.
+                "image_url":blob_image_url(row.get("public_image_url")),
                 "_sort":(priority.get(normalized,len(priority)+1),-posted.timestamp(),row["id"]),
             })
         except (ValueError,TypeError,KeyError):
