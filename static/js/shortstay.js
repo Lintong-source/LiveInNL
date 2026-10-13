@@ -16,8 +16,8 @@
   const price=item=>{
     if(typeof item.price_eur!=="number"||!Number.isFinite(item.price_eur))return "价格请见原帖";
     const euro=new Intl.NumberFormat("nl-NL",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(item.price_eur);
-    const period={month:"/月",week:"/周",night:"/晚",total:"（总价）"}[item.price_period]||"（周期待确认）";
-    return euro+period+(item.price_source==="title"?"（标题信息）":"");
+    const period={month:"/月",week:"/周",night:"/晚",total:"（总价）"}[item.price_period]||"";
+    return euro+period;
   };
   function createCard(item){
     const article=el("article","ss-card");
@@ -33,13 +33,13 @@
     }else imageWrap.append(el("span","","暂无房源图片"));
     article.append(imageWrap);
     const body=el("div","ss-card-body");
-    body.append(el("p","ss-freshness",item.freshness+" · "+item.age_band));
+    body.append(el("p","ss-freshness",item.freshness));
     body.append(el("h3","ss-title",item.title||"临时房源"));
     body.append(el("p","ss-place",[item.city,item.address].filter(Boolean).join(" · ")));
     const facts=el("div","ss-facts");
     facts.append(el("span","ss-price",price(item)));
     if(item.start_date||item.end_date)
-      facts.append(el("span","ss-dates",(item.start_date||"待确认")+" → "+(item.end_date||"待确认")));
+      facts.append(el("span","ss-dates","周期："+(item.start_date||"待确认")+" → "+(item.end_date||"待确认")));
     body.append(facts);
     if(item.summary)body.append(el("p","ss-summary",item.summary));
     const link=el("a","ss-original","打开原帖 ↗");
