@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>荷兰短租房源｜近期房源与城市筛选｜Expatus</title>
-<meta name="description" content="按城市查看荷兰近期短期住房信息，Leiden、Amsterdam、Den Haag、Rotterdam、Utrecht 等城市。">
-<meta name="robots" content="noindex,follow">
+<meta name="description" content="荷兰短租房源汇总：查找莱顿、阿姆斯特丹、海牙、鹿特丹和乌得勒支及周边近期短租、临时住房。每日人工更新，查看租金、租期并前往原帖核实。">
+<meta name="robots" content="index,follow">
 <link rel="canonical" href="{{ base_url }}/shortstay">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/static/css/dist/index.css">
@@ -27,12 +27,42 @@
 {% for code, name in markets.items() %}<option value="{{code}}"{% if code == 'leiden' %} selected{% endif %}>{{name}}</option>{% endfor %}
 </select>
 <div class="ss-tabs" role="group" aria-label="房源时间范围">
-<button type="button" data-mode="today" class="is-active" aria-pressed="true">今日最新房源</button>
-<button type="button" data-mode="30d" aria-pressed="false">最近30天房源</button>
+<button type="button" data-mode="today" aria-pressed="false">今日最新房源</button>
+<button type="button" data-mode="30d" class="is-active" aria-pressed="true">最近30天房源</button>
 </div>
 </section>
-<p id="ss-status" class="ss-status" role="status" aria-live="polite">正在读取房源……</p>
-<div id="ss-results" class="ss-results" aria-live="polite"></div>
+<p id="ss-status" class="ss-status" role="status" aria-live="polite">
+{% if ss_initial.configured %}Leiden · 最近30天 · {{ ss_initial["items"]|length }}条{% else %}房源暂时无法读取，请稍后再试。{% endif %}
+</p>
+<div id="ss-results" class="ss-results" aria-live="polite">
+{% if ss_initial["items"] %}
+{% for group in ss_initial["items"]|groupby("city_group", case_sensitive=True) %}
+<section class="ss-city-section">
+<h2 class="ss-city-title">{{ group.list[0].city }}</h2>
+<div class="ss-card-grid">
+{% for item in group.list %}
+<article class="ss-card">
+<div class="ss-thumbnail">
+{% if item.image_url %}<img class="ss-image" src="{{ item.image_url }}" alt="{{ item.city }}短租房源照片" loading="lazy" referrerpolicy="no-referrer">{% else %}<span>暂无房源图片</span>{% endif %}
+</div>
+<div class="ss-card-body">
+<p class="ss-freshness">{{ item.freshness }}</p>
+<h3 class="ss-title">{{ item.title }}</h3>
+<p class="ss-place">{{ item.city }}{% if item.address %} · {{ item.address }}{% endif %}</p>
+<div class="ss-facts">
+<span class="ss-price">{% if item.price_eur is not none %}€ {{ "{:,.0f}".format(item.price_eur) }}{% if item.price_period == "month" %}/月{% elif item.price_period == "week" %}/周{% elif item.price_period == "night" %}/晚{% elif item.price_period == "total" %}（总价）{% endif %}{% else %}价格请见原帖{% endif %}</span>
+{% if item.start_date or item.end_date %}<span class="ss-dates">周期：{{ item.start_date or "待确认" }} → {{ item.end_date or "待确认" }}</span>{% endif %}
+</div>
+{% if item.summary %}<p class="ss-summary">{{ item.summary }}</p>{% endif %}
+<a class="ss-original" href="{{ item.original_url }}" rel="noopener noreferrer" target="_blank">打开原帖 ↗</a>
+</div>
+</article>
+{% endfor %}
+</div>
+</section>
+{% endfor %}
+{% else %}<div class="ss-empty">目前没有符合筛选条件的房源。</div>{% endif %}
+</div>
 <p class="ss-note">房源信息可能变化，请通过原平台核实价格、租期与真实性。本站不提供预订或交易担保。</p>
 </div></main>
 {% include "partials/footer.html" %}

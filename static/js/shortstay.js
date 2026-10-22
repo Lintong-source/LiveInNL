@@ -6,7 +6,7 @@
   const results=document.getElementById("ss-results");
   const buttons=[...document.querySelectorAll(".ss-tabs button")];
   if(!market||!status||!results||!buttons.length)return;
-  let mode="today", pending=null;
+  let mode="30d", pending=null;
   const el=(tag,cls,text)=>{
     const n=document.createElement(tag);
     if(cls)n.className=cls;
@@ -98,5 +98,6 @@
     load();
   });
   market.addEventListener("change",load);
-  load();
+  // Initial listings are rendered by Flask for crawlers and visitors.
+  // Only user actions query the public read-only API.
 })();
