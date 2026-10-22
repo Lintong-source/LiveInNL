@@ -174,6 +174,7 @@ def sitemap():
         ("/", "weekly", "1.0"),
         ("/city/leiden", "monthly", "0.9"),
         ("/city/den-haag", "monthly", "0.9"),
+        ("/shortstay", "daily", "0.8"),
         ("/rental-channels", "monthly", "0.8"),
         ("/housing-strategy", "monthly", "0.8"),
         ("/rental-materials", "monthly", "0.8"),
