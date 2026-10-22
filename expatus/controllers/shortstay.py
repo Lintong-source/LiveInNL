@@ -6,7 +6,20 @@ blueprint = Blueprint("shortstay", __name__)
 
 @blueprint.get("/shortstay")
 def page():
-    return render_template("pages/shortstay.html", active_section="shortstay", markets=MARKETS)
+    # Real, read-only server-rendered content for users and crawlers.
+    # There is no scraper, Groq call or data mutation on a page view.
+    initial = {"configured": False, "count": 0, "items": []}
+    try:
+        initial = query_listings("leiden", "30d")
+    except Exception:
+        # SEO must not make the public page unavailable when Turso is down.
+        current_app.logger.exception("Shortstay initial HTML catalog read failed")
+    return render_template(
+        "pages/shortstay.html",
+        active_section="shortstay",
+        markets=MARKETS,
+        ss_initial=initial,
+    )
 
 @blueprint.get("/api/shortstay/listings")
 def listings():
