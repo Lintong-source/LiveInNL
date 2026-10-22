@@ -11,6 +11,16 @@ class ShortstaySEOTests(unittest.TestCase):
         self.assertIn('ss_initial["items"]',html)
         self.assertIn('item.original_url',html)
         self.assertIn('item.summary',html)
+    def test_search_and_sharing_metadata(self):
+        html=(ROOT/'templates/pages/shortstay.html').read_text('utf-8')
+        self.assertIn('莱顿、海牙、阿姆斯特丹及周边',html)
+        self.assertIn('name="description"',html)
+        self.assertIn('property="og:title"',html)
+        self.assertIn('property="og:description"',html)
+        self.assertIn('property="og:url"',html)
+        self.assertIn('name="twitter:card"',html)
+        self.assertNotIn('name="keywords"',html)
+
     def test_sitemap(self):
         routes=(ROOT/'expatus/controllers/pages.py').read_text('utf-8')
         self.assertIn('("/shortstay", "daily", "0.8")',routes)
