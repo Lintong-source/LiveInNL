@@ -243,7 +243,7 @@ def download(file_name: str):
     return send_from_directory(PROJECT_ROOT / "static" / "downloads", file_name, as_attachment=True)
 
 @blueprint.get("/k-labels")
-def privacy():
+def k_labels():
     return render_template(
         "pages/k_labels.html",
     )
