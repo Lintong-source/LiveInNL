@@ -241,3 +241,9 @@ def download(file_name: str):
     if file_name not in {"contract-checklist.pdf", "move-in-checklist.pdf"}:
         abort(404)
     return send_from_directory(PROJECT_ROOT / "static" / "downloads", file_name, as_attachment=True)
+
+@blueprint.get("/k-labels")
+def privacy():
+    return render_template(
+        "pages/k_labels.html",
+    )
